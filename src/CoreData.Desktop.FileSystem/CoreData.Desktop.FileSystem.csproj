@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
+    <ProjectGuid>{5DAA54BA-DD7C-4D8C-9C41-A479AA4D2F4C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CoreData.Desktop.FileSystem</RootNamespace>
+    <AssemblyName>CoreData.Desktop.FileSystem</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DokanNet, Version=1.1.2.1, Culture=neutral, PublicKeyToken=cef3dedf553bda55, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\DokanNet.1.1.2.1\lib\net46\DokanNet.dll</HintPath>
+    </Reference>
+    <Reference Include="Flurl, Version=2.8.0.0, Culture=neutral, PublicKeyToken=46974597867576d1, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Flurl.Signed.2.8.0\lib\net40\Flurl.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NLog.4.5.11\lib\net45\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="Shielded, Version=4.4.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Shielded.4.4.7\lib\net40\Shielded.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Services\ConnectionService.cs" />
+    <Compile Include="Settings\LocalStorage.cs" />
+    <Compile Include="VirtualStorage\FileType.cs" />
+    <Compile Include="VirtualStorage\PathHelpers.cs" />
+    <Compile Include="LocalStorage\InMemoryStorage.cs" />
+    <Compile Include="LocalStorage\LocalDirectory.cs" />
+    <Compile Include="LocalStorage\LocalFile.cs" />
+    <Compile Include="LocalStorage\LocalFileBase.cs" />
+    <Compile Include="LocalStorage\LocalFileInfo.cs" />
+    <Compile Include="LocalStorage\LocalMappedFile.cs" />
+    <Compile Include="LocalStorage\LocalStream.cs" />
+    <Compile Include="LocalStorage\NameCollisionOption.cs" />
+    <Compile Include="LocalStorage\PhysicalStorage.cs" />
+    <Compile Include="LocalStorage\StreamInfo.cs" />
+    <Compile Include="Settings\VirtualStorage.cs" />
+    <Compile Include="VirtualStorage\VirtualDriveFactory.cs" />
+    <Compile Include="VirtualStorage\VirtualFileSystem.cs" />
+    <Compile Include="VirtualStorage\IVirtualFileSystem.cs" />
+    <Compile Include="LocalStorage\ILocalStorage.cs" />
+    <Compile Include="NativeMethods.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VirtualStorage\VirtualDrive.cs" />
+    <Compile Include="VirtualStorage\VPath.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CoreData.Common\CoreData.Common.csproj">
+      <Project>{3a1c3b84-5d28-4deb-b2f1-246f89959130}</Project>
+      <Name>CoreData.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CoreData.Desktop.Common\CoreData.Desktop.Common.csproj">
+      <Project>{7f7ca9f3-49ff-41a6-a219-601b23742ffb}</Project>
+      <Name>CoreData.Desktop.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CoreData.Desktop.Server\CoreData.Desktop.Server.csproj">
+      <Project>{45969d24-1d3a-4207-bd2e-8dc1a9fedb2f}</Project>
+      <Name>CoreData.Desktop.Server</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\docs\Cryptography.md">
+      <Link>Cryptography.md</Link>
+    </None>
+    <None Include="..\..\docs\VFS. Case sensitivity.md">
+      <Link>VFS. Case sensitivity.md</Link>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="LocalStorage\InMemory\" />
+    <Folder Include="LocalStorage\Physical\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

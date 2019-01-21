@@ -1,0 +1,36 @@
+<Project>
+    <!--Making a WPF app using a SDK-style project with MSBuildSdkExtras https://www.thomaslevesque.com/2018/11/23/making-a-wpf-app-using-a-sdk-style-project-with-msbuildsdkextras/-->
+    <PropertyGroup>
+        <LangVersion>7.3</LangVersion>
+        <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <OutputPath>$(MSBuildThisFileDirectory).\build\$(Configuration)\$(Platform)\</OutputPath>
+ 
+        <!-- Common ruleset shared by all projects -->
+        <!-- <CodeAnalysisRuleset>$(MSBuildThisFileDirectory)MyRules.ruleset</CodeAnalysisRuleset>-->
+    </PropertyGroup>
+
+    <!--Alternatives:
+                  https://stackoverflow.com/a/3623673 
+                  https://github.com/loresoft/msbuildtasks/blob/master/Documentation/TaskDocs.md#assemblyinfo
+                  VS 2019 -->
+    <ItemGroup>
+        <Compile Include="$(MSBuildThisFileDirectory).\src\AssemblyInfo.Common.cs">
+            <Link>$(MSBuildProjectDirectory)Properties\AssemblyInfo.Common.cs</Link>
+        </Compile>
+        <Compile Include="$(MSBuildThisFileDirectory).\src\AssemblyInfo.Common.Version.cs">
+            <Link>$(MSBuildProjectDirectory)Properties\AssemblyInfo.Common.Version.cs</Link>
+        </Compile>
+
+        <Compile Condition=" '$(SolutionName)' == 'cdd.v5' "
+                 Include="$(MSBuildThisFileDirectory).\src\AssemblyInfo.Desktop.cs">
+            <Link>$(MSBuildProjectDirectory)Properties\AssemblyInfo.Desktop.cs</Link>
+        </Compile>
+      
+        <Compile Condition=" '$(SolutionName)' == 'cdd.v5.cdds' "
+                 Include="$(MSBuildThisFileDirectory).\src\AssemblyInfo.CDDS.cs">
+            <Link>$(MSBuildProjectDirectory)Properties\AssemblyInfo.CDDS.cs</Link>
+        </Compile>
+    </ItemGroup>
+
+</Project>

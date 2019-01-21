@@ -1,0 +1,24 @@
+﻿<Application x:Class="CoreData.Desktop.UI.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             ShutdownMode="OnExplicitShutdown" >
+    
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+
+                <!--Themes Usage Instructions https://github.com/xceedsoftware/wpftoolkit/wiki/Themes-Usage-Instructions -->
+                <!--<ResourceDictionary Source="pack://application:,,,/ICSharpCode.AvalonEdit;component/Themes/Default.xaml" />-->
+
+                <ResourceDictionary Source="/Resources/Converters.xaml" />
+                <ResourceDictionary Source="/Resources/ControlStyles.xaml" />
+                <ResourceDictionary Source="/Tray/SysTray.xaml" />
+
+                <!--MVVM Light and the ViewModelLocator pattern https://stackoverflow.com/q/24189815 -->
+                <ResourceDictionary>
+                    
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

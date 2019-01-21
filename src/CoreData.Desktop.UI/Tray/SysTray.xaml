@@ -1,0 +1,44 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:tb="http://www.hardcodet.net/taskbar">
+    <!--x:Shared="false"-->
+    <ContextMenu x:Key="TrayMenu" FontSize="16">
+        <MenuItem Header="Dashboard" Command="{Binding ShowDashboard}">
+            <MenuItem.Icon>
+                <Image Source="/Resources/Icons/settings.ico" />
+            </MenuItem.Icon>
+        </MenuItem>
+        <MenuItem Header="Settings" Command="{Binding ShowSettings}">
+            <MenuItem.Icon>
+                <Image Source="/Resources/Icons/settings.ico" />
+            </MenuItem.Icon>
+        </MenuItem>
+        <Separator />
+        <MenuItem Header="Exit" Command="{Binding Exit}" >
+            <MenuItem.Icon>
+                <Image Source="/Resources/Icons/exit.ico" />
+            </MenuItem.Icon>
+        </MenuItem>
+    </ContextMenu>
+
+    <ListBox x:Key="TrayConnections"
+             ItemsSource="{Binding CoreDataStorages}" 
+             ItemTemplate="{StaticResource CoreDataStorageDataTemplate}"
+             SelectedItem="{Binding SelectedCoreData}" 
+             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+             ScrollViewer.VerticalScrollBarVisibility="Auto" />
+    <!--ItemContainerStyle="{DynamicResource ParticipantsListBoxItemStyle}"-->
+
+    <!--<ListView x:Key="Popup" ItemsSource="{Binding Connections}" />-->
+    
+    <tb:TaskbarIcon x:Key="SysTray"
+                    ToolTipText="{Binding Title}"
+                    IconSource="/Resources/Icons/tray.ico"
+                    DoubleClickCommand="{Binding ShowSettings}"
+                    ContextMenu="{StaticResource TrayMenu}"
+                    MenuActivation="RightClick"
+                    PopupActivation="LeftClick"
+                    TrayPopup="{StaticResource TrayConnections}">
+    </tb:TaskbarIcon>
+
+</ResourceDictionary>

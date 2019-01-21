@@ -1,0 +1,5 @@
+[SearchableFiles.include]
+*.cs
+*.cproj
+*.txt
+*.md

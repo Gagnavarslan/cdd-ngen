@@ -1,0 +1,10 @@
+    <Reference Condition=" '$(Platform)' == 'x86' " Include="Hardcodet.ToolTips, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\libs\Hardcodet.Tooltips\x86\Hardcodet.ToolTips.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Condition=" '$(Platform)' == 'x64' " Include="Hardcodet.ToolTips, processorArchitecture=x64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\libs\Hardcodet.Tooltips\x64\Hardcodet.ToolTips.dll</HintPath>
+      <Private>True</Private>
+    </Reference>

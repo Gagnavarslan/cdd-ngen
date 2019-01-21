@@ -1,0 +1,176 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
+    <ProjectGuid>{3A1C3B84-5D28-4DEB-B2F1-246F89959130}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CoreData.Common</RootNamespace>
+    <AssemblyName>CoreData.Common</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Condition=" '$(Platform)' == 'x86' " Include="gt">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\DumpWriter\x86\gt.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Condition=" '$(Platform)' == 'x64' " Include="gt">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\DumpWriter\x64\gt.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NLog.4.5.11\lib\net45\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="Shielded, Version=4.4.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Shielded.4.4.7\lib\net40\Shielded.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DryIoc\Container.cs" />
+    <Compile Include="DryIoc\Expression.cs" />
+    <Compile Include="DryIoc\FastExpressionCompiler.cs" />
+    <Compile Include="DryIoc\ImTools.cs" />
+    <Compile Include="Extensions\PipeExtensions.cs" />
+    <Compile Include="HostEnvironment\AppRegistration.cs" />
+    <Compile Include="Cryptography\MD5Hash.cs" />
+    <Compile Include="Extensions\ExceptionExtensions.cs" />
+    <Compile Include="Diagnostics\IDebugInfo.cs" />
+    <Compile Include="Logging\Spec.cs" />
+    <Compile Include="Settings\AppConfigSettingsStorage.cs" />
+    <Compile Include="Settings\AppSwitchSettingsStorage.cs" />
+    <Compile Include="Settings\FileSettingsStorage.cs" />
+    <Compile Include="Settings\ISettingsStorage.cs" />
+    <Compile Include="Settings\SettingsService.cs" />
+    <Compile Include="Settings\ISettingsStorage.Alt.cs" />
+    <Compile Include="Settings\IsolatedSettingsStorage.cs" />
+    <Compile Include="Disposables\OwnedScope.cs" />
+    <Compile Include="Cryptography\IDataProtector.cs" />
+    <Compile Include="Cryptography\MD5Core.cs" />
+    <Compile Include="Cryptography\IEncryptionProvider.cs" />
+    <Compile Include="Cryptography\MD5Managed.cs" />
+    <Compile Include="Cryptography\Streams\BlockProtector.cs" />
+    <Compile Include="Cryptography\Streams\ProtectedStreamHandler.cs" />
+    <Compile Include="Cryptography\Streams\StreamBlock.cs" />
+    <Compile Include="Cryptography\StringProtector.cs" />
+    <Compile Include="Disposables\Disposable.cs" />
+    <Compile Include="EventSourcing\IAggregateRoot.cs" />
+    <Compile Include="EventSourcing\MessageHub.cs" />
+    <Compile Include="Extensions\DelegateExtensions.cs" />
+    <Compile Include="Extensions\EnumerableExtensions.cs" />
+    <Compile Include="EventSourcing\LoggerExtensions.cs" />
+    <Compile Include="Extensions\HexExtensions.cs" />
+    <Compile Include="Extensions\HttpExtensions.cs" />
+    <Compile Include="Extensions\LoggerExtensions.cs" />
+    <Compile Include="Extensions\SettingsExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Extensions\TasksExtensions.cs" />
+    <Compile Include="Extensions\UriExtensions.cs" />
+    <Compile Include="ModelNotifyChanged\Properties.cs" />
+    <Compile Include="ModelNotifyChanged\Property.cs" />
+    <Compile Include="ModelNotifyChanged\ViewModel.cs" />
+    <Compile Include="HostEnvironment\IShell.cs" />
+    <Compile Include="HostEnvironment\IWebBrowser.cs" />
+    <Compile Include="HostEnvironment\ShellCommand.cs" />
+    <Compile Include="HostEnvironment\CommandPromptShell.cs" />
+    <Compile Include="HostEnvironment\WebBrowser.cs" />
+    <Compile Include="Diagnostics\AppDumpWriter.cs" />
+    <Compile Include="Settings\EnvSettings.cs" />
+    <Compile Include="Diagnostics\Telemetry.cs" />
+    <Compile Include="Threading\AsyncCache.cs" />
+    <Compile Include="Threading\AsyncCall.cs" />
+    <Compile Include="Threading\CancellationTask.cs" />
+    <Compile Include="Threading\CancellationTokenExtensions.cs" />
+    <Compile Include="Threading\CompletedTasks.cs" />
+    <Compile Include="Threading\IAsyncCompletable.cs" />
+    <Compile Include="Diagnostics\AppWatch.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="HostEnvironment\EnvInfo.cs" />
+    <Compile Include="Services\BackgroundJob.cs" />
+    <Compile Include="Services\IBackgroundJob.cs" />
+    <Compile Include="Services\TaskRequestQueue.cs" />
+    <Compile Include="HostEnvironment\AppInfo.cs" />
+    <Compile Include="Threading\IAsyncInitializable.cs" />
+    <Compile Include="Threading\LazyExtensions.cs" />
+    <Compile Include="Threading\ObjectPool.cs" />
+    <Compile Include="Threading\SerialTaskQueue.cs" />
+    <Compile Include="Threading\TasksBlock.cs" />
+    <Compile Include="Threading\TransferStream.cs" />
+    <Compile Include="Versions\VersionData.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\docs\Telemetry.md">
+      <Link>Telemetry.md</Link>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Collaboration\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
