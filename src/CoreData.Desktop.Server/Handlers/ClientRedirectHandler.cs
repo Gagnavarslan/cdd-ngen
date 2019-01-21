@@ -1,18 +1,18 @@
-﻿using System;
+﻿using CoreData.Desktop.Common.Http;
+using CoreData.Desktop.Server.Http;
+using System;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using CoreData.Desktop.Common.Http;
-using CoreData.Desktop.Server.Settings;
 
 namespace CoreData.Desktop.Server.Handlers
 {
     public class ClientRedirectHandler : DelegatingHandler
     {
-        private readonly ConnectionInfo _coreData;
+        private readonly CoreDataConnection _coreData;
 
-        public ClientRedirectHandler(ConnectionInfo coreData) : base()
+        public ClientRedirectHandler(CoreDataConnection coreData) : base()
             //: base(new HttpClientHandler() { AllowAutoRedirect = false })
         {
             _coreData = coreData;

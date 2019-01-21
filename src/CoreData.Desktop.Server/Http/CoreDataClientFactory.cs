@@ -5,53 +5,25 @@ using System;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace CoreData.Desktop.Server.Http
 {
-    //public static class CoreDataClientHandlerFactory
-    //{
-    //    public static T WithOutter<T>(this HttpMessageHandler inner)
-    //        where T : DelegatingHandler, new() =>
-    //        new T { InnerHandler = inner };
-
-    //    public static T WithOutter<T>(this HttpMessageHandler inner, Func<HttpMessageHandler, T> outterFactory)
-    //        where T : DelegatingHandler =>
-    //        outterFactory(inner);
-
-    //}
-
-    public class CoreDataClientServiceHandler : HttpClientHandler
+    public interface ICoreDataServiceFactory
     {
-        private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
+        CoreDataClientServiceHandler CreateClientHandler(Action<HttpRequestMessage> requestSetup);
 
-        private readonly Action<HttpRequestMessage> _customMessageSetup;
-
-        public CoreDataClientServiceHandler(Action<HttpRequestMessage> customMessageSetup)
-            : base()
-        {
-            MessageSetup.MessageId = 0;
-            _customMessageSetup = customMessageSetup;
-        }
-
-        protected override Task<HttpResponseMessage> SendAsync(
-            HttpRequestMessage request, CancellationToken cancellationToken)
-        {
-            request.Setup(MessageSetup.Default);
-            request.Setup(_customMessageSetup);
-
-            return base.SendAsync(request, cancellationToken);
-        }
+        HttpClient CreateClient(Uri host, CoreDataClientServiceHandler clientHandler,
+            params DelegatingHandler[] handlers);
     }
 
     /// <summary>CoreData HTTP client factory.</summary>
     /// <seealso cref="https://github.com/googleapis/google-api-dotnet-client/blob/master/Src/Support/Google.Apis.Core/Http/ConfigurableMessageHandler.cs"/>
-    public class CoreDataRestServiceFactory// : IHttpClientFactory
+    public class CoreDataServiceFactory : ICoreDataServiceFactory
     {
-        const int MaxClientConnections = 20;
+        const int MaxClientConnections = 10;
+        static readonly TimeSpan DefaultTimeout = TimeSpan.FromSeconds(20);
 
-        static CoreDataRestServiceFactory()
+        static CoreDataServiceFactory()
         {
             if (Environment.GetCommandLineArgs().Contains("-nossl"))
             {
@@ -60,8 +32,7 @@ namespace CoreData.Desktop.Server.Http
 
             // https://stackoverflow.com/q/16194054
             ServicePointManager.DefaultConnectionLimit = MaxClientConnections;
-
-            ServicePointManager.Expect100Continue = false;
+            //ServicePointManager.Expect100Continue = false;
         }
 
         private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
@@ -70,9 +41,8 @@ namespace CoreData.Desktop.Server.Http
         private readonly AppInfo _appInfo;
         private readonly Func<CoreDataClientServiceHandler> _coreDataClientHandlerFactory;
         private readonly string _product;
-        //private HttpClient _currentCoreDataRestClient;
 
-        public CoreDataRestServiceFactory(EnvInfo envInfo, AppInfo appInfo,
+        public CoreDataServiceFactory(EnvInfo envInfo, AppInfo appInfo,
             Func<CoreDataClientServiceHandler> coreDataClientHandlerFactory)
         {
             _envInfo = envInfo;
@@ -81,8 +51,8 @@ namespace CoreData.Desktop.Server.Http
             _product = $"{_appInfo.PrintValue}; {_envInfo.PrintValue}";
         }
 
-        public HttpClient CreateClient(Uri host,
-            HttpClientHandler clientHandler, params DelegatingHandler[] handlers)
+        public HttpClient CreateClient(Uri host, CoreDataClientServiceHandler clientHandler,
+            params DelegatingHandler[] handlers)
         {
             //var sp = ServicePointManager.FindServicePoint(host);
             //sp.Expect100Continue = false;
@@ -90,19 +60,19 @@ namespace CoreData.Desktop.Server.Http
             client.BaseAddress = host;
             client.DefaultRequestHeaders.Add(HttpRequestHeader.UserAgent.ToString(), _product); // ProductHeaderValue
             client.DefaultRequestHeaders.ExpectContinue = false;
-
+            client.Timeout = DefaultTimeout;
+            client.MaxResponseContentBufferSize = 256_000;
             return client;
         }
 
-        public HttpClient CreateClient(Uri host, HttpClientHandler clientHandler,
-            AuthenticationHandler authenticationHandler)
-        {
-            var logHandler = new LogMessageHandler();
-            var activationMessageHandler = new ActivationMessageHandler();
-            var handlers = new[] { activationMessageHandler, logHandler };
-            var client = HttpClientFactory.Create(clientHandler, activationMessageHandler, logHandler, authenticationHandler);
-
-        }
+        //public HttpClient CreateClient(Uri host, HttpClientHandler clientHandler,
+        //    AuthenticationHandler authenticationHandler)
+        //{
+        //    var logHandler = new LogMessageHandler();
+        //    var activationMessageHandler = new ActivationMessageHandler();
+        //    var handlers = new[] { activationMessageHandler, logHandler };
+        //    var client = HttpClientFactory.Create(clientHandler, activationMessageHandler, logHandler, authenticationHandler);
+        //}
 
         public CoreDataClientServiceHandler CreateClientHandler(Action<HttpRequestMessage> requestSetup) =>
             new CoreDataClientServiceHandler(requestSetup)

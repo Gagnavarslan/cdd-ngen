@@ -23,7 +23,7 @@ namespace CoreData.Desktop.Server
         //private readonly string _pwd;
         //private readonly FlurlClient _client;
         
-        public RestClient(ConnectionInfo coreData) : this(coreData.Host)
+        public RestClient(CoreDataConnection coreData) : this(coreData.Host)
         {
             _authHandler = coreData.Credential == null
                 ? new ClientRedirectHandler(coreData)

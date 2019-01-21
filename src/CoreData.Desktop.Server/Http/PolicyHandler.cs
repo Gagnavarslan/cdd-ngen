@@ -2,12 +2,17 @@
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using NLog;
 using Polly;
 
 namespace CoreData.Desktop.Server.Http
 {
+    /// <summary>Message handler based on provided policy.
+    /// <seealso cref="https://github.com/App-vNext/Polly/blob/5f29a682fd979c92c9f71b09557450ff5f191d61/README.md"/></summary>
     public class PolicyHandler : DelegatingHandler
     {
+        private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
+
         private readonly Func<HttpRequestMessage, IAsyncPolicy<HttpResponseMessage>> _policySelector;
 
         public PolicyHandler(IAsyncPolicy<HttpResponseMessage> policy) : this(_ => policy) { }
@@ -21,11 +26,9 @@ namespace CoreData.Desktop.Server.Http
             HttpRequestMessage request, CancellationToken cancellationToken)
         {
             var policy = _policySelector(request);
-            var context = request.GetPolicyContext();
-            return policy.ExecuteAsync((c, ct) => base.SendAsync(request, ct), context, cancellationToken);
+            var context = request.GetContext();
+            return policy.ExecuteAsync((c, ct) => base.SendAsync(request, ct), context.Polly, cancellationToken);
         }
-
-
         //protected override Task<HttpResponseMessage> SendAsync(
         //    HttpRequestMessage request, CancellationToken cancellationToken)
         //{

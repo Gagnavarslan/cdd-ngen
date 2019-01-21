@@ -37,7 +37,10 @@ namespace CoreData.Desktop.UI.AppScope
             DebugOnlySession.Attach();
             //_tray = (TaskbarIcon)Application.Current.Resources["SysTray"];
             _container = new IoC.Container();
-            _container.Resolve<AppTrayView>().LoadContent();
+            var tray = _container.Resolve<AppTrayView>();
+            tray.LoadContent();
+
+            //ICoreDataServiceFactory
             //_container.BeginLifetimeScope()
             //Task.Run(async () => await WarnOthers().ConfigureAwait(false));
         }

@@ -176,9 +176,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Http\AuthClient.cs" />
+    <Compile Include="Http\Auth\AccessToken.cs" />
+    <Compile Include="Http\Auth\AuthenticationHandler.cs" />
+    <Compile Include="Http\Auth\Authenticator.cs" />
+    <Compile Include="Http\Auth\BasicAuthenticator.cs" />
+    <Compile Include="Http\Auth\SsoAuthenticator.cs" />
     <Compile Include="Http\BasicAuthHandler.cs" />
+    <Compile Include="Http\CoreDataClientServiceHandler.cs" />
+    <Compile Include="Http\HttpMessageLogger.cs" />
     <Compile Include="Http\LogMessageHandler.cs" />
+    <Compile Include="Http\MessageSetup.cs" />
     <Compile Include="Http\PolicyHandler.cs" />
     <Compile Include="Http\ActivationMessageHandler.cs" />
     <Compile Include="Http\DefaultHttpClient.cs" />
@@ -190,11 +197,12 @@
     <Compile Include="Handlers\ClientRedirectHandler.cs" />
     <Compile Include="Handlers\RetryHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Http\CoreDataConnection.cs" />
     <Compile Include="Services\IAuthenticationService.cs" />
     <Compile Include="Services\IDirectoryService.cs" />
     <Compile Include="Services\IFileService.cs" />
     <Compile Include="Services\IMetadataService.cs" />
-    <Compile Include="Settings\ConnectionInfo.cs" />
+    <Compile Include="Settings\Connection.cs" />
     <Compile Include="Settings\TimeoutSettings.cs" />
   </ItemGroup>
   <ItemGroup>

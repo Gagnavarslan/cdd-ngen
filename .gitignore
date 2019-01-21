@@ -23,3 +23,5 @@ nosetests.xml
 TestResult.xml
 applicationhost.config
 .vs/
+build/Debug/*
+build/Release/*

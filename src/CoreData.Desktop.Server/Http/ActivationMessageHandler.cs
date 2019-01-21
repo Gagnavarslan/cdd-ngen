@@ -1,75 +1,11 @@
-﻿using CoreData.Common.Extensions;
-using CoreData.Common.HostEnvironment;
-using NLog;
-using Polly;
-using System;
-using System.Collections.Generic;
+﻿using NLog;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-//using MessageSetupBlock = System.Func<System.Net.Http.HttpRequestMessage, System.Net.Http.HttpRequestMessage>;
-using MessageSetupBlock = System.Action<System.Net.Http.HttpRequestMessage>;
 
 namespace CoreData.Desktop.Server.Http
 {
-    public static class MessageSetup
-    {
-        const string SetupContext = "_request.context";
-        const string Id = "id";
-        const string InitiatedOn = "initiatedOn";
 
-        private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
-
-        /// <summary>Global request id, which might have inner child requests, e.g. on redirects</summary>
-        internal static int MessageId = 0;
-
-        public static MessageSetupBlock Default =>
-            request =>
-        {
-            if (!request.Properties.ContainsKey(SetupContext))
-            {
-                var id = Interlocked.Increment(ref MessageId).ToString(); //.ToString("X8");
-                var operation = $"({request.Method}) {request.RequestUri}";
-                var context = new Context(operation,
-                    new Dictionary<string, object> { [Id] = id, [InitiatedOn] = AppWatch.Elapsed });
-                request.Properties[SetupContext] = context;
-            }
-            //return request;
-        };
-
-        public static void Setup(this HttpRequestMessage request, MessageSetupBlock with)
-        {
-            if (request != null && with != null)
-            {
-                with(request);
-                //return request;
-            }
-
-            var error = new ArgumentNullException(nameof(MessageSetup));
-            Logger.Error(error);
-            throw error;
-        }
-        //request =>
-        //{
-        //    if (!request.Properties.ContainsKey(SetupContext))
-        //    {
-        //        var id = Interlocked.Increment(ref MessageId).ToString(); //.ToString("X8");
-        //        var operation = $"({request.Method}) {request.RequestUri}";
-        //        var context = new Context(operation,
-        //            new Dictionary<string, object> { [Id] = id, [InitiatedOn] = AppWatch.Elapsed });
-        //        request.Properties[SetupContext] = context;
-        //    }
-        //    return request;
-        //};
-
-        //public MessageSetup() : this(Default) { }
-        //public MessageSetup(MessageSetupBlock setup) => Setup = setup;
-
-        //public MessageSetupBlock Setup { get; set; }
-
-        //public MessageSetupBlock With(MessageSetupBlock additionalSetup) =>
-        //    Setup = request => additionalSetup?.Invoke(Setup?.Invoke(request));
-    }
 
     /// <summary>Message default configuration and activation handler.</summary>
     public class ActivationMessageHandler : DelegatingHandler
