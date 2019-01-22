@@ -25,8 +25,8 @@ namespace CoreData.Desktop.Server.Http
         protected override Task<HttpResponseMessage> SendAsync(
             HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            DefaultSetup(request);
-            request.Setup(_customMessageSetup);
+            request.With(DefaultSetup);
+            request.With(_customMessageSetup);
 
             return base.SendAsync(request, cancellationToken);
         }
@@ -35,8 +35,8 @@ namespace CoreData.Desktop.Server.Http
         {
             var id = Interlocked.Increment(ref MessageId); //.ToString("X8");
             var polly = new Context($"({request.Method}) {request.RequestUri}");
-            var context = new SetupContext(id) { Polly = polly };
-            request.Properties[SetupContext.PropertyKey] = context;
+            var context = new RequestProperties(id) { Polly = polly };
+            request.Properties[RequestProperties.RequestPropertyName] = context;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -20,17 +21,17 @@ namespace CoreData.Desktop.Server.Http.Auth
         protected override async Task<HttpResponseMessage> SendAsync(
             HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            if (!_authenticator.Access.Valid)
+            if (!_authenticator.Token.Valid)
             {
-                _authenticator.Access.Clear();
+                _authenticator.Token.Clear();
                 var authenticated = await _authenticator.Authenticate(cancellationToken).ConfigureAwait(false);
                 if (authenticated)
                 {
-                    await _authenticator.SetToken(cancellationToken).ConfigureAwait(false);
+                    await _authenticator.RefreshToken(cancellationToken).ConfigureAwait(false);
                 }
             }
 
-            _authenticator.ApplyAccessToken(request);
+            _authenticator.ApplyAccess(request);
 
             return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
         }

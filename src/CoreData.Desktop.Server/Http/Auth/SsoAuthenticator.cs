@@ -1,28 +1,34 @@
-﻿using System;
+﻿using Flurl;
+using System;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace CoreData.Desktop.Server.Http.Auth
 {
+    /// <summary>
+    /// <seealso cref="https://stackoverflow.com/a/2851021"/>Using UI Web View delegating.</summary>
     public class SsoAuthenticator : Authenticator
     {
-        private readonly NetworkCredential _credentials;
-        private readonly Uri _tokenUri;
+        //private readonly NetworkCredential _credentials;
+        private readonly Url _tokenEndpoint;
 
-        public SsoAuthenticator(CoreDataConnection connection, NetworkCredential credentials)
-            : base(connection, AuthenticationSchemes.IntegratedWindowsAuthentication, "saml2/login/")
+        public SsoAuthenticator(ICoreDataClientFactory clientFactory, Url server)
+            : base(clientFactory, server)
         {
-            _credentials = credentials;
-            _tokenUri = new Uri(connection.Host, "api/v2/token/");
+            _tokenEndpoint = server.AppendPathSegment("api/v2/token/");
         }
 
-        public override Task<bool> Authenticate(CancellationToken cancellationToken)
+        public override string SchemeType => "token";
+
+        public override Url AuthEndpoint => _server.AppendPathSegment("saml2/login/");
+        
+        public override Task<bool> Authenticate(NetworkCredential credentials, CancellationToken cancellationToken)
         {
             return Task.FromException<bool>(new NotImplementedException());
         }
 
-        public override Task SetToken(CancellationToken cancellationToken)
+        public override Task RefreshToken(CancellationToken cancellationToken)
         {
             return Task.FromException(new NotImplementedException());
         }

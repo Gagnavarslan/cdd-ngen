@@ -6,16 +6,16 @@ using System.Net.Http;
 
 namespace CoreData.Desktop.Server.Http
 {
-    public class SetupContext
+    public class RequestProperties
     {
-        internal const string PropertyKey = "_request.context";
+        internal const string RequestPropertyName = "_request.context";
         //const string Id = "_request.imm.id";
         //const string InitiatedOn = "_request.imm.initiatedOn";
         //const string RetriesDone = "_request.retries";
         //const string RedirectsDone = "_request.redirects";
         //const string Polly = "_request.context";
 
-        public SetupContext(long id)
+        public RequestProperties(long id)
         {
             Id = id;
             Initiated = AppWatch.Elapsed;
@@ -50,11 +50,11 @@ namespace CoreData.Desktop.Server.Http
         //        }
         //    };
 
-        public static void Setup(this HttpRequestMessage request, Action<HttpRequestMessage> with)
+        public static void With(this HttpRequestMessage request, Action<HttpRequestMessage> setup)
         {
-            if (request != null && with != null)
+            if (request != null && setup != null)
             {
-                with(request);
+                setup(request);
             }
 
             var error = new ArgumentNullException(nameof(MessageSetup));
@@ -62,10 +62,10 @@ namespace CoreData.Desktop.Server.Http
             throw error;
         }
 
-        public static SetupContext GetContext(this HttpRequestMessage request)
+        public static RequestProperties GetContext(this HttpRequestMessage request)
         {
             return request != null
-                && request.Properties.TryGetValue(SetupContext.PropertyKey, out var value)
+                && request.Properties.TryGetValue(RequestProperties.RequestPropertyName, out var value)
                 ? value : null;
         }
     }
