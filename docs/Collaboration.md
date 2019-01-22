@@ -10,6 +10,7 @@
 - [SignalR in Web, WPF, Console and Windows Services App in VB](http://mscodingblog.blogspot.com/2012/12/testing-signalr-in-wpf-console-and.html)
 - [SignalR. Collaboration notifications](https://www.c-sharpcorner.com/article/wpf-notifications-for-all-signalr/)
 - [SignalChat: WPF & SignalR Chat Application](https://www.codeproject.com/Articles/1181555/SignalChat-WPF-SignalR-Chat-Application)
+- [MS SignalR samples repo](https://github.com/aspnet/SignalR-samples)
 ## Alt solution: P2P. __?No broadcasting?__
 - [Peer Collaboration infrastructure](https://docs.microsoft.com/en-us/dotnet/api/system.net.peertopeer.collaboration.peercollaboration?view=netframework-4.7.2)
 - [Peer Collaboration](https://docs.microsoft.com/en-us/windows/desktop/P2PSdk/peer-collaboration)

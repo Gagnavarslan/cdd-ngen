@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace CoreData.Desktop.Server.Http.Auth
 {
+    /// <summary>
+    /// <seealso cref="https://stackoverflow.com/a/2851021"/>Using UI Web View delegating.</summary>
     public class SsoAuthenticator : Authenticator
     {
         //private readonly NetworkCredential _credentials;
