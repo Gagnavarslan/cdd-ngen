@@ -13,7 +13,7 @@ namespace CoreData.Desktop.FileSystem.Services
         Task<VirtualDrive> Connect(
             Settings.LocalStorage localSettings,
             Settings.VirtualStorage virtualSettings,
-            Server.Settings.ConnectionInfo coreDataSettings);
+            Server.Settings.Connection coreDataSettings);
     }
 
     public class ConnectionService : IConnectionService
@@ -22,14 +22,14 @@ namespace CoreData.Desktop.FileSystem.Services
 
         private readonly ITrayTooltipNotifier _tooltipNotifier;
         private readonly Func<Settings.LocalStorage, ILocalStorage> _localStorageFactory;
-        private readonly Func<Server.Settings.ConnectionInfo, IRestClient> _coreDataConnectionFactory;
+        private readonly Func<Server.Settings.Connection, IRestClient> _coreDataConnectionFactory;
         private readonly Func<Settings.VirtualStorage, IRestClient, ILocalStorage, VirtualDrive> _virtualDriveFactory;
 
         public ConnectionService(
             ITrayTooltipNotifier tooltipNotifier,
             Func<Settings.LocalStorage, ILocalStorage> localStorageFactory,
             Func<Settings.VirtualStorage, IRestClient, ILocalStorage, VirtualDrive> virtualDriveFactory,
-            Func<Server.Settings.ConnectionInfo, IRestClient> coreDataConnectionFactory)
+            Func<Server.Settings.Connection, IRestClient> coreDataConnectionFactory)
         {
             _tooltipNotifier = tooltipNotifier;
             _localStorageFactory = localStorageFactory;
@@ -37,8 +37,10 @@ namespace CoreData.Desktop.FileSystem.Services
             _coreDataConnectionFactory = coreDataConnectionFactory;
         }
 
-        public async Task<VirtualDrive> Connect(Settings.LocalStorage localSettings, Settings.VirtualStorage virtualSettings,
-            Server.Settings.ConnectionInfo coreDataSettings)
+        public async Task<VirtualDrive> Connect(
+            Settings.LocalStorage localSettings,
+            Settings.VirtualStorage virtualSettings,
+            Server.Settings.Connection coreDataSettings)
         {
             var localStorage = _localStorageFactory(localSettings);
             if (localStorage.Exists)

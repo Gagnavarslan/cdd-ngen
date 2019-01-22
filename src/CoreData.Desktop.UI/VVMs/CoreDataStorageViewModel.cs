@@ -9,13 +9,13 @@ namespace CoreData.Desktop.UI.VVMs
     {
         public static readonly CoreDataStorageViewModel Test = new CoreDataStorageViewModel(
             "default",
-            Server.Settings.ConnectionInfo.Test,
+            Server.Settings.Connection.Test,
             FileSystem.Settings.VirtualStorage.Test,
             LocalStorage.Test,
             null);
 
         public CoreDataStorageViewModel(string key,
-            Server.Settings.ConnectionInfo coreData,
+            Server.Settings.Connection coreData,
             FileSystem.Settings.VirtualStorage virtualStorage,
             FileSystem.Settings.LocalStorage localStorage,
             IConnectionService connectionService)
@@ -29,7 +29,7 @@ namespace CoreData.Desktop.UI.VVMs
 
         public string Key { get; set; }
 
-        public Server.Settings.ConnectionInfo CoreData { get; }
+        public Server.Settings.Connection CoreData { get; }
         public FileSystem.Settings.VirtualStorage VirtualStorage { get; }
         public FileSystem.Settings.LocalStorage LocalStorage { get; }
 

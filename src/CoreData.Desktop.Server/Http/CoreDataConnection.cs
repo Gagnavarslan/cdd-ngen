@@ -27,6 +27,6 @@ namespace CoreData.Desktop.Server.Http
     public sealed partial class CoreDataConnection
     {
         public static readonly CoreDataConnection Default =
-            new CoreDataConnection(new Uri("https://test02-dev.coredata.is"));
+            new CoreDataConnection(new Uri("https://test01-dev.coredata.is"));
     }
 }

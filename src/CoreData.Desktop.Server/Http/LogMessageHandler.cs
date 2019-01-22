@@ -1,10 +1,5 @@
-﻿using CoreData.Common.Extensions;
-using CoreData.Common.HostEnvironment;
-using CoreData.Desktop.Server.Http;
-using NLog;
+﻿using CoreData.Desktop.Server.Http;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
 using System.Threading;
 
 namespace CoreData.Desktop.Server.Handlers
@@ -14,14 +9,14 @@ namespace CoreData.Desktop.Server.Handlers
         protected override HttpRequestMessage ProcessRequest(
             HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            HttpMessageLog.LogRequest(request);
+            HttpMessageLogger.Log(request);
             return request;
         }
 
         protected override HttpResponseMessage ProcessResponse(
             HttpResponseMessage response, CancellationToken cancellationToken)
         {
-            HttpMessageLog.LogResponse(response);
+            HttpMessageLogger.Log(response);
             return response;
         }
     }
