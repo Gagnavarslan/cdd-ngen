@@ -1,4 +1,5 @@
-﻿using CoreData.Common.HostEnvironment;
+﻿using CoreData.Common.Extensions;
+using CoreData.Common.HostEnvironment;
 using CoreData.Desktop.FileSystem.LocalFileSystem;
 using DryIoc;
 using System;
@@ -16,23 +17,16 @@ namespace CoreData.Desktop.FileSystem.LocalStorage
         //private MemoryCache
         //private readonly IClient _coreData;
 
-        public PhysicalStorage(Uri root)//, IClient coreData)
+        public PhysicalStorage(string home)//, IClient coreData)
         {
-            Root = root ?? throw new ArgumentNullException(nameof(root));
-            Root.IsAbsoluteUri.ThrowIf(true); // , new ArgumentException(nameof(root))
-
-            //Root = Path.Combine(
-            //    Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-            //    _coreData.Host);
-
+            Home = !home.IsNullOrEmpty() ? home : throw new ArgumentNullException(nameof(home));
             //if (!Directory.Exists(Home))
             //{
             //    Directory.CreateDirectory(Home);
             //}
         }
 
-        public Uri Root { get; }
-        public string Home => Root?.LocalPath;
+        public string Home { get; }
 
         public bool Exists => Directory.Exists(Home);
 

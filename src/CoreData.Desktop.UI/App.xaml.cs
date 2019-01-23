@@ -10,6 +10,8 @@ namespace CoreData.Desktop.UI
 
         public App(ScopeRules rules)
         {
+            AppDomain.CurrentDomain.SetData(nameof(ScopeRules), rules);
+            
             var appSession = AppSession.Create(rules);
             if (appSession != null)
             {

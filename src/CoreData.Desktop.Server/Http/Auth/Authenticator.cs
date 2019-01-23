@@ -34,7 +34,7 @@ namespace CoreData.Desktop.Server.Http.Auth
             Token = AccessToken.Empty();
         }
 
-        public abstract string SchemeType { get; }
+        public abstract string AuthScheme { get; }
 
         public abstract Url AuthEndpoint { get; }
 
@@ -45,6 +45,6 @@ namespace CoreData.Desktop.Server.Http.Auth
         public abstract Task RefreshToken(CancellationToken cancellationToken);
 
         public void ApplyAccess(HttpRequestMessage request) =>
-            request.Headers.Authorization = new AuthenticationHeaderValue(SchemeType, Token.Value);
+            request.Headers.Authorization = new AuthenticationHeaderValue(AuthScheme, Token.Value);
     }
 }

@@ -17,7 +17,7 @@ namespace CoreData.Desktop.Server.Http.Auth
         public BasicAuthenticator(ICoreDataClientFactory clientFactory, Url server)
             : base(clientFactory, server) { }
 
-        public override string SchemeType => "basic";
+        public override string AuthScheme => "Basic";
 
         public override Url AuthEndpoint => _server.AppendPathSegment("api/auth");
 

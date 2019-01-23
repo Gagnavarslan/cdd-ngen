@@ -14,17 +14,6 @@ namespace CoreData.Desktop.FileSystem.Settings
     // https://xceed.com/wp-content/documentation/xceed-toolkit-plus-for-wpf/webframe.html#PropertyGrid%20class.html
     public class VirtualStorage : ViewModel
     {
-        public static readonly VirtualStorage Test = new VirtualStorage()
-        {
-            MountOptions = DokanOptions.DebugMode | DokanOptions.AltStream | DokanOptions.CurrentSession,
-            Drive = 'Z',
-            Format = "NTFS",
-            Label = "CoreData",
-            MaxPathLength = 256,
-            Features = FileSystemFeatures.CaseSensitiveSearch | FileSystemFeatures.CasePreservedNames
-            | FileSystemFeatures.UnicodeOnDisk | FileSystemFeatures.PersistentAcls
-        };
-
         [Browsable(false)]
         public override string PrintValue => $"{Drive}: {Label}({Format})";
 
@@ -50,6 +39,8 @@ namespace CoreData.Desktop.FileSystem.Settings
         //[Description("This property must not be set manually via settings editor.")]
         [DefaultValue('Z')]
         public char Drive { get; set; }
+        [Description("Drive letter reusage policy. Forced to be the same or closest available drive letter.")]
+        public bool DriveMustBeReused { get; set; }
 
         [Category("File System")]
         [DisplayName("Format name")]

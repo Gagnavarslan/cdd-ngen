@@ -19,7 +19,7 @@ namespace CoreData.Desktop.Server.Http.Auth
             _tokenEndpoint = server.AppendPathSegment("api/v2/token/");
         }
 
-        public override string SchemeType => "token";
+        public override string AuthScheme => "token";
 
         public override Url AuthEndpoint => _server.AppendPathSegment("saml2/login/");
         

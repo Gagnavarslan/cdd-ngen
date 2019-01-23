@@ -1,4 +1,6 @@
 ﻿using CoreData.Desktop.Common.Runtime;
+using CoreData.Desktop.FileSystem.Settings;
+using CoreData.Desktop.Server.Settings;
 using CoreData.Desktop.UI.Tray;
 using NLog;
 using System;
@@ -40,6 +42,10 @@ namespace CoreData.Desktop.UI.AppScope
             var tray = _container.Resolve<AppTrayView>();
             tray.LoadContent();
 
+            if (_rules.UseLastConnection)
+            {
+                RestoreLastConnection();
+            }
             //ICoreDataServiceFactory
             //_container.BeginLifetimeScope()
             //Task.Run(async () => await WarnOthers().ConfigureAwait(false));
@@ -55,10 +61,6 @@ namespace CoreData.Desktop.UI.AppScope
             throw new NotImplementedException();
         }
 
-        public void Dispose()
-        {
-            _container.Dispose();
-            //_tray.Dispose();
-        }
+        public void Dispose() => _container.Dispose();//_tray.Dispose();
     }
 }

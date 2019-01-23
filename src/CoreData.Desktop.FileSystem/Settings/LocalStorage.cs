@@ -11,11 +11,9 @@ namespace CoreData.Desktop.FileSystem.Settings
     public class LocalStorage : ViewModel
     {
         [Browsable(false)]
-        public override string PrintValue => Path;
+        public override string PrintValue => Home;
 
-        public static readonly LocalStorage Test = new LocalStorage { Path = Environment.CurrentDirectory };
-
-        [DisplayName("Local storage root path. E.g. root folder for physical mirror or path to LiteDB.")]
-        public string Path { get; set; }
+        [DisplayName("Local storage location. E.g. root folder of physical drive, path to LiteDB, etc.")]
+        public string Home { get; set; }
     }
 }

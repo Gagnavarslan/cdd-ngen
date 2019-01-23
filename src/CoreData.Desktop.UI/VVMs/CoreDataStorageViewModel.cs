@@ -7,12 +7,12 @@ namespace CoreData.Desktop.UI.VVMs
 {
     public class CoreDataStorageViewModel
     {
-        public static readonly CoreDataStorageViewModel Test = new CoreDataStorageViewModel(
-            "default",
-            Server.Settings.Connection.Test,
-            FileSystem.Settings.VirtualStorage.Test,
-            LocalStorage.Test,
-            null);
+        //public static readonly CoreDataStorageViewModel Test = new CoreDataStorageViewModel(
+        //    "default",
+        //    Server.Settings.Connection.Test,
+        //    FileSystem.Settings.VirtualStorage.Test,
+        //    LocalStorage.Test,
+        //    null);
 
         public CoreDataStorageViewModel(string key,
             Server.Settings.Connection coreData,

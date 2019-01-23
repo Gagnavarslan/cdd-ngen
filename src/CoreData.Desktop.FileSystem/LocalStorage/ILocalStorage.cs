@@ -1,12 +1,15 @@
 ﻿using CoreData.Common.HostEnvironment;
-using System;
 using System.IO;
 
 namespace CoreData.Desktop.FileSystem.LocalFileSystem
 {
+    public interface ILocalStorageInfo : IDebugInfo
+    {
+    }
+
     public interface ILocalStorage : IDebugInfo
     {
-        Uri Root { get; }
+        string Home { get; }
 
         bool Exists { get; }
 

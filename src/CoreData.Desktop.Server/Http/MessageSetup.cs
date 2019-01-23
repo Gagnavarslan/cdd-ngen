@@ -30,8 +30,6 @@ namespace CoreData.Desktop.Server.Http
         public int RetriesDone { get; internal set; }
 
         public int RedirectsDone { get; internal set; }
-
-        public Context Polly { get; internal set; }
     }
 
     public static class MessageSetup
@@ -66,7 +64,7 @@ namespace CoreData.Desktop.Server.Http
         {
             return request != null
                 && request.Properties.TryGetValue(RequestProperties.RequestPropertyName, out var value)
-                ? value : null;
+                ? value : (RequestProperties)null;
         }
     }
 }

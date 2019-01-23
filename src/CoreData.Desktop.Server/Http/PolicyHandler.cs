@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Http;
+using System.ServiceModel.Configuration;
 using System.Threading;
 using System.Threading.Tasks;
 using NLog;
@@ -14,9 +15,9 @@ namespace CoreData.Desktop.Server.Http
         private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
 
         private readonly Func<HttpRequestMessage, IAsyncPolicy<HttpResponseMessage>> _policySelector;
-
+        // !!!: Polly.Extensions.Http.HttpPolicyExtensions.
+        public PolicyHandler(string name) : this(_ => Polly.Registry.PolicyRegistry.)
         public PolicyHandler(IAsyncPolicy<HttpResponseMessage> policy) : this(_ => policy) { }
-
         public PolicyHandler(Func<HttpRequestMessage, IAsyncPolicy<HttpResponseMessage>> policySelector)
         {
             _policySelector = policySelector ?? throw new ArgumentNullException(nameof(policySelector));

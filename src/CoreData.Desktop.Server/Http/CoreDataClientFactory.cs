@@ -1,6 +1,4 @@
 ﻿using CoreData.Common.HostEnvironment;
-using CoreData.Desktop.Server.Handlers;
-using DotNetOpenAuth.OAuth2;
 using NLog;
 using System;
 using System.Linq;

@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 
 namespace CoreData.Desktop.FileSystem.VirtualStorage
@@ -30,7 +31,7 @@ namespace CoreData.Desktop.FileSystem.VirtualStorage
     {
         string IDebugInfo.PrintValue => _settings.PrintValue;
 
-        private static readonly ILogger _logger = LogManager.GetCurrentClassLogger();
+        private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
 
         private readonly Settings.VirtualStorage _settings;
         private readonly IRestClient _restClient;
@@ -46,21 +47,7 @@ namespace CoreData.Desktop.FileSystem.VirtualStorage
             _localStorage = localStorage;
         }
 
-        public bool IsDriverInstalled
-        {
-            get
-            {
-                try
-                {
-                    return Dokan.DriverVersion >= 400;
-                }
-                catch (Exception ex)
-                {
-                    _logger.Error(ex);
-                    return false;
-                }
-            }
-        }
+        public bool IsDriverInstalled => Logger.Swallow(() => Dokan.DriverVersion >= 400);
 
         public IEnumerable<char> GetAvailableDriveLetters()
         {
@@ -105,7 +92,7 @@ namespace CoreData.Desktop.FileSystem.VirtualStorage
             }
             catch (Exception ex)
             {
-                _logger.Error(ex);
+                Logger.Error(ex);
                 throw new InvalidOperationException($"Failed to mount virtual drive at [{mountPoint}]", ex);
             }
         }
