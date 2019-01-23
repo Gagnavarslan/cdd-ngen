@@ -13,10 +13,7 @@ namespace CoreData.Desktop.FileSystem.Services
     public interface IConnectionService
     {
         /// <summary>Opens specified connections session.</summary>
-        Task<VirtualDrive> Connect(
-            Settings.LocalStorage local,
-            Settings.VirtualStorage @virtual,
-            Server.Settings.CoreDataConnection coreData);
+        Task<VirtualDrive> Connect(StoragesUnit unit);
 
         /// <summary>Restores last succeed connection session if any.</summary>
         Task<VirtualDrive> RestoreLast();
@@ -52,10 +49,10 @@ namespace CoreData.Desktop.FileSystem.Services
                 return null;
             }
 
-            var coreDataClient = _coreDataConnectionFactory(coreData);
+            var coreDataClient = _coreDataConnectionFactory(unit.CoreData);
             var authenticated = await coreDataClient.Authenticate();
 
-            var drive = _virtualDriveFactory(@virtual, coreDataClient, localStorage);
+            var drive = _virtualDriveFactory(unit.VirtualStorage, coreDataClient, localStorage);
             // todo: save drive as last successful connections session, to be able to restore within this or next app session.
 
             return drive;

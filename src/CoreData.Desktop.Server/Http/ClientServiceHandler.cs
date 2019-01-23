@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CoreData.Desktop.Server.Http
 {
-    public class CoreDataClientServiceHandler : HttpClientHandler
+    public class ClientServiceHandler : HttpClientHandler
     {
         private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
 
@@ -16,7 +16,7 @@ namespace CoreData.Desktop.Server.Http
         /// <summary>Global request id, which might have inner child requests, e.g. on redirects</summary>
         internal long MessageId;
 
-        public CoreDataClientServiceHandler(Action<HttpRequestMessage> customMessageSetup)
+        public ClientServiceHandler(Action<HttpRequestMessage> customMessageSetup)
         {
             _customMessageSetup = customMessageSetup;
             MessageId = 0;
@@ -34,9 +34,11 @@ namespace CoreData.Desktop.Server.Http
         private void DefaultSetup(HttpRequestMessage request)
         {
             var id = Interlocked.Increment(ref MessageId); //.ToString("X8");
+            var context = new HttpRequestProperties(id);
+            request.Properties[HttpRequestProperties.RequestPropertyName] = context;
+
             var polly = new Context($"({request.Method}) {request.RequestUri}");
-            var context = new RequestProperties(id) { Polly = polly };
-            request.Properties[RequestProperties.RequestPropertyName] = context;
+            request.SetPolicyExecutionContext(polly);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using CoreData.Common.HostEnvironment;
+using CoreData.Desktop.Server.Http.Auth;
 using NLog;
 using System;
 using System.Linq;
@@ -9,9 +10,12 @@ namespace CoreData.Desktop.Server.Http
 {
     public interface ICoreDataClientFactory
     {
-        CoreDataClientServiceHandler CreateClientHandler(Action<HttpRequestMessage> requestSetup);
+        ClientServiceHandler CreateClientHandler(Action<HttpRequestMessage> requestSetup);
 
-        HttpClient CreateClient(Uri host, CoreDataClientServiceHandler clientHandler,
+        //HttpClient CreateClient(ClientServiceHandler clientHandler,
+        //    params DelegatingHandler[] handlers);
+
+        HttpClient CreateCoreDataClient(Uri host, ClientServiceHandler clientHandler,
             params DelegatingHandler[] handlers);
     }
 
@@ -38,30 +42,40 @@ namespace CoreData.Desktop.Server.Http
 
         private readonly EnvInfo _envInfo;
         private readonly AppInfo _appInfo;
-        private readonly Func<CoreDataClientServiceHandler> _coreDataClientHandlerFactory;
         private readonly string _product;
 
-        public CoreDataClientFactory(EnvInfo envInfo, AppInfo appInfo,
-            Func<CoreDataClientServiceHandler> coreDataClientHandlerFactory)
+        private readonly Lazy<HttpClient> _serverlessClient;
+
+        public CoreDataClientFactory(EnvInfo envInfo, AppInfo appInfo)
         {
             _envInfo = envInfo;
             _appInfo = appInfo;
-            _coreDataClientHandlerFactory = coreDataClientHandlerFactory;
             _product = $"{_appInfo.PrintValue}; {_envInfo.PrintValue}";
+            _serverlessClient = new Lazy<HttpClient>();
         }
 
-        public HttpClient CreateClient(Uri host, CoreDataClientServiceHandler clientHandler,
+        private HttpClient CreateClient(ClientServiceHandler clientHandler,
             params DelegatingHandler[] handlers)
         {
-            //var sp = ServicePointManager.FindServicePoint(host);
-            //sp.Expect100Continue = false;
             var client = HttpClientFactory.Create(clientHandler, handlers);
-            client.BaseAddress = host;
             client.DefaultRequestHeaders.Add(HttpRequestHeader.UserAgent.ToString(), _product); // ProductHeaderValue
             client.DefaultRequestHeaders.ExpectContinue = false;
             client.Timeout = DefaultTimeout;
             client.MaxResponseContentBufferSize = 256_000;
             return client;
+        }
+
+        public IAuthenticator CreateAuthenticator()
+        {
+        }
+
+        public HttpClient CreateCoreDataClient(Uri host, ClientServiceHandler clientHandler,
+            params DelegatingHandler[] handlers)
+        {
+            //var sp = ServicePointManager.FindServicePoint(host);
+            //sp.Expect100Continue = false;
+            var client = CreateClient()
+            client.BaseAddress = host;
         }
 
         //public HttpClient CreateClient(Uri host, HttpClientHandler clientHandler,
@@ -73,8 +87,8 @@ namespace CoreData.Desktop.Server.Http
         //    var client = HttpClientFactory.Create(clientHandler, activationMessageHandler, logHandler, authenticationHandler);
         //}
 
-        public CoreDataClientServiceHandler CreateClientHandler(Action<HttpRequestMessage> requestSetup) =>
-            new CoreDataClientServiceHandler(requestSetup)
+        public ClientServiceHandler CreateClientHandler(Action<HttpRequestMessage> requestSetup) =>
+            new ClientServiceHandler(requestSetup)
             {
                 UseCookies = true,
                 CookieContainer = new CookieContainer()

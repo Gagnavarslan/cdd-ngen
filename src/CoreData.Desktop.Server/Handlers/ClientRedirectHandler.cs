@@ -1,5 +1,4 @@
 ﻿using CoreData.Desktop.Common.Http;
-using CoreData.Desktop.Server.Http;
 using System;
 using System.Net;
 using System.Net.Http;
@@ -10,12 +9,12 @@ namespace CoreData.Desktop.Server.Handlers
 {
     public class ClientRedirectHandler : DelegatingHandler
     {
-        private readonly CoreDataConnection _coreData;
+        //private readonly CoreDataConnection _coreData;
 
-        public ClientRedirectHandler(CoreDataConnection coreData) : base()
+        public ClientRedirectHandler() : base()
             //: base(new HttpClientHandler() { AllowAutoRedirect = false })
         {
-            _coreData = coreData;
+            //_coreData = coreData;
             Policies = RedirectPolicies.Default();
         }
         

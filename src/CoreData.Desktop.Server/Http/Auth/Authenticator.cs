@@ -1,7 +1,6 @@
 ﻿using Flurl;
 using NLog;
 using System;
-using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -20,12 +19,12 @@ namespace CoreData.Desktop.Server.Http.Auth
         protected static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
         protected static readonly Encoding Utf8 = Encoding.UTF8;
 
-        protected readonly ICoreDataClientFactory _clientFactory;
+        protected readonly HttpClient _client;
         protected readonly Url _server; // auth server = coredata uri
         
-        protected Authenticator(ICoreDataClientFactory clientFactory, Url server)
+        protected Authenticator(HttpClient client, Url server)
         {
-            _clientFactory = clientFactory;
+            _client = client;
             _server = server ?? throw new ArgumentNullException(nameof(server));
             //if (!string.Equals(Uri.UriSchemeHttps, _authServer.Scheme, StringComparison.OrdinalIgnoreCase))
             //{
@@ -36,15 +35,22 @@ namespace CoreData.Desktop.Server.Http.Auth
 
         public abstract string AuthScheme { get; }
 
-        public abstract Url AuthEndpoint { get; }
-
         public AccessToken Token { get; }
 
-        public abstract Task<bool> Authenticate(NetworkCredential credentials, CancellationToken cancellationToken);
+        public string CoreDataUserName { get; protected set; }
 
-        public abstract Task RefreshToken(CancellationToken cancellationToken);
+        public Task<bool> Authenticate(CancellationToken cancellationToken)
+        {
+            Token.Clear();
+            CoreDataUserName = null;
+            return Login(cancellationToken);
+        }
 
-        public void ApplyAccess(HttpRequestMessage request) =>
+        public abstract Task ReassignToken(CancellationToken cancellationToken);
+
+        public virtual void ApplyAuthentication(HttpRequestMessage request) =>
             request.Headers.Authorization = new AuthenticationHeaderValue(AuthScheme, Token.Value);
+
+        protected abstract Task<bool> Login(CancellationToken cancellationToken);
     }
 }

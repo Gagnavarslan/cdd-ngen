@@ -16,7 +16,7 @@ namespace CoreData.Desktop.Server.Http
 
         private readonly Func<HttpRequestMessage, IAsyncPolicy<HttpResponseMessage>> _policySelector;
         // !!!: Polly.Extensions.Http.HttpPolicyExtensions.
-        public PolicyHandler(string name) : this(_ => Polly.Registry.PolicyRegistry.)
+        //public PolicyHandler(string name) : this(_ => Polly.Registry.PolicyRegistry.)
         public PolicyHandler(IAsyncPolicy<HttpResponseMessage> policy) : this(_ => policy) { }
         public PolicyHandler(Func<HttpRequestMessage, IAsyncPolicy<HttpResponseMessage>> policySelector)
         {
