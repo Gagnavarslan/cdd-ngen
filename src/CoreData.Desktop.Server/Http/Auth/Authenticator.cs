@@ -1,6 +1,7 @@
-﻿using Flurl;
+﻿using CoreData.Common.Extensions;
 using NLog;
 using System;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -16,16 +17,18 @@ namespace CoreData.Desktop.Server.Http.Auth
 
     public abstract class Authenticator : IAuthenticator
     {
+        protected const string RemoteUserHeaderName = "X-Remote-User-Name";
+
         protected static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
         protected static readonly Encoding Utf8 = Encoding.UTF8;
 
         protected readonly HttpClient _client;
-        protected readonly Url _server; // auth server = coredata uri
+        //protected readonly Url _server; // auth server = coredata uri
         
-        protected Authenticator(HttpClient client, Url server)
+        protected Authenticator(HttpClient client)
         {
             _client = client;
-            _server = server ?? throw new ArgumentNullException(nameof(server));
+            //_server = server ?? throw new ArgumentNullException(nameof(server));
             //if (!string.Equals(Uri.UriSchemeHttps, _authServer.Scheme, StringComparison.OrdinalIgnoreCase))
             //{
             //    throw new ArgumentException(nameof(_authServer.Scheme));
@@ -37,12 +40,12 @@ namespace CoreData.Desktop.Server.Http.Auth
 
         public AccessToken Token { get; }
 
-        public string CoreDataUserName { get; protected set; }
+        public string RemoteUser { get; private set; }
 
         public Task<bool> Authenticate(CancellationToken cancellationToken)
         {
             Token.Clear();
-            CoreDataUserName = null;
+            RemoteUser = null;
             return Login(cancellationToken);
         }
 
@@ -52,5 +55,14 @@ namespace CoreData.Desktop.Server.Http.Auth
             request.Headers.Authorization = new AuthenticationHeaderValue(AuthScheme, Token.Value);
 
         protected abstract Task<bool> Login(CancellationToken cancellationToken);
+
+        protected void ReassignRemoteUser(HttpResponseMessage loginResponse)
+        {
+            Logger.Info($"#User before: {RemoteUser}");
+            RemoteUser = loginResponse.Headers.TryGetValues(RemoteUserHeaderName, out var values)
+                ? values?.Join(Environment.NewLine)
+                : null;
+            Logger.Info($"#User after: {RemoteUser}");
+        }
     }
 }

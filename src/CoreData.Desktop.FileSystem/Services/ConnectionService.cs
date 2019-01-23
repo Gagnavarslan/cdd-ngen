@@ -25,14 +25,14 @@ namespace CoreData.Desktop.FileSystem.Services
 
         private readonly ITrayTooltipNotifier _tooltipNotifier;
         private readonly Func<Settings.LocalStorage, ILocalStorage> _localStorageFactory;
-        private readonly Func<Server.Settings.CoreDataConnection, IRestClient> _coreDataConnectionFactory;
+        private readonly Func<Server.Settings.AuthConnection, IRestClient> _coreDataConnectionFactory;
         private readonly Func<Settings.VirtualStorage, IRestClient, ILocalStorage, VirtualDrive> _virtualDriveFactory;
 
         public ConnectionService(
             ITrayTooltipNotifier tooltipNotifier,
             Func<Settings.LocalStorage, ILocalStorage> localStorageFactory,
             Func<Settings.VirtualStorage, IRestClient, ILocalStorage, VirtualDrive> virtualDriveFactory,
-            Func<Server.Settings.CoreDataConnection, IRestClient> coreDataConnectionFactory)
+            Func<Server.Settings.AuthConnection, IRestClient> coreDataConnectionFactory)
         {
             _tooltipNotifier = tooltipNotifier;
             _localStorageFactory = localStorageFactory;

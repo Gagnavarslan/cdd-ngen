@@ -1,5 +1,5 @@
 ﻿using CoreData.Common.HostEnvironment;
-using CoreData.Desktop.Server.Http.Auth;
+using CoreData.Desktop.Server.Handlers;
 using NLog;
 using System;
 using System.Linq;
@@ -10,13 +10,9 @@ namespace CoreData.Desktop.Server.Http
 {
     public interface ICoreDataClientFactory
     {
-        ClientServiceHandler CreateClientHandler(Action<HttpRequestMessage> requestSetup);
+        HttpClient CreateDefaultClient();
 
-        //HttpClient CreateClient(ClientServiceHandler clientHandler,
-        //    params DelegatingHandler[] handlers);
-
-        HttpClient CreateCoreDataClient(Uri host, ClientServiceHandler clientHandler,
-            params DelegatingHandler[] handlers);
+        HttpClient CreateCoreDataClient(Uri host);
     }
 
     /// <summary>CoreData HTTP client factory.</summary>
@@ -24,7 +20,6 @@ namespace CoreData.Desktop.Server.Http
     public class CoreDataClientFactory : ICoreDataClientFactory
     {
         const int MaxClientConnections = 10;
-        static readonly TimeSpan DefaultTimeout = TimeSpan.FromSeconds(20);
 
         static CoreDataClientFactory()
         {
@@ -43,56 +38,45 @@ namespace CoreData.Desktop.Server.Http
         private readonly EnvInfo _envInfo;
         private readonly AppInfo _appInfo;
         private readonly string _product;
-
-        private readonly Lazy<HttpClient> _serverlessClient;
+        private readonly HttpClientHandler _coreDataClientHandler;
 
         public CoreDataClientFactory(EnvInfo envInfo, AppInfo appInfo)
         {
             _envInfo = envInfo;
             _appInfo = appInfo;
             _product = $"{_appInfo.PrintValue}; {_envInfo.PrintValue}";
-            _serverlessClient = new Lazy<HttpClient>();
+            _coreDataClientHandler = new HttpClientHandler { UseCookies = true };
         }
 
-        private HttpClient CreateClient(ClientServiceHandler clientHandler,
-            params DelegatingHandler[] handlers)
+        public HttpClient CreateDefaultClient()
         {
-            var client = HttpClientFactory.Create(clientHandler, handlers);
+            var pipeline = new DelegatingHandler[]
+            {
+                new SetupMessageHandler(),
+                new LogMessageHandler()
+            };
+            var client = HttpClientFactory.Create(pipeline);
+
             client.DefaultRequestHeaders.Add(HttpRequestHeader.UserAgent.ToString(), _product); // ProductHeaderValue
-            client.DefaultRequestHeaders.ExpectContinue = false;
-            client.Timeout = DefaultTimeout;
-            client.MaxResponseContentBufferSize = 256_000;
             return client;
         }
 
-        public IAuthenticator CreateAuthenticator()
+        public HttpClient CreateCoreDataClient(Uri host)
         {
-        }
-
-        public HttpClient CreateCoreDataClient(Uri host, ClientServiceHandler clientHandler,
-            params DelegatingHandler[] handlers)
-        {
-            //var sp = ServicePointManager.FindServicePoint(host);
-            //sp.Expect100Continue = false;
-            var client = CreateClient()
-            client.BaseAddress = host;
-        }
-
-        //public HttpClient CreateClient(Uri host, HttpClientHandler clientHandler,
-        //    AuthenticationHandler authenticationHandler)
-        //{
-        //    var logHandler = new LogMessageHandler();
-        //    var activationMessageHandler = new ActivationMessageHandler();
-        //    var handlers = new[] { activationMessageHandler, logHandler };
-        //    var client = HttpClientFactory.Create(clientHandler, activationMessageHandler, logHandler, authenticationHandler);
-        //}
-
-        public ClientServiceHandler CreateClientHandler(Action<HttpRequestMessage> requestSetup) =>
-            new ClientServiceHandler(requestSetup)
+            var pipeline = new DelegatingHandler[]
             {
-                UseCookies = true,
-                CookieContainer = new CookieContainer()
+                new SetupMessageHandler(),
+                new LogMessageHandler()
             };
+            _coreDataClientHandler.CookieContainer = new CookieContainer();
+            var client = HttpClientFactory.Create(_coreDataClientHandler, pipeline);
+
+            client.BaseAddress = host;
+            client.DefaultRequestHeaders.Add(HttpRequestHeader.UserAgent.ToString(), _product); // ProductHeaderValue
+            client.DefaultRequestHeaders.ExpectContinue = false;
+            client.MaxResponseContentBufferSize = 256_000;
+            return client;
+        }
 
         // ???: MS recommends DotNetOpenAuth.OAuth2.Client pkg
         // https://docs.microsoft.com/en-us/aspnet/aspnet/overview/owin-and-katana/owin-oauth-20-authorization-server#create-oauth-20-clients

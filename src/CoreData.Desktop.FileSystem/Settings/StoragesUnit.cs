@@ -5,7 +5,7 @@ namespace CoreData.Desktop.FileSystem.Settings
     /// <summary>Unit of related storages.</summary>
     public class StoragesUnit
     {
-        public StoragesUnit(VirtualStorage virtualStorage, LocalStorage localStorage, CoreDataConnection coreData)
+        public StoragesUnit(VirtualStorage virtualStorage, LocalStorage localStorage, AuthConnection coreData)
         {
             VirtualStorage = virtualStorage;
             LocalStorage = localStorage;
@@ -14,6 +14,6 @@ namespace CoreData.Desktop.FileSystem.Settings
 
         public LocalStorage LocalStorage { get; }
         public VirtualStorage VirtualStorage { get; }
-        public CoreDataConnection CoreData { get; }
+        public AuthConnection CoreData { get; }
     }
 }

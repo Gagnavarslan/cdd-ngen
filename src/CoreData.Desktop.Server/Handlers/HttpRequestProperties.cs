@@ -1,18 +1,19 @@
 ﻿using CoreData.Common.HostEnvironment;
 using System;
 
-namespace CoreData.Desktop.Server.Http
+namespace CoreData.Desktop.Server.Http.Handlers
 {
-    public class HttpRequestProperties
+    // todo: use local container instead httpRequest.Properties to min network data
+    public class AttachedProperties
     {
-        internal const string RequestPropertyName = "_request.context";
+        internal const string Key = nameof(AttachedProperties);
         //const string Id = "_request.imm.id";
         //const string InitiatedOn = "_request.imm.initiatedOn";
         //const string RetriesDone = "_request.retries";
         //const string RedirectsDone = "_request.redirects";
         //const string Polly = "_request.context";
 
-        public HttpRequestProperties(long id)
+        public AttachedProperties(long id)
         {
             Id = id;
             Initiated = AppWatch.Elapsed;

@@ -1,4 +1,5 @@
-﻿using Flurl;
+﻿using CoreData.Desktop.Server.Settings;
+using Flurl;
 using System;
 using System.Net;
 using System.Net.Http;
@@ -12,19 +13,20 @@ namespace CoreData.Desktop.Server.Http.Auth
     public class SsoAuthenticator : Authenticator
     {
         //private readonly NetworkCredential _credentials;
+        private SsoConnection _connection;
+        private readonly Url _loginEndpoint;
         private readonly Url _tokenEndpoint;
 
-        public SsoAuthenticator(HttpClient client, Url server)
-            : base(client, server)
+        public SsoAuthenticator(HttpClient client, SsoConnection connection) : base(client)
         {
-            _tokenEndpoint = server.AppendPathSegment("api/v2/token/");
+            _connection = connection;
+            _loginEndpoint = _connection.Host.AbsoluteUri.AppendPathSegment("saml2/login/");
+            _tokenEndpoint = _connection.Host.AbsoluteUri.AppendPathSegment("api/v2/token/");
         }
 
         public override string AuthScheme => "token";
 
-        public override Url LoginEndpoint => _server.AppendPathSegment("saml2/login/");
-
-        protected override Task<bool> Login(NetworkCredential credentials, CancellationToken cancellationToken)
+        protected override Task<bool> Login(CancellationToken cancellationToken)
         {
             return Task.FromException<bool>(new NotImplementedException());
         }
