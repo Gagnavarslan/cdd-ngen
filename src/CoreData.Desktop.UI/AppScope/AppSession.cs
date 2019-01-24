@@ -1,4 +1,5 @@
 ﻿using CoreData.Desktop.Common.Runtime;
+using CoreData.Desktop.FileSystem.Services;
 using CoreData.Desktop.FileSystem.Settings;
 using CoreData.Desktop.Server.Settings;
 using CoreData.Desktop.UI.Tray;
@@ -44,11 +45,9 @@ namespace CoreData.Desktop.UI.AppScope
 
             if (_rules.UseLastConnection)
             {
-                RestoreLastConnection();
+                var service = _container.Resolve<IConnectionService>();
+                service.RestoreLast();
             }
-            //ICoreDataServiceFactory
-            //_container.BeginLifetimeScope()
-            //Task.Run(async () => await WarnOthers().ConfigureAwait(false));
         }
 
         /// <summary>Completes App Session due to Logoff or Shutdown.</summary>
