@@ -12,8 +12,8 @@ namespace CoreData.Desktop.FileSystem.Settings
             CoreData = coreData;
         }
 
-        public LocalStorage LocalStorage { get; }
-        public VirtualStorage VirtualStorage { get; }
-        public AuthConnection CoreData { get; }
+        public VirtualStorage VirtualStorage { get; } // virtual disk Z: 
+        public LocalStorage LocalStorage { get; } // local data already downloaded from CD(local DB)
+        public AuthConnection CoreData { get; } // connection to CD API
     }
 }

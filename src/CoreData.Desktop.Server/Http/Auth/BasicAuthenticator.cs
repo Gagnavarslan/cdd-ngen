@@ -45,7 +45,7 @@ namespace CoreData.Desktop.Server.Http.Auth
                 try
                 {
                     //var responseTest = await _client.PostAsJsonAsync(LoginEndpoint, model);
-                    using (var response = await _client.PostAsync(LoginEndpoint, content).ConfigureAwait(false))
+                    using (var response = await _client.PostAsync(_loginEndpoint, content).ConfigureAwait(false))
                     {
                         if (response.IsSuccessStatusCode)
                         {
