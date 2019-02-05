@@ -183,20 +183,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Handlers\AttachedProperties.cs" />
     <Compile Include="Handlers\SetupMessageHandler.cs" />
     <Compile Include="Http\Auth\AccessToken.cs" />
     <Compile Include="Http\Auth\AuthenticationHandler.cs" />
     <Compile Include="Http\Auth\Authenticator.cs" />
     <Compile Include="Http\Auth\BasicAuthenticator.cs" />
     <Compile Include="Http\Auth\SsoAuthenticator.cs" />
-    <Compile Include="Http\BasicAuthHandler.cs" />
-    <Compile Include="Http\HttpMessageLogger.cs" />
-    <Compile Include="Handlers\HttpRequestProperties.cs" />
+    <Compile Include="Handlers\HttpMessageLogger.cs" />
     <Compile Include="Handlers\LogMessageHandler.cs" />
     <Compile Include="Http\MessageExtensions.cs" />
     <Compile Include="Http\PolicyHandler.cs" />
     <Compile Include="Http\ActivationMessageHandler.cs" />
-    <Compile Include="Http\DefaultHttpClient.cs" />
+    <Compile Include="Http\CoreDataClient.cs" />
     <Compile Include="Http\SsoAuthHandler.cs" />
     <Compile Include="Services\Authentication.cs" />
     <Compile Include="Handlers\TPLD.cs" />
@@ -205,12 +204,12 @@
     <Compile Include="Handlers\ClientRedirectHandler.cs" />
     <Compile Include="Handlers\RetryHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\CoreDataServices.cs" />
     <Compile Include="Services\IAuthenticationService.cs" />
     <Compile Include="Services\IDirectoryService.cs" />
     <Compile Include="Services\IFileService.cs" />
     <Compile Include="Services\IMetadataService.cs" />
     <Compile Include="Services\RestServiceFactory.cs" />
+    <Compile Include="Services\ServerConnectionServices.cs" />
     <Compile Include="Settings\AuthConnection.cs" />
     <Compile Include="Settings\TimeoutSettings.cs" />
   </ItemGroup>

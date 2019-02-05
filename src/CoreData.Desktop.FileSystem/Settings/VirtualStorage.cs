@@ -8,14 +8,14 @@ using System.Diagnostics;
 namespace CoreData.Desktop.FileSystem.Settings
 {
     [Serializable]
-    [DebuggerDisplay("{" + nameof(IDebugInfo.PrintValue) + "}")]
     [DefaultProperty(nameof(MountOptions))]
+    [DebuggerDisplay("{" + nameof(IDebugView.Now) + "}", Name = "Settings: DriveZ")]
     // todo: PropertyGrid: here and for all settings - 'Custom Editors with Attributes'
     // https://xceed.com/wp-content/documentation/xceed-toolkit-plus-for-wpf/webframe.html#PropertyGrid%20class.html
     public class VirtualStorage : ViewModel
     {
         [Browsable(false)]
-        public override string PrintValue => $"{Drive}: {Label}({Format})";
+        public override string Now => $"{Drive}: {Label}({Format})";
 
         // todo: Revisit once FileExplorer become LongPath aware https://blogs.msdn.microsoft.com/jeremykuhne/2016/07/30/net-4-6-2-and-long-paths-on-windows-10/
         //public const int MaxPath = 256;

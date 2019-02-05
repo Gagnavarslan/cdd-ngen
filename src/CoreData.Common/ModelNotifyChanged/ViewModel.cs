@@ -6,10 +6,10 @@ namespace CoreData.Common.ModelNotifyChanged
 {
     // todo: IChangeTracking https://docs.microsoft.com/en-us/dotnet/api/system.componentmodel.ichangetracking?view=netframework-4.7.2
     [DebuggerTypeProxy(typeof(DebugView))]
-    [DebuggerDisplay("{" + nameof(PrintValue) + "}")]
-    public abstract class ViewModel : INotifyPropertyChanged, IDebugInfo
+    [DebuggerDisplay("{" + nameof(Now) + "}")]
+    public abstract class ViewModel : INotifyPropertyChanged, IDebugView
     {
-        public virtual string PrintValue => new DebugView(this).Value;
+        public virtual string Now => new DebugView(this).Value;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -24,7 +24,7 @@ namespace CoreData.Common.ModelNotifyChanged
             private readonly ViewModel _target;
             public DebugView(ViewModel target) => _target = target;
 
-            public string Value => _target.Properties.PrintValue;
+            public string Value => _target.Properties.Now;
         }
     }
 }

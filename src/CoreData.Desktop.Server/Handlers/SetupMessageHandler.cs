@@ -11,7 +11,13 @@ namespace CoreData.Desktop.Server.Handlers
         /// <summary>Global request id, which might have inner child requests, e.g. on redirects</summary>
         private long _messageId;
 
-        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        public SetupMessageHandler(HttpMessageHandler inner) : base(inner)
+        {
+
+        }
+
+        protected override Task<HttpResponseMessage> SendAsync(
+            HttpRequestMessage request, CancellationToken cancellationToken)
         {
             var id = Interlocked.Increment(ref _messageId); //.ToString("X8");
             var context = new AttachedProperties(id);

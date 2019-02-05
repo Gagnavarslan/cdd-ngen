@@ -1,9 +1,15 @@
 ﻿using System;
+using System.Net;
+using System.Text;
 
 namespace CoreData.Desktop.Server.Settings
 {
+    // public class 
     public abstract class AuthConnection// : IOptions<CoreData> //: ISettings<Connection>
     {
+        internal static readonly Encoding UTF8 = Encoding.UTF8;
+
+        //Authorization auth;
         protected AuthConnection(Uri host)
         {
             Host = host ?? throw new ArgumentNullException(nameof(host));

@@ -3,9 +3,11 @@ using System;
 
 namespace CoreData.Desktop.Server.Http.Auth
 {
+    // looks similar to System.Net.Authorization
     public class AccessToken
     {
         public static AccessToken Empty() => new AccessToken();
+
         private AccessToken() { }
 
         public string Value { get; private set; }

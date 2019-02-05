@@ -6,23 +6,24 @@ using System.Security.Principal;
 
 namespace CoreData.Common.HostEnvironment
 {
-    [DebuggerDisplay("{" + nameof(IDebugInfo.PrintValue) + "}")]
-    public class AppInfo : IDebugInfo
+    [DebuggerDisplay("{" + nameof(IDebugView.Now) + "}")]
+    public class AppInfo : IDebugView
     {
-        public string PrintValue => $"{Product} {Version}";
+        public string Now => $"{Product} {Version}";
 
         public AppInfo(Assembly main)
         {
             Path = new Uri(main.CodeBase).LocalPath;
             Location = System.IO.Path.GetDirectoryName(Path);
             Location2 = main.Location;
-            Product = main.GetCustomAttribute<AssemblyProductAttribute>().Product;
-            Title = main.GetCustomAttribute<AssemblyTitleAttribute>().Title;
-            Company = main.GetCustomAttribute<AssemblyCompanyAttribute>().Company;
-            InfoVersion = main.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
-            Version = main.GetName().Version.ToString();
-            Description = main.GetCustomAttribute<AssemblyDescriptionAttribute>()?.Description;
-            ImageRuntimeVersion = main.ImageRuntimeVersion;
+            var info = FileVersionInfo.GetVersionInfo(Path);
+            //Product = main.GetCustomAttribute<AssemblyProductAttribute>().Product;
+            //Title = main.GetCustomAttribute<AssemblyTitleAttribute>().Title;
+            //Company = main.GetCustomAttribute<AssemblyCompanyAttribute>().Company;
+            //InfoVersion = main.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
+            //Version = main.GetName().Version.ToString();
+            //Description = main.GetCustomAttribute<AssemblyDescriptionAttribute>()?.Description;
+            //ImageRuntimeVersion = main.ImageRuntimeVersion;
         }
 
         public bool Is64Bit => Environment.Is64BitProcess;
@@ -49,10 +50,10 @@ namespace CoreData.Common.HostEnvironment
     }
 
     /// <summary>App runtime properties.</summary>
-    [DebuggerDisplay("{" + nameof(IDebugInfo.PrintValue) + "}")]
-    public class AppRuntime : IDebugInfo
+    [DebuggerDisplay("{" + nameof(IDebugView.Now) + "}")]
+    public class AppRuntime : IDebugView
     {
-        public string PrintValue => $"{ClrVersion}({Clr}) : {ClrDirectory}";
+        public string Now => $"{ClrVersion}({Clr}) : {ClrDirectory}";
 
         public string ClrDirectory => RuntimeEnvironment.GetRuntimeDirectory();
 

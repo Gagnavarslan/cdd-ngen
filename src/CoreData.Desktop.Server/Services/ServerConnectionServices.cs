@@ -2,20 +2,20 @@
 
 namespace CoreData.Desktop.Server.Services
 {
-    public interface ICoreDataServerServices
+    public interface IServerConnectionServices
     {
 
     }
 
-    public class CoreDataServerServices
+    public class ServerConnectionServices : IServerConnectionServices
     {
         private readonly ICoreDataClientFactory _clientFactory;
 
-        public CoreDataServerServices(ICoreDataClientFactory clientFactory)
+        public ServerConnectionServices(ICoreDataClientFactory clientFactory)
         {
             _clientFactory = clientFactory;
         }
 
-        public bool Connect()
+        //public bool Connect();
     }
 }

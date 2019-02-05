@@ -5,11 +5,11 @@ using System.Diagnostics;
 namespace CoreData.Common.Messaging.Peer
 {
     /// <summary>Participant registration info</summary>
-    [DebuggerDisplay("{" + nameof(IDebugInfo.PrintValue) + "}")]
+    [DebuggerDisplay("{" + nameof(IDebugView.Now) + "}")]
     [Obsolete("SessionIdentity should be used instead")]
-    public struct ParticipantIdentity : IDebugInfo
+    public struct ParticipantIdentity : IDebugView
     {
-        public string PrintValue { get; }
+        public string Now { get; }
         
         public ParticipantIdentity(Process participantProcess)
         {
@@ -17,7 +17,7 @@ namespace CoreData.Common.Messaging.Peer
             User = participantProcess.StartInfo.EnvironmentVariables["USERNAME"];
             Process = participantProcess.Id;
             Session = participantProcess.SessionId;
-            PrintValue = $"{User}@{Process}@{Session}";
+            Now = $"{User}@{Process}@{Session}";
         }
 
         public string User { get; }

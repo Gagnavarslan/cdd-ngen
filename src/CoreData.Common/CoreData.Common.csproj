@@ -116,6 +116,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Diagnostics\Bookmarks.cs" />
     <Compile Include="DryIoc\Container.cs" />
     <Compile Include="DryIoc\Expression.cs" />
     <Compile Include="DryIoc\FastExpressionCompiler.cs" />

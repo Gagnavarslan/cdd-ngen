@@ -8,10 +8,13 @@ using System.Net.Http;
 
 namespace CoreData.Desktop.Server.Http
 {
+    // todo: client to use for authenticator
     public interface ICoreDataClientFactory
     {
-        HttpClient CreateDefaultClient();
+        /// <summary>Creates http client for general purposes: base for cd API specific; sentry dsn; version|updater.</summary>
+        HttpClient CreateHttpClient();
 
+        /// <summary>CD client specific to particular API module|services.</summary>
         HttpClient CreateCoreDataClient(Uri host);
     }
 
@@ -44,11 +47,11 @@ namespace CoreData.Desktop.Server.Http
         {
             _envInfo = envInfo;
             _appInfo = appInfo;
-            _product = $"{_appInfo.PrintValue}; {_envInfo.PrintValue}";
+            _product = $"{_appInfo.Now}; {_envInfo.Now}";
             _coreDataClientHandler = new HttpClientHandler { UseCookies = true };
         }
 
-        public HttpClient CreateDefaultClient()
+        public HttpClient CreateHttpClient()
         {
             var pipeline = new DelegatingHandler[]
             {

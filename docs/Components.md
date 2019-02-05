@@ -62,7 +62,7 @@
 - [A lightweight F#/C# library for efficient functional-style pipelines on streams of data](http://nessos.github.io/Streams/)
 - [An easy way to perform background job processing in your .NET and .NET Core applications](https://github.com/HangfireIO/Hangfire)
 ### Win Service
-- [Topshelf](http://topshelf-project.com/)
+- 👍[Topshelf](http://topshelf-project.com/)
 
 ## Win Shell extensibility, Tools
 - [System.Windows.Shell Namespace](https://docs.microsoft.com/en-us/dotnet/api/system.windows.shell?view=netframework-4.7.2)

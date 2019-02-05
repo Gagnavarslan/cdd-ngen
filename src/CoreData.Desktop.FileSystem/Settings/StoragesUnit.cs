@@ -13,7 +13,7 @@ namespace CoreData.Desktop.FileSystem.Settings
         }
 
         public VirtualStorage VirtualStorage { get; } // virtual disk Z: 
-        public LocalStorage LocalStorage { get; } // local data already downloaded from CD(local DB)
         public AuthConnection CoreData { get; } // connection to CD API
+        public LocalStorage LocalStorage { get; } // local data already downloaded from CD(local DB)
     }
 }

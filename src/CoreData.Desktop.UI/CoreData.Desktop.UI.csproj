@@ -18,8 +18,7 @@
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
+    <NuGetPackageImportStamp></NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>CoreData.Desktop.UI.App</StartupObject>
@@ -140,9 +139,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AppScope\AppContextData.cs" />
-    <Compile Include="AppScope\AppHealthMonitor.cs" />
-    <Compile Include="AppScope\IdentityRegistration.cs" />
+    <Compile Include="AppScopes\AppContextData.cs" />
+    <Compile Include="AppScopes\AppHealthMonitor.cs" />
+    <Compile Include="AppScopes\IdentityRegistration.cs" />
     <Compile Include="Converters\BooleanConverter.cs" />
     <Compile Include="Converters\BooleanValueInverter.cs" />
     <Compile Include="Settings\SettingsLoader.cs" />
@@ -171,9 +170,9 @@
     <Compile Include="IoC\Autofac.Container.cs" />
     <Compile Include="IoC\DryIoC.Container.cs" />
     <Compile Include="Converters\ResourceImageConverter.cs" />
-    <Compile Include="AppScope\AppSession.cs" />
-    <Compile Include="AppScope\ScopeRules.cs" />
-    <Compile Include="AppScope\SessionIdentity.cs" />
+    <Compile Include="AppScopes\AppSession.cs" />
+    <Compile Include="AppScopes\ScopeRules.cs" />
+    <Compile Include="AppScopes\SessionIdentity.cs" />
     <Compile Include="IoC\Autofac.Modules.cs" />
     <Compile Include="IoC\DryIoC.Modules.cs" />
     <Compile Include="Settings\CoreDataConnection.cs" />
@@ -238,6 +237,18 @@
     <None Include="..\..\docs\Components.md">
       <Link>Components.md</Link>
     </None>
+    <None Include="App.Debug.config">
+      <DependentUpon>App.config</DependentUpon>
+    </None>
+    <None Include="App.Release.config">
+      <DependentUpon>App.config</DependentUpon>
+    </None>
+    <None Include="NLog.Debug.config">
+      <DependentUpon>NLog.config</DependentUpon>
+    </None>
+    <None Include="NLog.Release.config">
+      <DependentUpon>NLog.config</DependentUpon>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -275,6 +286,7 @@
     <Resource Include="Resources\Icons\settings.ico" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="AppScopes\Initialization\" />
     <Folder Include="Resources\Images\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
@@ -291,4 +303,27 @@
   </Target>
   <Import Project="..\..\packages\CefSharp.Common.69.0.0\build\CefSharp.Common.targets" Condition="Exists('..\..\packages\CefSharp.Common.69.0.0\build\CefSharp.Common.targets')" />
   <Import Project="..\..\packages\CefSharp.Wpf.69.0.0\build\CefSharp.Wpf.targets" Condition="Exists('..\..\packages\CefSharp.Wpf.69.0.0\build\CefSharp.Wpf.targets')" />
+  <UsingTask TaskName="TransformXml" AssemblyFile="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Web\Microsoft.Web.Publishing.Tasks.dll" />
+  <Target Name="NLog_config_AfterBuild" AfterTargets="AfterBuild" Condition="Exists('NLog.$(Configuration).config')">
+    <TransformXml Source="NLog.config" Destination="$(OutputPath)NLog.config" Transform="NLog.$(Configuration).config" />
+  </Target>
+  <Target Name="App_config_AfterCompile" AfterTargets="AfterCompile" Condition="Exists('App.$(Configuration).config')">
+    <!--Generate transformed app config in the intermediate directory-->
+    <TransformXml Source="App.config" Destination="$(IntermediateOutputPath)$(TargetFileName).config" Transform="App.$(Configuration).config" />
+    <!--Force build process to use the transformed configuration file from now on.-->
+    <ItemGroup>
+      <AppConfigWithTargetPath Remove="App.config" />
+      <AppConfigWithTargetPath Include="$(IntermediateOutputPath)$(TargetFileName).config">
+        <TargetPath>$(TargetFileName).config</TargetPath>
+      </AppConfigWithTargetPath>
+    </ItemGroup>
+  </Target>
+  <!--Override After Publish to support ClickOnce AfterPublish. Target replaces the untransformed config file copied to the deployment directory with the transformed one.-->
+  <Target Name="App_config_AfterPublish" AfterTargets="AfterPublish" Condition="Exists('App.$(Configuration).config')">
+    <PropertyGroup>
+      <DeployedConfig>$(_DeploymentApplicationDir)$(TargetName)$(TargetExt).config$(_DeploymentFileMappingExtension)</DeployedConfig>
+    </PropertyGroup>
+    <!--Publish copies the untransformed App.config to deployment directory so overwrite it-->
+    <Copy Condition="Exists('$(DeployedConfig)')" SourceFiles="$(IntermediateOutputPath)$(TargetFileName).config" DestinationFiles="$(DeployedConfig)" />
+  </Target>
 </Project>

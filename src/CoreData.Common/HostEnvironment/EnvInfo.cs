@@ -8,10 +8,10 @@ using static System.Environment;
 
 namespace CoreData.Common.HostEnvironment
 {
-    [DebuggerDisplay("{" + nameof(IDebugInfo.PrintValue) + "}")]
-    public class EnvInfo : IDebugInfo
+    [DebuggerDisplay("{" + nameof(IDebugView.Now) + "}")]
+    public class EnvInfo : IDebugView
     {
-        public string PrintValue => $"{OS} {(Is64BitOperatingSystem ? "x64" : "x86")}";
+        public string Now => $"{OS} {(Is64BitOperatingSystem ? "x64" : "x86")}";
 
         public string OS => OSVersion.ToString();
 

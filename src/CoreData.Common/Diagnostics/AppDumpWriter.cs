@@ -14,10 +14,10 @@ namespace CoreData.Common.HostEnvironment
     /// <seealso cref="https://support.microsoft.com/en-us/help/2895198/debug-diagnostics-tool-v2-0-is-now-available"/></summary>
     public class AppDumpWriter
     {
-        [DebuggerDisplay("{" + nameof(IDebugInfo.PrintValue) + "}")]
-        public class DumpInfo : IDebugInfo
+        [DebuggerDisplay("{" + nameof(IDebugView.Now) + "}")]
+        public class DumpInfo : IDebugView
         {
-            string IDebugInfo.PrintValue => Name;
+            string IDebugView.Now => Name;
 
             public static readonly DumpInfo Default = new DumpInfo(System.IO.Directory.GetCurrentDirectory());
 

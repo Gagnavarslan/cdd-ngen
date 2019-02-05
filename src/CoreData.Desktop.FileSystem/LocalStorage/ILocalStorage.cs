@@ -3,11 +3,11 @@ using System.IO;
 
 namespace CoreData.Desktop.FileSystem.LocalFileSystem
 {
-    public interface ILocalStorageInfo : IDebugInfo
+    public interface ILocalStorageInfo : IDebugView
     {
     }
 
-    public interface ILocalStorage : IDebugInfo
+    public interface ILocalStorage : IDebugView
     {
         string Home { get; }
 

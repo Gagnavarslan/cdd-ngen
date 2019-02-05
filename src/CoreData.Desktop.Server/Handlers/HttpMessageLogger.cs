@@ -13,7 +13,7 @@ namespace CoreData.Desktop.Server.Http
     {
         private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
 
-        public static void Log(this HttpRequestMessage request)
+        public static HttpRequestMessage Log(this HttpRequestMessage request)
         {
             var context = request.GetProperties();
             var message = new StringBuilder();
@@ -21,9 +21,11 @@ namespace CoreData.Desktop.Server.Http
             AddHeaders(message, request.Headers);
             AddHeaders(message, request.Content?.Headers);
             Logger.Info(message.ToString());
+
+            return request;
         }
 
-        public static void Log(this HttpResponseMessage response)
+        public static HttpResponseMessage Log(this HttpResponseMessage response)
         {
             var context = response.RequestMessage.GetContext();
             var message = new StringBuilder();
@@ -38,6 +40,8 @@ namespace CoreData.Desktop.Server.Http
             {
                 Logger.Error(message.ToString());
             }
+
+            return response;
         }
 
         static StringBuilder AddHeaders(StringBuilder builder, HttpHeaders headers)

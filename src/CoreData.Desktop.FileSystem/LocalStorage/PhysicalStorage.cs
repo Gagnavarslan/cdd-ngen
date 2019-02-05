@@ -10,10 +10,10 @@ namespace CoreData.Desktop.FileSystem.LocalStorage
 {
     /// <summary>Represents local physical disk that stores files and folders.
     /// <seealso cref="https://docs.microsoft.com/en-us/uwp/api/windows.storage.storageprovider"/></summary>
-    [DebuggerDisplay("{" + nameof(IDebugInfo.PrintValue) + "}")]
+    [DebuggerDisplay("{" + nameof(IDebugView.Now) + "}")]
     public class PhysicalStorage : ILocalStorage
     {
-        public string PrintValue => Home;
+        public string Now => Home;
         //private MemoryCache
         //private readonly IClient _coreData;
 

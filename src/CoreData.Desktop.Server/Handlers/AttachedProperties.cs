@@ -3,7 +3,7 @@ using System;
 
 namespace CoreData.Desktop.Server.Http.Handlers
 {
-    // todo: use local container instead httpRequest.Properties to min network data
+    // ???: use local container instead httpRequest.Properties to min network data
     public class AttachedProperties
     {
         internal const string Key = nameof(AttachedProperties);

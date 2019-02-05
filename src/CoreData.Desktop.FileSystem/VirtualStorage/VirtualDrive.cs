@@ -26,10 +26,10 @@ namespace CoreData.Desktop.FileSystem.VirtualStorage
 
     //}
 
-    [DebuggerDisplay("{" + nameof(IDebugInfo.PrintValue) + "}")]
-    public class VirtualDrive : IDisposable, IDebugInfo
+    [DebuggerDisplay("{" + nameof(IDebugView.Now) + "}")]
+    public class VirtualDrive : IDisposable, IDebugView
     {
-        string IDebugInfo.PrintValue => _settings.PrintValue;
+        string IDebugView.Now => _settings.Now;
 
         private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
 

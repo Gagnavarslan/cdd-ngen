@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 namespace CoreData.Common.Threading
 {
     /// <summary>Queue of tasks to be started and executed serially.</summary> 
-    [DebuggerDisplay("{" + nameof(IDebugInfo.PrintValue) + "}")]
-    public class SerialTaskQueue : IDebugInfo
+    [DebuggerDisplay("{" + nameof(IDebugView.Now) + "}")]
+    public class SerialTaskQueue : IDebugView
     {
-        public string PrintValue => _lockData.LogView;
+        public string Now => _lockData.LogView;
 
         private readonly ILogger _logger;
         private readonly SyncBlock _lockData;

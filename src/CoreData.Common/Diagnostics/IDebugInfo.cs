@@ -1,7 +1,7 @@
 ﻿namespace CoreData.Common.HostEnvironment
 {
-    public interface IDebugInfo
+    public interface IDebugView
     {
-        string PrintValue { get; }
+        string Now { get; }
     }
 }

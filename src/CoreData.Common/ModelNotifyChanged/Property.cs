@@ -6,10 +6,10 @@ using System.Diagnostics;
 
 namespace CoreData.Common.ModelNotifyChanged
 {
-    [DebuggerDisplay("{" + nameof(PrintValue) + "}")]
-    public class Property : IDebugInfo //: IEquatable<Property>
+    [DebuggerDisplay("{" + nameof(Now) + "}")]
+    public class Property : IDebugView //: IEquatable<Property>
     { // class PropertyDefinition https://docs.microsoft.com/en-us/dotnet/api/system.windows.markup.propertydefinition?view=netframework-4.7.2
-        public virtual string PrintValue => Name;
+        public virtual string Now => Name;
 
         public static readonly StringComparer NameComparer = StringComparer.OrdinalIgnoreCase;
 
@@ -39,7 +39,7 @@ namespace CoreData.Common.ModelNotifyChanged
 
     public class Property<T> : Property
     {
-        public override string PrintValue => $"{Name}={_current}";
+        public override string Now => $"{Name}={_current}";
         //$"{Name}={(_initialized ? _current.ToString() : "NOT_INITIALIZED")}";
 
         private readonly IEqualityComparer<T> _valueComparer;
