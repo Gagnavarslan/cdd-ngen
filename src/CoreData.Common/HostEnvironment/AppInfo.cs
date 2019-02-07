@@ -6,10 +6,10 @@ using System.Security.Principal;
 
 namespace CoreData.Common.HostEnvironment
 {
-    [DebuggerDisplay("{" + nameof(IDebugView.Now) + "}")]
+    [DebuggerDisplay("{" + nameof(IDebugView.Value) + "}")]
     public class AppInfo : IDebugView
     {
-        public string Now => $"{Product} {Version}";
+        public string Value => Title;
 
         public AppInfo(Assembly main)
         {
@@ -17,13 +17,16 @@ namespace CoreData.Common.HostEnvironment
             Location = System.IO.Path.GetDirectoryName(Path);
             Location2 = main.Location;
             var info = FileVersionInfo.GetVersionInfo(Path);
+            Product = info.ProductName;
+            Version = new[] { info.ProductMajorPart, info.ProductMinorPart, info.ProductBuildPart }.Join("."); // "5.0.0.0"
+            Version2 = info.ProductVersion; // "5.0-rc1"
+            Company = info.CompanyName;
+            ImageRuntimeVersion = main.ImageRuntimeVersion;
+            Title = $"{Product} v{Version}";
             //Product = main.GetCustomAttribute<AssemblyProductAttribute>().Product;
-            //Title = main.GetCustomAttribute<AssemblyTitleAttribute>().Title;
             //Company = main.GetCustomAttribute<AssemblyCompanyAttribute>().Company;
             //InfoVersion = main.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
             //Version = main.GetName().Version.ToString();
-            //Description = main.GetCustomAttribute<AssemblyDescriptionAttribute>()?.Description;
-            //ImageRuntimeVersion = main.ImageRuntimeVersion;
         }
 
         public bool Is64Bit => Environment.Is64BitProcess;
@@ -33,10 +36,9 @@ namespace CoreData.Common.HostEnvironment
         public string Location2 { get; }
         public string Company { get; }
         public string Product { get; }
-        public string InfoVersion { get; }
         public string Version { get; }
+        public string Version2 { get; }
         public string Title { get; }
-        public string Description { get; }
         public string ImageRuntimeVersion { get; }
 
         /// <summary>Checks if app's process run is elevated. 
@@ -50,18 +52,21 @@ namespace CoreData.Common.HostEnvironment
     }
 
     /// <summary>App runtime properties.</summary>
-    [DebuggerDisplay("{" + nameof(IDebugView.Now) + "}")]
+    [DebuggerDisplay("{" + nameof(Value) + "}")]
     public class AppRuntime : IDebugView
     {
-        public string Now => $"{ClrVersion}({Clr}) : {ClrDirectory}";
+        public string Value => $"{ClrVersion} {ClrDirectory}";
 
-        public string ClrDirectory => RuntimeEnvironment.GetRuntimeDirectory();
+        public static readonly AppRuntime Current = new AppRuntime();
+        AppRuntime() { }
 
-        public string ClrVersion => RuntimeEnvironment.GetSystemVersion();
+        public string ClrDirectory { get; } = RuntimeEnvironment.GetRuntimeDirectory();
 
-        public string ClrMachineConfigPath => RuntimeEnvironment.SystemConfigurationFile;
+        public string ClrVersion { get; } = RuntimeEnvironment.GetSystemVersion();
 
-        [System.Obsolete("Use ClrVersion instead.")]
-        public System.Version Clr => Environment.Version;
+        public string ClrMachineConfigPath { get; } = RuntimeEnvironment.SystemConfigurationFile;
+
+        //[System.Obsolete("Use ClrVersion instead.")]
+        //public System.Version Clr { get; } = Environment.Version;
     }
 }

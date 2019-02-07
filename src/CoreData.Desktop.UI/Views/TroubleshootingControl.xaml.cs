@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace CoreData.Desktop.UI.VVMs
+namespace CoreData.Desktop.UI.Views
 {
     /// <summary>
     /// Interaction logic for TroubleshootingControl.xaml

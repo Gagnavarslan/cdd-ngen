@@ -1,12 +1,11 @@
-﻿using System;
+﻿using NLog;
+using Polly;
+using System;
 using System.Net.Http;
-using System.ServiceModel.Configuration;
 using System.Threading;
 using System.Threading.Tasks;
-using NLog;
-using Polly;
 
-namespace CoreData.Desktop.Server.Http
+namespace CoreData.Desktop.Server.Handlers
 {
     /// <summary>Message handler based on provided policy.
     /// <seealso cref="https://github.com/App-vNext/Polly/blob/5f29a682fd979c92c9f71b09557450ff5f191d61/README.md"/></summary>
@@ -27,8 +26,8 @@ namespace CoreData.Desktop.Server.Http
             HttpRequestMessage request, CancellationToken cancellationToken)
         {
             var policy = _policySelector(request);
-            var context = request.GetContext();
-            return policy.ExecuteAsync((c, ct) => base.SendAsync(request, ct), context.Polly, cancellationToken);
+            var context = request.GetPolicyExecutionContext();
+            return policy.ExecuteAsync((c, ct) => base.SendAsync(request, ct), context, cancellationToken);
         }
         //protected override Task<HttpResponseMessage> SendAsync(
         //    HttpRequestMessage request, CancellationToken cancellationToken)

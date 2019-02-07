@@ -2,6 +2,6 @@
 {
     public interface IDebugView
     {
-        string Now { get; }
+        string Value { get; }
     }
 }

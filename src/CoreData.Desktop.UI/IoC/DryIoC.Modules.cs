@@ -2,6 +2,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using CoreData.Common.HostEnvironment;
+using CoreData.Common.Settings;
 using CoreData.Desktop.UI.Tray;
 using DryIoc;
 using NLog;
@@ -23,6 +24,7 @@ namespace CoreData.Desktop.UI.IoC
 
             container.UseInstance(new EnvInfo());
 
+            container.Register<ISettingsService, SettingsService>(Reuse.Singleton);
             container.Register(typeof(IShell<>), typeof(CommandPromptShell), Reuse.Singleton); // reg open gen https://bitbucket.org/dadhi/dryioc/wiki/OpenGenerics 
             container.Register<IWebBrowser, WebBrowser>(Reuse.Singleton);
         }

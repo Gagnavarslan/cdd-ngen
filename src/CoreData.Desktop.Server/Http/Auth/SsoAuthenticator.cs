@@ -20,8 +20,8 @@ namespace CoreData.Desktop.Server.Http.Auth
         public SsoAuthenticator(HttpClient client, SsoConnection connection) : base(client)
         {
             _connection = connection;
-            _loginEndpoint = _connection.Host.AbsoluteUri.AppendPathSegment("saml2/login/");
-            _tokenEndpoint = _connection.Host.AbsoluteUri.AppendPathSegment("api/v2/token/");
+            _loginEndpoint = _connection.Server.AbsoluteUri.AppendPathSegment("saml2/login/");
+            _tokenEndpoint = _connection.Server.AbsoluteUri.AppendPathSegment("api/v2/token/");
         }
 
         public override string AuthScheme => "token";
@@ -29,6 +29,13 @@ namespace CoreData.Desktop.Server.Http.Auth
         protected override Task<bool> Login(CancellationToken cancellationToken)
         {
             return Task.FromException<bool>(new NotImplementedException());
+        }
+
+        public override void ApplyAuthentication(HttpRequestMessage request)
+        {
+            base.ApplyAuthentication(request);
+
+            // todo: implement
         }
 
         public override Task ReassignToken(CancellationToken cancellationToken)

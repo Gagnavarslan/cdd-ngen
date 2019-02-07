@@ -1,4 +1,5 @@
-﻿using CoreData.Desktop.Server.Http.Handlers;
+﻿using CoreData.Desktop.Server.Http;
+using CoreData.Desktop.Server.Http.Handlers;
 using Polly;
 using System.Net.Http;
 using System.Threading;
@@ -11,18 +12,15 @@ namespace CoreData.Desktop.Server.Handlers
         /// <summary>Global request id, which might have inner child requests, e.g. on redirects</summary>
         private long _messageId;
 
-        public SetupMessageHandler(HttpMessageHandler inner) : base(inner)
-        {
-
-        }
+        public SetupMessageHandler(HttpMessageHandler inner) : base(inner) { }
+        public SetupMessageHandler() : base() { }
 
         protected override Task<HttpResponseMessage> SendAsync(
             HttpRequestMessage request, CancellationToken cancellationToken)
         {
             var id = Interlocked.Increment(ref _messageId); //.ToString("X8");
             var context = new AttachedProperties(id);
-            request.Properties[AttachedProperties.Key] = context;
-
+            request.SetAttachedContext(context);
             var polly = new Context($"({request.Method}) {request.RequestUri}");
             request.SetPolicyExecutionContext(polly);
 

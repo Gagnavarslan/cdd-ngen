@@ -5,10 +5,10 @@ namespace CoreData.Desktop.UI.AppScope
 {
     //todo: remove ParticipantIdentity
     /// <summary>Participant registration info</summary>
-    [DebuggerDisplay("{" + nameof(IDebugView.Now) + "}")]
+    [DebuggerDisplay("{" + nameof(IDebugView.Value) + "}")]
     public partial class SessionIdentity : IDebugView
     {
-        public string Now => Id;
+        public string Value => Id;
 
         public static readonly SessionIdentity Current =
             new SessionIdentity(System.Diagnostics.Process.GetCurrentProcess());

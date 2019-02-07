@@ -1,6 +1,6 @@
 ﻿using CoreData.Common.ModelNotifyChanged;
 
-namespace CoreData.Desktop.UI.VVMs
+namespace CoreData.Desktop.UI.Views
 {
     // !!!: IViewManager loader - sln from Catel http://docs.catelproject.com/vnext/tips-tricks/mvvm/finding-view-of-view-model/ 
     //public interface IOverview : IView<Data> { }

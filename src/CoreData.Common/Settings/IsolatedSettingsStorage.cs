@@ -31,7 +31,7 @@ namespace CoreData.Common.Settings
         {
             try
             {
-                using (var file = _storage.OpenFile(key, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite))
+                using (var file = _storage.OpenFile(key, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None))
                 {
                     var s = JsonConvert.SerializeObject(value);
                     using (var writer = new StreamWriter(file))
@@ -71,6 +71,7 @@ namespace CoreData.Common.Settings
             if (_disposed) return;
             _storage.Dispose();
             _disposed = true;
+            _logger.Info("#dispose");
         }
     }
 }

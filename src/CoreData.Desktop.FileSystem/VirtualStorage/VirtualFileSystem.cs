@@ -507,12 +507,7 @@ namespace CoreData.Desktop.FileSystem.VirtualStorage
 
         public NtStatus GetDiskFreeSpace(out long freeBytesAvailable, out long totalNumberOfBytes, out long totalNumberOfFreeBytes, DokanFileInfo info)
         {
-            var dinfo = DriveInfo.GetDrives()
-                .Single(di => string.Equals(di.RootDirectory.Name, Path.GetPathRoot(LocalStorage.Root + "\\"), StringComparison.OrdinalIgnoreCase));
-
-            freeBytesAvailable = dinfo.TotalFreeSpace;
-            totalNumberOfBytes = dinfo.TotalSize;
-            totalNumberOfFreeBytes = dinfo.AvailableFreeSpace;
+            LocalStorage.GetStorageInfo(out freeBytesAvailable, out totalNumberOfBytes, out totalNumberOfFreeBytes);
             return DokanResult.Success;
         }
 

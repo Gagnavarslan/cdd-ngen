@@ -1,7 +1,6 @@
 ﻿using CoreData.Common.Extensions;
 using CoreData.Common.HostEnvironment;
 using NLog;
-using Polly;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -15,7 +14,7 @@ namespace CoreData.Desktop.Server.Http
 
         public static HttpRequestMessage Log(this HttpRequestMessage request)
         {
-            var context = request.GetProperties();
+            var context = request.GetAttachedContext();
             var message = new StringBuilder();
             message.AppendLine($"#Initiated {context.Id}: ({request.Method}) {request.RequestUri}");
             AddHeaders(message, request.Headers);
@@ -27,7 +26,7 @@ namespace CoreData.Desktop.Server.Http
 
         public static HttpResponseMessage Log(this HttpResponseMessage response)
         {
-            var context = response.RequestMessage.GetContext();
+            var context = response.RequestMessage.GetAttachedContext();
             var message = new StringBuilder();
             message.AppendLine($"#Received {context.Id} after {AppWatch.Duration(context.Initiated)}");
             AddHeaders(message, response.Headers);

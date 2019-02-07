@@ -20,7 +20,7 @@ namespace CoreData.Desktop.Server.Http.Auth
         public BasicAuthenticator(HttpClient client, BasicConnection connection) : base(client)
         {
             _connection = connection;
-            _loginEndpoint = _connection.Host.AbsoluteUri.AppendPathSegment("api/auth");
+            _loginEndpoint = _connection.Server.AbsoluteUri.AppendPathSegment("api/auth");
         }
 
         public override string AuthScheme => "Basic";
@@ -28,9 +28,14 @@ namespace CoreData.Desktop.Server.Http.Auth
         public override Task ReassignToken(CancellationToken cancellationToken)
         {
             var credentials = $"{_connection.User}:{_connection.Password}";
-            var token = Convert.ToBase64String(Utf8.GetBytes(credentials));
+            var token = Convert.ToBase64String(Connection.Encoding.GetBytes(credentials));
             Token.Set(token, null);
             return Task.CompletedTask;
+        }
+
+        public override void ApplyAuthentication(HttpRequestMessage request)
+        {
+            base.ApplyAuthentication(request);
         }
 
         protected override async Task<bool> Login(CancellationToken cancellationToken)

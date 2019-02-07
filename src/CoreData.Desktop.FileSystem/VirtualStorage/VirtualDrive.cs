@@ -2,15 +2,11 @@
 using CoreData.Desktop.Common.Http;
 using CoreData.Desktop.FileSystem.LocalFileSystem;
 using DokanNet;
-using ImTools;
 using NLog;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
 
 namespace CoreData.Desktop.FileSystem.VirtualStorage
 {
@@ -26,10 +22,10 @@ namespace CoreData.Desktop.FileSystem.VirtualStorage
 
     //}
 
-    [DebuggerDisplay("{" + nameof(IDebugView.Now) + "}")]
+    [DebuggerDisplay("{" + nameof(IDebugView.Value) + "}")]
     public class VirtualDrive : IDisposable, IDebugView
     {
-        string IDebugView.Now => _settings.Now;
+        string IDebugView.Value => _settings.Value;
 
         private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
 
@@ -80,7 +76,7 @@ namespace CoreData.Desktop.FileSystem.VirtualStorage
                 //fileSystem.ReadOnly = readOnly;
                 fileSystem.Mount(mountPoint,
                     _settings.MountOptions, // todo: remove DebugMode for release; try out RemovableDrive | MountManager
-                    threadCount: Environment.ProcessorCount, // todo: 1 for DEBUG
+                    threadCount: _settings.Threads,
                     version: 120,
                     timeout: TimeSpan.FromSeconds(20),
                     uncName: null,

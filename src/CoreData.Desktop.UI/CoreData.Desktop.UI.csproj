@@ -18,7 +18,8 @@
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
-    <NuGetPackageImportStamp></NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>CoreData.Desktop.UI.App</StartupObject>
@@ -145,26 +146,20 @@
     <Compile Include="Converters\BooleanConverter.cs" />
     <Compile Include="Converters\BooleanValueInverter.cs" />
     <Compile Include="Settings\SettingsLoader.cs" />
-    <Compile Include="VVMs\CoreDataStorageViewModel.cs" />
-    <Compile Include="VVMs\CoreDataLoginViewModel.cs" />
-    <Compile Include="VVMs\Dashboard.View.xaml.cs">
-      <DependentUpon>Dashboard.View.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="VVMs\Dashboard.ViewModel.cs" />
-    <Compile Include="VVMs\PartitioningVisualization.xaml.cs">
+    <Compile Include="Tray\ViewFactory.cs" />
+    <Compile Include="Views\ConnectionViewModel.cs" />
+    <Compile Include="Views\Dashboard.ViewModel.cs" />
+    <Compile Include="Views\PartitioningVisualization.xaml.cs">
       <DependentUpon>PartitioningVisualization.xaml</DependentUpon>
     </Compile>
-    <Compile Include="VVMs\Settings.ViewModel.cs" />
-    <Compile Include="VVMs\SettingsControl.xaml.cs">
-      <DependentUpon>SettingsControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="VVMs\TasksControl.xaml.cs">
+    <Compile Include="Views\Settings.ViewModel.cs" />
+    <Compile Include="Views\TasksControl.xaml.cs">
       <DependentUpon>TasksControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="VVMs\StatisticsControl.xaml.cs">
+    <Compile Include="Views\StatisticsControl.xaml.cs">
       <DependentUpon>StatisticsControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="VVMs\TroubleshootingControl.xaml.cs">
+    <Compile Include="Views\TroubleshootingControl.xaml.cs">
       <DependentUpon>TroubleshootingControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="IoC\Autofac.Container.cs" />
@@ -178,22 +173,21 @@
     <Compile Include="Settings\CoreDataConnection.cs" />
     <Compile Include="Tray\AppTrayViewModel.cs" />
     <Compile Include="Tray\AppTrayView.cs" />
-    <Compile Include="Tray\TrayNotifier.cs" />
-    <Page Include="VVMs\Dashboard.View.xaml">
+    <Compile Include="Tray\TrayTooltipNotifier.cs" />
+    <Compile Include="Views\VirtualDriveViewModel.cs" />
+    <Page Include="Views\Dashboard.View.xaml">
+      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-      <Generator>XamlIntelliSenseFileGenerator</Generator>
-      <DependentUpon>Dashboard.ViewModel.cs</DependentUpon>
     </Page>
-    <Page Include="VVMs\PartitioningVisualization.xaml">
+    <Page Include="Views\PartitioningVisualization.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="VVMs\SettingsControl.xaml">
+    <Page Include="Views\SettingsControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-      <Generator>XamlIntelliSenseFileGenerator</Generator>
-      <DependentUpon>Settings.ViewModel.cs</DependentUpon>
     </Page>
-    <Page Include="VVMs\TasksControl.xaml">
+    <Page Include="Views\TasksControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -201,11 +195,11 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="VVMs\StatisticsControl.xaml">
+    <Page Include="Views\StatisticsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="VVMs\TroubleshootingControl.xaml">
+    <Page Include="Views\TroubleshootingControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -227,7 +221,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Resource Include="..\..\docs\AppWindow.png">
-      <Link>AppWindow.png</Link>
+      <Link>Views\AppWindow.png</Link>
     </Resource>
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -236,18 +230,6 @@
     <Resource Include="Resources\Icons\red.ico" />
     <None Include="..\..\docs\Components.md">
       <Link>Components.md</Link>
-    </None>
-    <None Include="App.Debug.config">
-      <DependentUpon>App.config</DependentUpon>
-    </None>
-    <None Include="App.Release.config">
-      <DependentUpon>App.config</DependentUpon>
-    </None>
-    <None Include="NLog.Debug.config">
-      <DependentUpon>NLog.config</DependentUpon>
-    </None>
-    <None Include="NLog.Release.config">
-      <DependentUpon>NLog.config</DependentUpon>
     </None>
     <None Include="packages.config" />
   </ItemGroup>

@@ -1,15 +1,16 @@
-﻿using System;
+﻿using CoreData.Desktop.Server.Http.Auth;
+using System;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace CoreData.Desktop.Server.Http.Auth
+namespace CoreData.Desktop.Server.Handlers
 {
     public class AuthenticationHandler : DelegatingHandler
     {
-        private readonly Authenticator _authenticator;
+        private readonly IAuthenticator _authenticator;
 
-        public AuthenticationHandler(Authenticator authenticator)
+        public AuthenticationHandler(IAuthenticator authenticator)
         {
             _authenticator = authenticator ?? throw new ArgumentNullException(nameof(authenticator));
         }

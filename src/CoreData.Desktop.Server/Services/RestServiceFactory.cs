@@ -11,7 +11,7 @@ namespace CoreData.Desktop.Server.Services
     public interface IRestServiceFactory
     {
         IAuthenticator CreateAuthenticator<TAuthConnection>(TAuthConnection connection)
-            where TAuthConnection: AuthConnection;
+            where TAuthConnection: Connection;
     }
 
     public class RestServiceFactory
@@ -25,11 +25,11 @@ namespace CoreData.Desktop.Server.Services
         public RestServiceFactory(ICoreDataClientFactory clientFactory)
         {
             _clientFactory = clientFactory;
-            _sharedClient = _clientFactory.CreateDefaultClient();
+            _sharedClient = _clientFactory.CreateHttpClient();
         }
 
         public IAuthenticator CreateAuthenticator<TAuthConnection>(TAuthConnection connection)
-            where TAuthConnection : AuthConnection
+            where TAuthConnection : Connection
         {
             Throw.ThrowIfNull(connection);
             if (connection is BasicConnection basicConnection)

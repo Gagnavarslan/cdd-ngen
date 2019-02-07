@@ -1,7 +1,5 @@
 ﻿using CoreData.Desktop.Common.Runtime;
 using CoreData.Desktop.FileSystem.Services;
-using CoreData.Desktop.FileSystem.Settings;
-using CoreData.Desktop.Server.Settings;
 using CoreData.Desktop.UI.Tray;
 using NLog;
 using System;
@@ -45,8 +43,8 @@ namespace CoreData.Desktop.UI.AppScope
 
             if (_rules.UseLastConnection)
             {
-                var service = _container.Resolve<IConnectionService>();
-                service.RestoreLast();
+                var coreDataDriveService = _container.Resolve<ICoreDataDriveService>();
+                coreDataDriveService.Restore();
             }
         }
 

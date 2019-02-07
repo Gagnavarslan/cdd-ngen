@@ -21,10 +21,10 @@ namespace CoreData.Common.ModelNotifyChanged
 
     /// <summary>Property data container.
     /// <para>Reacting to Sub Property and Target Collection Changes <seealso cref="http://www.hardcodet.net/category/net/dependencies"/></para></summary>
-    [DebuggerDisplay("{" + nameof(IDebugView.Now) + "}")]
+    [DebuggerDisplay("{" + nameof(IDebugView.Value) + "}")]
     public class Properties : IDebugView
     {
-        public string Now => _values.Select(p => $"[{p.Key}={p.Value}]").Join("\t");
+        public string Value => _values.Select(p => $"[{p.Key}={p.Value}]").Join("\t");
 
         public static Properties Empty(Action<PropertyChangedEventArgs> onChanged) =>
             new Properties(onChanged, new Dictionary<string, Property>(Property.NameComparer));

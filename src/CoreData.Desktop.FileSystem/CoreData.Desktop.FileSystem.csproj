@@ -82,9 +82,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Services\ConnectionService.cs" />
+    <Compile Include="Services\CoreDataDriveService.cs" />
+    <Compile Include="Settings\CoreDataStorage.cs" />
     <Compile Include="Settings\LocalStorage.cs" />
-    <Compile Include="Settings\StoragesUnit.cs" />
     <Compile Include="VirtualStorage\FileType.cs" />
     <Compile Include="VirtualStorage\PathHelpers.cs" />
     <Compile Include="LocalStorage\InMemoryStorage.cs" />

@@ -41,38 +41,37 @@ namespace CoreData.Desktop.Server.Http
         private readonly EnvInfo _envInfo;
         private readonly AppInfo _appInfo;
         private readonly string _product;
-        private readonly HttpClientHandler _coreDataClientHandler;
+
+        private readonly HttpClientHandler _httpClientHandler;
+        private readonly SetupMessageHandler _setupMessageHandler;
+        private readonly LogMessageHandler _logMessageHandler;
 
         public CoreDataClientFactory(EnvInfo envInfo, AppInfo appInfo)
         {
             _envInfo = envInfo;
             _appInfo = appInfo;
-            _product = $"{_appInfo.Now}; {_envInfo.Now}";
-            _coreDataClientHandler = new HttpClientHandler { UseCookies = true };
+            _product = $"{_appInfo.Value}; {_envInfo.Value}";
+
+            _httpClientHandler = new HttpClientHandler { UseCookies = true };
+            _setupMessageHandler = new SetupMessageHandler();
+            _logMessageHandler = new LogMessageHandler();
         }
 
         public HttpClient CreateHttpClient()
         {
-            var pipeline = new DelegatingHandler[]
-            {
-                new SetupMessageHandler(),
-                new LogMessageHandler()
-            };
-            var client = HttpClientFactory.Create(pipeline);
+            var client = HttpClientFactory.Create(_httpClientHandler,
+                _setupMessageHandler, _logMessageHandler);
 
             client.DefaultRequestHeaders.Add(HttpRequestHeader.UserAgent.ToString(), _product); // ProductHeaderValue
+
             return client;
         }
 
         public HttpClient CreateCoreDataClient(Uri host)
         {
-            var pipeline = new DelegatingHandler[]
-            {
-                new SetupMessageHandler(),
-                new LogMessageHandler()
-            };
-            _coreDataClientHandler.CookieContainer = new CookieContainer();
-            var client = HttpClientFactory.Create(_coreDataClientHandler, pipeline);
+            _httpClientHandler.CookieContainer = new CookieContainer();
+            var client = HttpClientFactory.Create(_httpClientHandler,
+                _setupMessageHandler, _logMessageHandler);
 
             client.BaseAddress = host;
             client.DefaultRequestHeaders.Add(HttpRequestHeader.UserAgent.ToString(), _product); // ProductHeaderValue

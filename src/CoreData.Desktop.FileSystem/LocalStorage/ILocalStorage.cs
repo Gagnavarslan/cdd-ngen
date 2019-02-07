@@ -3,9 +3,9 @@ using System.IO;
 
 namespace CoreData.Desktop.FileSystem.LocalFileSystem
 {
-    public interface ILocalStorageInfo : IDebugView
-    {
-    }
+    //public interface ILocalStorageInfo : IDebugView
+    //{
+    //}
 
     public interface ILocalStorage : IDebugView
     {
@@ -14,6 +14,12 @@ namespace CoreData.Desktop.FileSystem.LocalFileSystem
         bool Exists { get; }
 
         string GetPath(string path);
+
+        /// <summary></summary>
+        /// <param name="free">Free Bytes Available</param>
+        /// <param name="total">Total Number Of Bytes</param>
+        /// <param name="totalFree">Total Number Of Free Bytes</param>
+        void GetStorageInfo(out long free, out long total, out long totalFree);
 
         void CreateDirectory(string path);
 

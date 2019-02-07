@@ -5,13 +5,13 @@ namespace CoreData.Common.Settings
 {
     public class SettingsService : ISettingsService
     {
-        public static readonly ISettingsService Default = new SettingsService();
+        //public static readonly ISettingsService Default = new SettingsService();
 
         public SettingsService()
         {
             SecureSettings = null;
 
-            RoamingSettings = new IsolatedSettingsStorage(IsolatedStorageScope.User | IsolatedStorageScope.Roaming);
+            //RoamingSettings = new IsolatedSettingsStorage(IsolatedStorageScope.User | IsolatedStorageScope.Roaming);
             AppUserSettings = new IsolatedSettingsStorage(IsolatedStorageScope.Application | IsolatedStorageScope.User);
             AppSettings = new IsolatedSettingsStorage(IsolatedStorageScope.Machine | IsolatedStorageScope.Application);
             FileSettings = new IsolatedSettingsStorage(IsolatedStorageScope.None);
@@ -25,7 +25,7 @@ namespace CoreData.Common.Settings
 
         public ISettingsStorage SecureSettings { get; }
 
-        public ISettingsStorage RoamingSettings { get; }
+        //public ISettingsStorage RoamingSettings { get; }
         public ISettingsStorage AppUserSettings { get; }
         public ISettingsStorage AppSettings { get; }
         public ISettingsStorage FileSettings { get; }
@@ -40,7 +40,7 @@ namespace CoreData.Common.Settings
         {
             SecureSettings.Dispose();
 
-            RoamingSettings.Dispose();
+            //RoamingSettings.Dispose();
             AppUserSettings.Dispose();
             AppSettings.Dispose();
             FileSettings.Dispose();
@@ -57,7 +57,7 @@ namespace CoreData.Common.Settings
     {
         ISettingsStorage SecureSettings { get; }
 
-        ISettingsStorage RoamingSettings { get; }
+        //ISettingsStorage RoamingSettings { get; }
         ISettingsStorage AppUserSettings { get; }
         ISettingsStorage AppSettings { get; }
         ISettingsStorage FileSettings { get; }

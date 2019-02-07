@@ -10,55 +10,59 @@ using System.Threading.Tasks;
 
 namespace CoreData.Desktop.FileSystem.Services
 {
-    public interface IConnectionService
+    public interface ICoreDataDriveService
     {
         /// <summary>Opens specified connections session.</summary>
-        Task<VirtualDrive> Connect(StoragesUnit unit);
+        Task<VirtualDrive> Connect(CoreDataStorage unit);
 
         /// <summary>Restores last succeed connection session if any.</summary>
-        Task<VirtualDrive> RestoreLast();
+        Task<VirtualDrive> Restore();
     }
 
-    public class ConnectionService : IConnectionService
+    public class CoreDataDriveService : ICoreDataDriveService
     {
         private static readonly ILogger _logger = LogManager.GetCurrentClassLogger();
 
-        private readonly ITrayTooltipNotifier _tooltipNotifier;
+        private readonly ITrayTooltipNotifier _trayNotifier;
         private readonly Func<Settings.LocalStorage, ILocalStorage> _localStorageFactory;
-        private readonly Func<Server.Settings.AuthConnection, IRestClient> _coreDataConnectionFactory;
+        private readonly Func<Server.Settings.Connection, IRestClient> _coreDataConnectionFactory;
         private readonly Func<Settings.VirtualStorage, IRestClient, ILocalStorage, VirtualDrive> _virtualDriveFactory;
+        private readonly Balloon _connectError;
 
-        public ConnectionService(
-            ITrayTooltipNotifier tooltipNotifier,
+        public CoreDataDriveService(
+            ITrayTooltipNotifier trayNotifier,
             Func<Settings.LocalStorage, ILocalStorage> localStorageFactory,
             Func<Settings.VirtualStorage, IRestClient, ILocalStorage, VirtualDrive> virtualDriveFactory,
-            Func<Server.Settings.AuthConnection, IRestClient> coreDataConnectionFactory)
+            Func<Server.Settings.Connection, IRestClient> coreDataConnectionFactory)
         {
-            _tooltipNotifier = tooltipNotifier;
+            _trayNotifier = trayNotifier;
             _localStorageFactory = localStorageFactory;
             _virtualDriveFactory = virtualDriveFactory;
             _coreDataConnectionFactory = coreDataConnectionFactory;
+
+            _connectError = new Balloon("CoreData storage",
+                "Local storage doesn't exist and CoreData connection has failed");
         }
 
-        public async Task<VirtualDrive> Connect(StoragesUnit unit)
+        public async Task<VirtualDrive> Connect(CoreDataStorage session)
         {
-            var localStorage = _localStorageFactory(unit.LocalStorage);
-            if (localStorage.Exists)
+            var localStorage = _localStorageFactory(session.LocalStorage);
+            var coreDataClient = _coreDataConnectionFactory(session.CoreData);
+            var authenticated = await coreDataClient.Authenticate();
+
+            if (!localStorage.Exists && !authenticated)
             {
-                _tooltipNotifier.Warn("Local storage", "Local storage doesn't exist");
+                _trayNotifier.Warn(_connectError);
                 return null;
             }
 
-            var coreDataClient = _coreDataConnectionFactory(unit.CoreData);
-            var authenticated = await coreDataClient.Authenticate();
-
-            var drive = _virtualDriveFactory(unit.VirtualStorage, coreDataClient, localStorage);
+            var drive = _virtualDriveFactory(session.VirtualStorage, coreDataClient, localStorage);
             // todo: save drive as last successful connections session, to be able to restore within this or next app session.
 
             return drive;
         }
 
-        public Task<VirtualDrive> RestoreLast()
+        public Task<VirtualDrive> Restore()
         {
             // todo: load last connected session from settings
             var @virtual = new Settings.VirtualStorage()
@@ -72,13 +76,12 @@ namespace CoreData.Desktop.FileSystem.Services
                 Features = FileSystemFeatures.CaseSensitiveSearch | FileSystemFeatures.CasePreservedNames
                 | FileSystemFeatures.UnicodeOnDisk | FileSystemFeatures.PersistentAcls
             };
-
             var local = new Settings.LocalStorage { Home = Environment.CurrentDirectory };
-
             var coreData = new Server.Settings.BasicConnection(
                 new Uri("https://test01-dev.coredata.is"), "autoit", "test123!");
+            // todo: ^^^
 
-            var lastSession = new StoragesUnit(@virtual, local, coreData);
+            var lastSession = new CoreDataStorage(@virtual, local, coreData);
 
             return Connect(lastSession);
         }

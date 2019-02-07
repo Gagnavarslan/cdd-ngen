@@ -9,13 +9,13 @@ namespace CoreData.Desktop.FileSystem.Settings
 {
     [Serializable]
     [DefaultProperty(nameof(MountOptions))]
-    [DebuggerDisplay("{" + nameof(IDebugView.Now) + "}", Name = "Settings: DriveZ")]
+    [DebuggerDisplay("{" + nameof(IDebugView.Value) + "}", Name = "Settings: DriveZ")]
     // todo: PropertyGrid: here and for all settings - 'Custom Editors with Attributes'
     // https://xceed.com/wp-content/documentation/xceed-toolkit-plus-for-wpf/webframe.html#PropertyGrid%20class.html
     public class VirtualStorage : ViewModel
     {
         [Browsable(false)]
-        public override string Now => $"{Drive}: {Label}({Format})";
+        public override string Value => $"{Drive}: {Label}({Format})";
 
         // todo: Revisit once FileExplorer become LongPath aware https://blogs.msdn.microsoft.com/jeremykuhne/2016/07/30/net-4-6-2-and-long-paths-on-windows-10/
         //public const int MaxPath = 256;
@@ -63,5 +63,10 @@ namespace CoreData.Desktop.FileSystem.Settings
             | FileSystemFeatures.UnicodeOnDisk | FileSystemFeatures.PersistentAcls)] //SupportsRemoteStorage
         // todo: use Enums.NET to convert, e.g. FlagEnums.ParseFlags<FileSystemFeatures>("CaseSensitiveSearch | CasePreservedNames", delimiter: "|") https://github.com/TylerBrinkley/Enums.NET
         public FileSystemFeatures Features { get; set; }
+
+        [Category("File System")]
+        [DisplayName("Maximum degree of parallelism")]
+        [DefaultValue(1)]
+        public int Threads { get; set; } // Environment.ProcessorCount or 1 for DEBUG
     }
 }

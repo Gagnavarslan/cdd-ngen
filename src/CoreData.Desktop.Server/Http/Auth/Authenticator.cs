@@ -4,7 +4,6 @@ using System;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,7 +11,17 @@ namespace CoreData.Desktop.Server.Http.Auth
 {
     public interface IAuthenticator
     {
+        string AuthScheme { get; }
 
+        AccessToken Token { get; }
+
+        string RemoteUser { get; }
+
+        Task<bool> Authenticate(CancellationToken cancellationToken);
+
+        Task ReassignToken(CancellationToken cancellationToken);
+
+        void ApplyAuthentication(HttpRequestMessage request);
     }
 
     public abstract class Authenticator : IAuthenticator
@@ -20,7 +29,6 @@ namespace CoreData.Desktop.Server.Http.Auth
         protected const string RemoteUserHeaderName = "X-Remote-User-Name";
 
         protected static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
-        protected static readonly Encoding Utf8 = Encoding.UTF8;
 
         protected readonly HttpClient _client;
         //protected readonly Url _server; // auth server = coredata uri

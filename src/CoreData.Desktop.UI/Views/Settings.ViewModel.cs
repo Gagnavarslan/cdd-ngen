@@ -1,7 +1,7 @@
 ﻿using CoreData.Common.ModelNotifyChanged;
 using System;
 
-namespace CoreData.Desktop.UI.VVMs
+namespace CoreData.Desktop.UI.Views
 {
     public class SettingsViewModel : ViewModel
     {
