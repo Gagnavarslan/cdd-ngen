@@ -21,11 +21,11 @@
 <!--TabItem Header Styling https://duckduckgo.com/?q=wpf+toolkit+tabs+with+headers&t=ffab&atb=v141-1&ia=web -->
 <!--Docking window control https://xceed.com/wp-content/documentation/xceed-toolkit-plus-for-wpf/webframe.html#AvalonDock.html -->
     
-    <Window.Resources>
+    <!--<Window.Resources>
         <xcdg:DataGridCollectionViewSource x:Key="HeaderTabs">
             
         </xcdg:DataGridCollectionViewSource>
-    </Window.Resources>
+    </Window.Resources>-->
     <!--http://putridparrot.com/blog/binding-to-the-tabcontrols-itemssource-and-more/-->
     
     

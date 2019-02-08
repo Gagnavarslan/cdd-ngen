@@ -11,8 +11,7 @@
 - Protected data, e.g. CD connection string. [How to: Use Data Protection.](https://docs.microsoft.com/en-us/dotnet/standard/security/how-to-use-data-protection#example)
 ### Per Session
 - In-memory settings. CLI:
-    - 👍[CommandLineUtils - atm provides the most useful set features]
-    (https://github.com/natemcmaster/CommandLineUtils)
+    - 👍[CommandLineUtils - atm provides the most useful set features](https://github.com/natemcmaster/CommandLineUtils)
     - 👍👎[CommandLineParser - easy to start with; used for ConfigEditorV4, not flexible enough](https://github.com/commandlineparser/commandline/blob/master/demo/ReadText.Demo/Options.cs)
     - [Guidelines: Commands, Arguments and Options](https://msdn.microsoft.com/en-us/magazine/mt763239.aspx?f=255&MSPPError=-2147217396)
 - In-memory settings: Provided by CD, e.g. FEATURE_FLAGS.

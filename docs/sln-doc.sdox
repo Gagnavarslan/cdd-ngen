@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<SDConfig>
+  <section guid="feacbce2-8290-4d90-bb05-373b9d7dbbfc">
+    <item key="ConfigFileName" value="sln-doc" />
+    <item key="ProjectName" value="cdd-ngen" />
+    <item key="ProjectUrl" value="https://www.coredata.is/setup/index.html" />
+    <item key="Author" value="Denys Petrov" />
+    <item key="VersionNumber" value="5.0.0" />
+    <LogoPath>
+      <Relative>..\logo.png</Relative>
+      <Full>F:\Cloud data\Development\Projects\cdd-ngen\logo.png</Full>
+    </LogoPath>
+    <InputFile>
+      <Relative>..\cdd.v5.sln</Relative>
+      <Full>F:\Cloud data\Development\Projects\cdd-ngen\cdd.v5.sln</Full>
+    </InputFile>
+    <OutputPath>
+      <Relative>sharpdoxoutput</Relative>
+      <Full>F:\Cloud data\Development\Projects\cdd-ngen\docs\sharpDoxOutput</Full>
+    </OutputPath>
+    <item key="DocLanguage" value="en" />
+    <item key="ExcludePrivate" value="False" />
+    <item key="ExcludeProtected" value="False" />
+    <item key="ExcludeInternal" value="False" />
+    <item key="ExcludedIdentifiers" value="" />
+    <item key="ActivatedExporters" value="Html" />
+  </section>
+  <section guid="9e8e8bc4-bfdd-11e3-a297-170828518c08">
+    <item key="FavIcon" value="SharpDox.Sdk.SDPath" />
+    <item key="Theme" value="sharpDox" />
+    <item key="DisqusShortName" value="cdd-ngen documentation" />
+    <item key="ShowCode" value="False" />
+    <item key="PrimaryColor" value="#696969" />
+    <item key="SecondaryColor" value="#F58026" />
+    <item key="DisableSequenceDiagrams" value="False" />
+    <item key="FooterLine" value="**CoreData Desktop v5[Download](https://www.coredata.is/setup/index.html &quot;Setup page&quot;)**" />
+  </section>
+</SDConfig>

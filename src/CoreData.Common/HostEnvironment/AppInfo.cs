@@ -11,17 +11,19 @@ namespace CoreData.Common.HostEnvironment
     {
         public string Value => Title;
 
+        public static readonly BooleanSwitch ExtendedTraceValue =
+            new BooleanSwitch(nameof(ExtendedTraceValue), "Is IDebugView.Value extended");
+
         public AppInfo(Assembly main)
         {
             Path = new Uri(main.CodeBase).LocalPath;
             Location = System.IO.Path.GetDirectoryName(Path);
-            Location2 = main.Location;
             var info = FileVersionInfo.GetVersionInfo(Path);
             Product = info.ProductName;
-            Version = new[] { info.ProductMajorPart, info.ProductMinorPart, info.ProductBuildPart }.Join("."); // "5.0.0.0"
+            Version = $"{info.ProductMajorPart}.{info.ProductMinorPart}.{info.ProductBuildPart}.{info.ProductPrivatePart}"; // "5.0.0.0"
             Version2 = info.ProductVersion; // "5.0-rc1"
             Company = info.CompanyName;
-            ImageRuntimeVersion = main.ImageRuntimeVersion;
+            ClrVersion = main.ImageRuntimeVersion;
             Title = $"{Product} v{Version}";
             //Product = main.GetCustomAttribute<AssemblyProductAttribute>().Product;
             //Company = main.GetCustomAttribute<AssemblyCompanyAttribute>().Company;
@@ -33,13 +35,12 @@ namespace CoreData.Common.HostEnvironment
 
         public string Path { get; }
         public string Location { get; }
-        public string Location2 { get; }
         public string Company { get; }
         public string Product { get; }
         public string Version { get; }
         public string Version2 { get; }
         public string Title { get; }
-        public string ImageRuntimeVersion { get; }
+        public string ClrVersion { get; }
 
         /// <summary>Checks if app's process run is elevated. 
         /// <see cref="https://stackoverflow.com/a/31856353"/></summary>
