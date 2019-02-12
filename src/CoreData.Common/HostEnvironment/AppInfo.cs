@@ -52,7 +52,7 @@ namespace CoreData.Common.HostEnvironment
         }
     }
 
-    /// <summary>App runtime properties.</summary>
+    /// <summary>App runtime properties. Cross-platform alt.</summary>
     [DebuggerDisplay("{" + nameof(Value) + "}")]
     public class AppRuntime : IDebugView
     {
