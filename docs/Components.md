@@ -25,6 +25,10 @@
 ## Virtual Drive 'Z'
 - 👍[Dokany - user mode file system](https://dokan-dev.github.io/dokany-doc/html/)
 - 👎[CBFS](https://web.archive.org/web/20120603145458/http://eldos.com:80/documentation/cbfs/ref_cl_cbfs_mtd_getoriginatorprocessid.html)
+### Local storage
+- [Large Object Storage in a Database or a Filesystem](https://blogs.technet.microsoft.com/josebda/2009/03/16/to-blob-or-not-to-blob-large-object-storage-in-a-database-or-a-filesystem/)
+- [OneDrive Files Restore to a previous point in time](https://blogs.technet.microsoft.com/josebda/2018/04/24/onedrive-files-restore-user-guide/)
+- [Change Journals](https://docs.microsoft.com/en-us/windows/desktop/FileIO/change-journals)
 ### File Systems
 - [__LiteDB - NoSQL Document Store in a single data file__](https://github.com/mbdavid/LiteDB)
 - [__NDatabase - Object Database: a real native and transparent persistence layer for .NET__](https://archive.codeplex.com/?p=ndatabase)

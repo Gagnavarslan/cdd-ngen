@@ -1,10 +1,18 @@
 ﻿using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Windows;
 
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("CoreData.Desktop.Client")]
+
+[assembly: ComVisible(false)]
+
+//// The following GUID is for the ID of the typelib if this project is exposed to COM
+//[assembly: Guid("65389BE3-37B8-4C04-B59A-68EBD5D536C0")]
+
+
 
 //In order to begin building localizable applications, set
 //<UICulture>CultureYouAreCodingWith</UICulture> in your .csproj file

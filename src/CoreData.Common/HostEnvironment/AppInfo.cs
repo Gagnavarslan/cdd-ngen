@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Security.Principal;
 
 namespace CoreData.Common.HostEnvironment
@@ -9,7 +8,7 @@ namespace CoreData.Common.HostEnvironment
     [DebuggerDisplay("{" + nameof(IDebugView.Value) + "}")]
     public class AppInfo : IDebugView
     {
-        public string Value => Title;
+        public string Value => ExtendedTraceValue.Enabled ? Title : $"{Title}({Version2})";
 
         public static readonly BooleanSwitch ExtendedTraceValue =
             new BooleanSwitch(nameof(ExtendedTraceValue), "Is IDebugView.Value extended");
@@ -17,13 +16,12 @@ namespace CoreData.Common.HostEnvironment
         public AppInfo(Assembly main)
         {
             Path = new Uri(main.CodeBase).LocalPath;
-            Location = System.IO.Path.GetDirectoryName(Path);
             var info = FileVersionInfo.GetVersionInfo(Path);
             Product = info.ProductName;
             Version = $"{info.ProductMajorPart}.{info.ProductMinorPart}.{info.ProductBuildPart}.{info.ProductPrivatePart}"; // "5.0.0.0"
             Version2 = info.ProductVersion; // "5.0-rc1"
             Company = info.CompanyName;
-            ClrVersion = main.ImageRuntimeVersion;
+            Clr = main.ImageRuntimeVersion;
             Title = $"{Product} v{Version}";
             //Product = main.GetCustomAttribute<AssemblyProductAttribute>().Product;
             //Company = main.GetCustomAttribute<AssemblyCompanyAttribute>().Company;
@@ -31,16 +29,15 @@ namespace CoreData.Common.HostEnvironment
             //Version = main.GetName().Version.ToString();
         }
 
-        public bool Is64Bit => Environment.Is64BitProcess;
-
         public string Path { get; }
-        public string Location { get; }
+        public string Location => System.IO.Path.GetDirectoryName(Path);
         public string Company { get; }
         public string Product { get; }
         public string Version { get; }
         public string Version2 { get; }
         public string Title { get; }
-        public string ClrVersion { get; }
+        public string Clr { get; }
+        public bool Is64 => Environment.Is64BitProcess;
 
         /// <summary>Checks if app's process run is elevated. 
         /// <see cref="https://stackoverflow.com/a/31856353"/></summary>
@@ -52,22 +49,22 @@ namespace CoreData.Common.HostEnvironment
         }
     }
 
-    /// <summary>App runtime properties. Cross-platform alt.</summary>
-    [DebuggerDisplay("{" + nameof(Value) + "}")]
-    public class AppRuntime : IDebugView
-    {
-        public string Value => $"{ClrVersion} {ClrDirectory}";
+    ///// <summary>App runtime properties. Cross-platform alt.</summary>
+    //[DebuggerDisplay("{" + nameof(Value) + "}")]
+    //public class AppRuntime : IDebugView
+    //{
+    //    public string Value => $"{ClrVersion} {ClrDirectory}";
 
-        public static readonly AppRuntime Current = new AppRuntime();
-        AppRuntime() { }
+    //    public static readonly AppRuntime Current = new AppRuntime();
+    //    AppRuntime() { }
 
-        public string ClrDirectory { get; } = RuntimeEnvironment.GetRuntimeDirectory();
+    //    public string ClrDirectory { get; } = RuntimeEnvironment.GetRuntimeDirectory();
 
-        public string ClrVersion { get; } = RuntimeEnvironment.GetSystemVersion();
+    //    public string ClrVersion { get; } = RuntimeEnvironment.GetSystemVersion();
 
-        public string ClrMachineConfigPath { get; } = RuntimeEnvironment.SystemConfigurationFile;
+    //    public string ClrMachineConfigPath { get; } = RuntimeEnvironment.SystemConfigurationFile;
 
-        //[System.Obsolete("Use ClrVersion instead.")]
-        //public System.Version Clr { get; } = Environment.Version;
-    }
+    //    //[System.Obsolete("Use ClrVersion instead.")]
+    //    //public System.Version Clr { get; } = Environment.Version;
+    //}
 }

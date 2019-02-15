@@ -3,6 +3,10 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using CoreData.Common.HostEnvironment;
 using CoreData.Common.Settings;
+using CoreData.Desktop.Common.Tray;
+using CoreData.Desktop.FileSystem.LocalFileSystem;
+using CoreData.Desktop.FileSystem.LocalStorage;
+using CoreData.Desktop.FileSystem.Services;
 using CoreData.Desktop.UI.Tray;
 using DryIoc;
 using NLog;
@@ -51,6 +55,8 @@ namespace CoreData.Desktop.UI.IoC
     {
         internal static void Register(DryIoc.Container container)
         {
+            container.Register<ICoreDataDriveService, CoreDataDriveService>(Reuse.Singleton);
+            container.Register<ILocalStorage, PhysicalStorage>(Reuse.Singleton);
         }
     }
 
@@ -61,6 +67,7 @@ namespace CoreData.Desktop.UI.IoC
         {
             container.Register<AppTrayViewModel>(Reuse.Singleton);
             container.Register<AppTrayView>(Reuse.Singleton);
+            container.Register<ITrayTooltipNotifier, TrayTooltipNotifier>(Reuse.Singleton);
             //#if DEBUG
             //            container.RegisterInitializer<object>((service, resolver) =>
             //                Trace.TraceWarning($"RESOLVED obj: {service.GetType()}"));

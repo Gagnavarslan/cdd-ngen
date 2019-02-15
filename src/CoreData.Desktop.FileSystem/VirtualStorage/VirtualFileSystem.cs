@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security.AccessControl;
 using CoreData.Desktop.FileSystem.LocalFileSystem;
+using CoreData.Desktop.FileSystem.VirtualStorage.AccessControl;
 using DokanNet;
 using FileAccess = DokanNet.FileAccess;
 
@@ -18,9 +19,9 @@ namespace CoreData.Desktop.FileSystem.VirtualStorage
         //todo: see https://github.com/cryptomator/cryptofs#vault-initialization
         //private readonly VirtualDrive _virtualDrive;
         //private ILocalStorage LocalStorage => _virtualDrive.LocalStorage;
-        private readonly Settings.VirtualStorage _settings;
+        private readonly Settings.VirtualVolume _settings;
 
-        public VirtualFileSystem(Settings.VirtualStorage settings, ILocalStorage localStorage) //VirtualDrive virtualDrive)
+        public VirtualFileSystem(Settings.VirtualVolume settings, ILocalStorage localStorage) //VirtualDrive virtualDrive)
         {
             _settings = settings;
             LocalStorage = localStorage;
@@ -42,13 +43,11 @@ namespace CoreData.Desktop.FileSystem.VirtualStorage
         public NtStatus GetVolumeInformation(out string volumeLabel, out FileSystemFeatures features,
             out string fileSystemName, out uint maximumComponentLength, DokanFileInfo info)
         { // seealso https://docs.microsoft.com/en-us/windows/desktop/FileIO/about-volume-management
-            volumeLabel = "CoreData";
-            fileSystemName = "NTFS";
-            maximumComponentLength = 256;
-
-            features = FileSystemFeatures.CasePreservedNames | FileSystemFeatures.CaseSensitiveSearch |
-                       FileSystemFeatures.PersistentAcls | FileSystemFeatures.SupportsRemoteStorage |
-                       FileSystemFeatures.UnicodeOnDisk;
+            volumeLabel = _settings.Label; // "CoreData";
+            fileSystemName = _settings.Format; // "NTFS";
+            maximumComponentLength = _settings.MaxPathLength; // 256;
+            features = _settings.Features
+                | (_accessSecurityService.IsFeatureSupported ? FileSystemFeatures.PersistentAcls : FileSystemFeatures.None);
 
             return DokanResult.Success;
         }
@@ -60,8 +59,8 @@ namespace CoreData.Desktop.FileSystem.VirtualStorage
             FileOptions options, FileAttributes attributes, DokanFileInfo info)
         {
             var result = DokanResult.Success;
-
-            if(info.IsDirectory)
+            
+            if (info.IsDirectory)
             {
                 try
                 {
@@ -511,46 +510,13 @@ namespace CoreData.Desktop.FileSystem.VirtualStorage
             return DokanResult.Success;
         }
 
-        // Alt: https://github.com/viciousviper/DokanCloudFS/blob/daafb9565b9ca1d380e0f574e146fad731a49f04/DokanCloudFS/CloudOperations.cs#L365
-        public NtStatus GetFileSecurity(string fileName, out FileSystemSecurity security, AccessControlSections sections,
-            DokanFileInfo info)
-        {
-            var filePath = LocalStorage.GetPath(fileName);
-            try
-            {
-                security = info.IsDirectory
-                    ? (FileSystemSecurity)Directory.GetAccessControl(filePath)
-                    : File.GetAccessControl(filePath);
-                return DokanResult.Success;
-            }
-            catch(UnauthorizedAccessException)
-            {
-                security = null;
-                return DokanResult.AccessDenied;
-            }
-        }
+        public NtStatus GetFileSecurity(string fileName, out FileSystemSecurity security,
+            AccessControlSections sections, DokanFileInfo info)
+            => _accessSecurityService.Get(fileName, info, sections, out security);
 
-        public NtStatus SetFileSecurity(string fileName, FileSystemSecurity security, AccessControlSections sections,
-            DokanFileInfo info)
-        {
-            var filePath = LocalStorage.GetPath(fileName);
-            try
-            {
-                if(info.IsDirectory)
-                {
-                    Directory.SetAccessControl(filePath, (DirectorySecurity)security);
-                }
-                else
-                {
-                    File.SetAccessControl(filePath, (FileSecurity)security);
-                }
-                return DokanResult.Success;
-            }
-            catch(UnauthorizedAccessException)
-            {
-                return DokanResult.AccessDenied;
-            }
-        }
+        public NtStatus SetFileSecurity(string fileName, FileSystemSecurity security,
+            AccessControlSections sections, DokanFileInfo info)
+            => _accessSecurityService.Set(fileName, info, sections, security);
 
         public NtStatus Mounted(DokanFileInfo info) => DokanResult.Success;
 

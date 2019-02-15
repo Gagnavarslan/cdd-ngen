@@ -1,6 +1,7 @@
 ﻿using CoreData.Common.Extensions;
 using CoreData.Common.HostEnvironment;
 using CoreData.Desktop.FileSystem.LocalFileSystem;
+using CoreData.Desktop.FileSystem.VirtualStorage.Security;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -17,7 +18,7 @@ namespace CoreData.Desktop.FileSystem.LocalStorage
         //private readonly IClient _coreData;
         private readonly DriveInfo _drive;
 
-        public PhysicalStorage(string home)//, IClient coreData)
+        public PhysicalStorage(string home, bool securityFeature)//, IClient coreData)
         {
             Home = !home.IsNullOrEmpty() ? home : throw new ArgumentNullException(nameof(home));
             _drive = new DriveInfo(Path.GetPathRoot(Home)); // (Home + "\\");
@@ -25,11 +26,14 @@ namespace CoreData.Desktop.FileSystem.LocalStorage
             //{
             //    Directory.CreateDirectory(Home);
             //}
+            SecurityService = FileSystemAccessControl.WithConfig(securityFeature);
         }
 
         public string Home { get; }
 
         public bool Exists => Directory.Exists(Home);
+
+        public IFileSystemAccessControl SecurityService { get; }
 
         public void GetStorageInfo(out long free, out long total, out long totalFree)
         {

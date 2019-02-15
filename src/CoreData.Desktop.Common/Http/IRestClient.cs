@@ -13,6 +13,6 @@ namespace CoreData.Desktop.Common.Http
 
         Task<bool> Authenticate(); //Uri host, string user, string pwd
 
-        Task<ListResult<Node>> GetChildrenAsync(string path);
+        Task<ListResult<NavigationNode>> GetChildrenAsync(string path);
     }
 }

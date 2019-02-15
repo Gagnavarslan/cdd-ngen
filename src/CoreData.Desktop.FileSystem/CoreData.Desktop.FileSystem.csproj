@@ -85,7 +85,10 @@
     <Compile Include="Services\CoreDataDriveService.cs" />
     <Compile Include="Settings\CoreDataStorage.cs" />
     <Compile Include="Settings\LocalStorage.cs" />
-    <Compile Include="VirtualStorage\FileType.cs" />
+    <Compile Include="Settings\VirtualVolume.cs" />
+    <Compile Include="VirtualStorage\Security\FileSystemAccessControl.cs" />
+    <Compile Include="VirtualStorage\Node.cs" />
+    <Compile Include="VirtualStorage\NodeType.cs" />
     <Compile Include="VirtualStorage\PathHelpers.cs" />
     <Compile Include="LocalStorage\InMemoryStorage.cs" />
     <Compile Include="LocalStorage\LocalDirectory.cs" />
@@ -97,14 +100,13 @@
     <Compile Include="LocalStorage\NameCollisionOption.cs" />
     <Compile Include="LocalStorage\PhysicalStorage.cs" />
     <Compile Include="LocalStorage\StreamInfo.cs" />
-    <Compile Include="Settings\VirtualStorage.cs" />
     <Compile Include="VirtualStorage\VirtualDriveFactory.cs" />
     <Compile Include="VirtualStorage\VirtualFileSystem.cs" />
     <Compile Include="VirtualStorage\IVirtualFileSystem.cs" />
     <Compile Include="LocalStorage\ILocalStorage.cs" />
     <Compile Include="NativeMethods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="VirtualStorage\VirtualDrive.cs" />
+    <Compile Include="VirtualStorage\VirtualVolume.cs" />
     <Compile Include="VirtualStorage\VPath.cs" />
   </ItemGroup>
   <ItemGroup>

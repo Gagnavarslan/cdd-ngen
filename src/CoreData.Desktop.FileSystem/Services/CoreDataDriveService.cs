@@ -1,6 +1,7 @@
 ﻿using CoreData.Desktop.Common.Http;
 using CoreData.Desktop.Common.Tray;
 using CoreData.Desktop.FileSystem.LocalFileSystem;
+using CoreData.Desktop.FileSystem.LocalStorage;
 using CoreData.Desktop.FileSystem.Settings;
 using CoreData.Desktop.FileSystem.VirtualStorage;
 using DokanNet;
@@ -13,10 +14,10 @@ namespace CoreData.Desktop.FileSystem.Services
     public interface ICoreDataDriveService
     {
         /// <summary>Opens specified connections session.</summary>
-        Task<VirtualDrive> Connect(CoreDataStorage unit);
+        Task<VirtualStorage.VirtualVolume> Connect(CoreDataStorage unit);
 
         /// <summary>Restores last succeed connection session if any.</summary>
-        Task<VirtualDrive> Restore();
+        Task<VirtualStorage.VirtualVolume> Restore();
     }
 
     public class CoreDataDriveService : ICoreDataDriveService
@@ -24,19 +25,16 @@ namespace CoreData.Desktop.FileSystem.Services
         private static readonly ILogger _logger = LogManager.GetCurrentClassLogger();
 
         private readonly ITrayTooltipNotifier _trayNotifier;
-        private readonly Func<Settings.LocalStorage, ILocalStorage> _localStorageFactory;
         private readonly Func<Server.Settings.Connection, IRestClient> _coreDataConnectionFactory;
-        private readonly Func<Settings.VirtualStorage, IRestClient, ILocalStorage, VirtualDrive> _virtualDriveFactory;
+        private readonly Func<Settings.VirtualVolume, IRestClient, ILocalStorage, VirtualStorage.VirtualVolume> _virtualDriveFactory;
         private readonly Balloon _connectError;
 
         public CoreDataDriveService(
             ITrayTooltipNotifier trayNotifier,
-            Func<Settings.LocalStorage, ILocalStorage> localStorageFactory,
-            Func<Settings.VirtualStorage, IRestClient, ILocalStorage, VirtualDrive> virtualDriveFactory,
+            Func<Settings.VirtualVolume, IRestClient, ILocalStorage, VirtualStorage.VirtualVolume> virtualDriveFactory,
             Func<Server.Settings.Connection, IRestClient> coreDataConnectionFactory)
         {
             _trayNotifier = trayNotifier;
-            _localStorageFactory = localStorageFactory;
             _virtualDriveFactory = virtualDriveFactory;
             _coreDataConnectionFactory = coreDataConnectionFactory;
 
@@ -44,9 +42,10 @@ namespace CoreData.Desktop.FileSystem.Services
                 "Local storage doesn't exist and CoreData connection has failed");
         }
 
-        public async Task<VirtualDrive> Connect(CoreDataStorage session)
+        public async Task<VirtualStorage.VirtualVolume> Connect(CoreDataStorage session)
         {
-            var localStorage = _localStorageFactory(session.LocalStorage);
+            var securitySupported = session.VirtualStorage.Features.HasFlag(FileSystemFeatures.PersistentAcls);
+            var localStorage = new PhysicalStorage(session.LocalStorage.Home, securitySupported);
             var coreDataClient = _coreDataConnectionFactory(session.CoreData);
             var authenticated = await coreDataClient.Authenticate();
 
@@ -62,10 +61,10 @@ namespace CoreData.Desktop.FileSystem.Services
             return drive;
         }
 
-        public Task<VirtualDrive> Restore()
+        public Task<VirtualStorage.VirtualVolume> Restore()
         {
             // todo: load last connected session from settings
-            var @virtual = new Settings.VirtualStorage()
+            var @virtual = new Settings.VirtualVolume()
             {
                 MountOptions = DokanOptions.DebugMode | DokanOptions.AltStream | DokanOptions.CurrentSession,
                 Drive = 'Z',

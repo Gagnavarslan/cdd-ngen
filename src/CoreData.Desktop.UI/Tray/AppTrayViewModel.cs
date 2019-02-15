@@ -14,15 +14,16 @@ namespace CoreData.Desktop.UI.Tray
         public const string DefaultIcon = "/Icons/tray.ico";
         private readonly ISettingsService _settings;
 
-        public AppTrayViewModel(AppInfo appInfo, ISettingsService settings)
+        public AppTrayViewModel(AppInfo appInfo) //, ISettingsService settings
         {
-            _settings = settings;
+            //_settings = settings;
             Title = appInfo.Title;
 
             IconSource = DefaultIcon;
 
-            var storedUserSessions = _settings.AppUserSettings.Read(
-                "user_sessions", new List<VirtualDriveViewModel>());
+            //var storedUserSessions = _settings.AppUserSettings.Read(
+            //    "user_sessions", new List<VirtualDriveViewModel>());
+            var storedUserSessions = new List<VirtualDriveViewModel>();
             CoreDataStorages = new ObservableCollection<VirtualDriveViewModel>(storedUserSessions);
 
             ShowDashboard = new Command(_ =>

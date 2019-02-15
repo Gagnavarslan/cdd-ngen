@@ -5,10 +5,7 @@ namespace CoreData.Desktop.UI.Tray
 {
     public class AppTrayView : IView<AppTrayViewModel>
     {
-        //private readonly ILogger _logger;
         private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
-
-        //private readonly ITrayTooltipNotifier _trayNotifier;
 
         public AppTrayView(TaskbarIcon tray, AppTrayViewModel data)//, Func<IView<AppTrayData>> viewValue)
         {

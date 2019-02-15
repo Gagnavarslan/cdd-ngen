@@ -7,5 +7,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("CoreData.Desktop.Common")]
 [assembly: AssemblyDescription("")]
 
+[assembly: ComVisible(false)]
+
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("7f7ca9f3-49ff-41a6-a219-601b23742ffb")]

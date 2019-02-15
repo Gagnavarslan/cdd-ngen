@@ -1,4 +1,5 @@
 ﻿using CoreData.Common.HostEnvironment;
+using CoreData.Desktop.FileSystem.VirtualStorage.Security;
 using System.IO;
 
 namespace CoreData.Desktop.FileSystem.LocalFileSystem
@@ -14,6 +15,8 @@ namespace CoreData.Desktop.FileSystem.LocalFileSystem
         bool Exists { get; }
 
         string GetPath(string path);
+
+        IFileSystemAccessControl SecurityService { get; }
 
         /// <summary></summary>
         /// <param name="free">Free Bytes Available</param>
