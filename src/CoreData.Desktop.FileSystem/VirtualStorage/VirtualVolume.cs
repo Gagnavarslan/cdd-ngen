@@ -23,18 +23,18 @@ namespace CoreData.Desktop.FileSystem.VirtualStorage
     //}
 
     [DebuggerDisplay("{" + nameof(IDebugView.Value) + "}")]
-    public class VirtualDrive : IDisposable, IDebugView
+    public class VirtualVolume : IDisposable, IDebugView
     {
         string IDebugView.Value => _settings.Value;
 
         private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
 
-        private readonly Settings.VirtualStorage _settings;
+        private readonly Settings.VirtualVolume _settings;
         private readonly IRestClient _restClient;
         private readonly ILocalStorage _localStorage;
 
-        public VirtualDrive(
-            Settings.VirtualStorage settings,
+        public VirtualVolume(
+            Settings.VirtualVolume settings,
             IRestClient restClient,
             ILocalStorage localStorage)
         {
@@ -70,26 +70,25 @@ namespace CoreData.Desktop.FileSystem.VirtualStorage
         public IVirtualFileSystem Mount()
         {
             var fileSystem = new VirtualFileSystem(_settings, _localStorage);
-            var mountPoint = _settings.Drive + ":\\";
             try
             {
-                //fileSystem.ReadOnly = readOnly;
-                fileSystem.Mount(mountPoint,
+                fileSystem.Mount(
+                    _settings.Drive + ":\\",
                     _settings.MountOptions, // todo: remove DebugMode for release; try out RemovableDrive | MountManager
-                    threadCount: _settings.Threads,
-                    version: 120,
-                    timeout: TimeSpan.FromSeconds(20),
-                    uncName: null,
-                    allocationUnitSize: 512,
-                    sectorSize: 512,
-                    logger: null);
+                    _settings.Threads,
+                    _settings.Version,
+                    _settings.Timeout,
+                    _settings.UncName,
+                    _settings.AllocationUnitSize,
+                    _settings.SectorSize,
+                    _settings.Logger);
 
                 return fileSystem;
             }
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                throw new InvalidOperationException($"Failed to mount virtual drive at [{mountPoint}]", ex);
+                throw new InvalidOperationException($"Failed to mount virtual drive at [{_settings.Drive}]", ex);
             }
         }
 

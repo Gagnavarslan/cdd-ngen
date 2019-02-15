@@ -77,7 +77,7 @@ namespace CoreData.Desktop.Server
             return false;
         }
 
-        public async Task<ListResult<Node>> GetChildrenAsync(string path)
+        public async Task<ListResult<NavigationNode>> GetChildrenAsync(string path)
         {
             //string uri = $"api/v2/nav/dir{path}".AppendPathSegment(path, true);
             //var request = _client.Request();

@@ -28,9 +28,8 @@ namespace CoreData.Desktop.Server.Http
         {
             if (Environment.GetCommandLineArgs().Contains("-nossl"))
             {
-                ServicePointManager.ServerCertificateValidationCallback = (s, certificate, chain, sslPolicyErrors) => true;
+                ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
             }
-
             // https://stackoverflow.com/q/16194054
             ServicePointManager.DefaultConnectionLimit = MaxClientConnections;
             //ServicePointManager.Expect100Continue = false;

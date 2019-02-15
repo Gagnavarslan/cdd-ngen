@@ -18,7 +18,7 @@ namespace CoreData.Desktop.UI.Views
 
         public ConnectionViewModel CoreData { get; } // ConnectionViewModel
 
-        public FileSystem.Settings.VirtualStorage VirtualStorage { get; }
+        public FileSystem.Settings.VirtualVolume VirtualStorage { get; }
 
         public FileSystem.Settings.LocalStorage LocalStorage { get; }
 

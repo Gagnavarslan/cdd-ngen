@@ -6,5 +6,7 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 [assembly: AssemblyTitle("CoreData.Desktop.Server")]
 
+[assembly: ComVisible(false)]
+
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("45969d24-1d3a-4207-bd2e-8dc1a9fedb2f")]

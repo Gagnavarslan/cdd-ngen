@@ -11,15 +11,15 @@ namespace CoreData.Common.HostEnvironment
     [DebuggerDisplay("{" + nameof(IDebugView.Value) + "}")]
     public class EnvInfo : IDebugView
     {
-        public string Value => $"{OS} {(Is64BitOperatingSystem ? "x64" : "x86")}";
+        public string Value => $"{OS} {(Is64 ? "x64" : "x86")}";
 
         public string OS => OSVersion.ToString();
 
-        public bool Is64Bit => Is64BitProcess;
+        public bool Is64 => Is64BitOperatingSystem;
 
         //public string ClrDirectory => RuntimeEnvironment.GetRuntimeDirectory();
 
-        //public string ClrVersion => RuntimeEnvironment.GetSystemVersion();
+        //public string Clr => Environment.ve
 
         //public string ClrMachineConfigPath => RuntimeEnvironment.SystemConfigurationFile;
 

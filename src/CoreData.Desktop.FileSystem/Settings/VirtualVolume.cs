@@ -9,10 +9,10 @@ namespace CoreData.Desktop.FileSystem.Settings
 {
     [Serializable]
     [DefaultProperty(nameof(MountOptions))]
-    [DebuggerDisplay("{" + nameof(IDebugView.Value) + "}", Name = "Settings: DriveZ")]
+    [DebuggerDisplay("{" + nameof(IDebugView.Value) + "}", Name = "VirtualVolumeSettings")]
     // todo: PropertyGrid: here and for all settings - 'Custom Editors with Attributes'
     // https://xceed.com/wp-content/documentation/xceed-toolkit-plus-for-wpf/webframe.html#PropertyGrid%20class.html
-    public class VirtualStorage : ViewModel
+    public class VirtualVolume : ViewModel
     {
         [Browsable(false)]
         public override string Value => $"{Drive}: {Label}({Format})";
@@ -60,13 +60,22 @@ namespace CoreData.Desktop.FileSystem.Settings
         [Category("File System")]
         [DisplayName("VFS features: https://dokan-dev.github.io/dokan-dotnet-doc/html/namespace_dokan_net.html#a0e59c383e7aa7666852adcfa27b03b30")]
         [DefaultValue(FileSystemFeatures.CaseSensitiveSearch | FileSystemFeatures.CasePreservedNames
-            | FileSystemFeatures.UnicodeOnDisk | FileSystemFeatures.PersistentAcls)] //SupportsRemoteStorage
+            | FileSystemFeatures.UnicodeOnDisk)] // | FileSystemFeatures.PersistentAcls | SupportsRemoteStorage
         // todo: use Enums.NET to convert, e.g. FlagEnums.ParseFlags<FileSystemFeatures>("CaseSensitiveSearch | CasePreservedNames", delimiter: "|") https://github.com/TylerBrinkley/Enums.NET
         public FileSystemFeatures Features { get; set; }
 
         [Category("File System")]
         [DisplayName("Maximum degree of parallelism")]
         [DefaultValue(1)]
-        public int Threads { get; set; } // Environment.ProcessorCount or 1 for DEBUG
+        public int Threads { get; set; } // todo: try out 'Environment.ProcessorCount / 2' with DokanV2
+
+        public int Version { get; set; } = 120;
+
+        public TimeSpan Timeout { get; set; } = TimeSpan.FromSeconds(20);
+
+        public string UncName { get; set; }
+        public int AllocationUnitSize { get; set; } = 512;
+        public int SectorSize { get; set; } = 512;
+        public DokanNet.Logging.ILogger Logger { get; set; }
     }
 }

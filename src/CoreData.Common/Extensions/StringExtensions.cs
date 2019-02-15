@@ -1,25 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace CoreData.Common.Extensions
 {
     public static class StringExtensions
     {
-        private static readonly int CharSize = sizeof(char);
+        //private static readonly int CharSize = sizeof(char);
 
-        public static byte[] ToRawBytes(this string ctx)
-        {
-            var bytes = new byte[ctx.Length * CharSize];
-            Buffer.BlockCopy(ctx.ToCharArray(), 0, bytes, 0, bytes.Length);
-            return bytes;
-        }
+        //public static byte[] ToRawBytes(this string ctx)
+        //{
+        //    var bytes = new byte[ctx.Length * CharSize];
+        //    Buffer.BlockCopy(ctx.ToCharArray(), 0, bytes, 0, bytes.Length);
+        //    return bytes;
+        //}
 
-        public static string ToRawString(this byte[] ctx)
-        {
-            var chars = new char[ctx.Length / CharSize];
-            Buffer.BlockCopy(ctx, 0, chars, 0, ctx.Length);
-            return new string(chars);
-        }
+        //public static string ToRawString(this byte[] ctx)
+        //{
+        //    var chars = new char[ctx.Length / CharSize];
+        //    Buffer.BlockCopy(ctx, 0, chars, 0, ctx.Length);
+        //    return new string(chars);
+        //}
 
         public static bool IsNullOrEmpty(this string ctx) =>
             string.IsNullOrEmpty(ctx);

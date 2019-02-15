@@ -99,7 +99,7 @@
     <Compile Include="Windows\Dialog.cs" />
     <Compile Include="Models\ListResult.cs" />
     <Compile Include="Models\MetaInfo.cs" />
-    <Compile Include="Models\Node.cs" />
+    <Compile Include="Models\NavigationNode.cs" />
     <Compile Include="Runtime\DebugOnly.cs" />
     <Compile Include="TaskSchedulers\IOCompletionPortTaskScheduler.cs" />
     <Compile Include="TaskSchedulers\IOTaskScheduler.cs" />
