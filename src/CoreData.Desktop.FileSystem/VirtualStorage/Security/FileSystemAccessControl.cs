@@ -8,7 +8,8 @@ namespace CoreData.Desktop.FileSystem.VirtualStorage.Security
     /// <summary>File system node security managing service.</summary>
     public interface IFileSystemAccessControl
     {
-        bool IsFeatureSupported { get; }
+        /// <summary>If ACL Feature supported with this service.</summary>
+        bool IsSupported { get; }
 
         /// <summary>Get the security information about a file or directory.
         /// <seealso cref="https://github.com/dokan-dev/dokany/blob/master/dokan/dokan.h#L620"/>
@@ -53,7 +54,7 @@ namespace CoreData.Desktop.FileSystem.VirtualStorage.Security
 
         /// <summary>Access strategy depending on input flags.</summary>
         /// <param name="supported">If feature should be supported at all.</param>
-        /// <param name="allAllowed"></param>
+        /// <param name="allAllowed">Defines access control strategy: full control over FS or restricted access will be applied.</param>
         public static IFileSystemAccessControl WithConfig(bool supported, bool allAllowed = true) =>
             supported ? AllAllowed : None;
 

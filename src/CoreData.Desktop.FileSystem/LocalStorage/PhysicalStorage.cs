@@ -18,15 +18,16 @@ namespace CoreData.Desktop.FileSystem.LocalStorage
         //private readonly IClient _coreData;
         private readonly DriveInfo _drive;
 
-        public PhysicalStorage(string home, bool securityFeature)//, IClient coreData)
+        public PhysicalStorage(Settings.LocalStorage settings, bool securitySupported)//, IClient coreData)
         {
-            Home = !home.IsNullOrEmpty() ? home : throw new ArgumentNullException(nameof(home));
+            Home = !settings.Home.IsNullOrEmpty() ? settings.Home : throw new ArgumentNullException(nameof(settings.Home));
             _drive = new DriveInfo(Path.GetPathRoot(Home)); // (Home + "\\");
             //if (!Directory.Exists(Home))
             //{
             //    Directory.CreateDirectory(Home);
             //}
-            SecurityService = FileSystemAccessControl.WithConfig(securityFeature);
+
+            SecurityService = FileSystemAccessControl.WithConfig(securitySupported);
         }
 
         public string Home { get; }

@@ -47,10 +47,10 @@ namespace CoreData.Desktop.FileSystem.VirtualStorage
 
         public IEnumerable<char> GetAvailableDriveLetters()
         {
-            var occupiedLetters = new BitVector32(NativeMethods.GetLogicalDrives());
+            var occupied = new BitVector32(NativeMethods.GetLogicalDrives());
             for (var i = 0; i < 32; i++)
             {
-                if (occupiedLetters[i]) yield return (char)('A' + i);
+                if (occupied[i]) yield return (char)('A' + i);
             }
             //while (nonExistingDrives != 0)
             //{

@@ -44,8 +44,7 @@ namespace CoreData.Desktop.FileSystem.Services
 
         public async Task<VirtualStorage.VirtualVolume> Connect(CoreDataStorage session)
         {
-            var securitySupported = session.VirtualStorage.Features.HasFlag(FileSystemFeatures.PersistentAcls);
-            var localStorage = new PhysicalStorage(session.LocalStorage.Home, securitySupported);
+            var localStorage = new PhysicalStorage(session.LocalStorage, session.VirtualStorage.IsSecuritySupported);
             var coreDataClient = _coreDataConnectionFactory(session.CoreData);
             var authenticated = await coreDataClient.Authenticate();
 

@@ -60,9 +60,10 @@ namespace CoreData.Desktop.FileSystem.Settings
         [Category("File System")]
         [DisplayName("VFS features: https://dokan-dev.github.io/dokan-dotnet-doc/html/namespace_dokan_net.html#a0e59c383e7aa7666852adcfa27b03b30")]
         [DefaultValue(FileSystemFeatures.CaseSensitiveSearch | FileSystemFeatures.CasePreservedNames
-            | FileSystemFeatures.UnicodeOnDisk)] // | FileSystemFeatures.PersistentAcls | SupportsRemoteStorage
+            | FileSystemFeatures.UnicodeOnDisk | FileSystemFeatures.PersistentAcls)] // | SupportsRemoteStorage
         // todo: use Enums.NET to convert, e.g. FlagEnums.ParseFlags<FileSystemFeatures>("CaseSensitiveSearch | CasePreservedNames", delimiter: "|") https://github.com/TylerBrinkley/Enums.NET
         public FileSystemFeatures Features { get; set; }
+        public bool IsSecuritySupported => Features.HasFlag(FileSystemFeatures.PersistentAcls);
 
         [Category("File System")]
         [DisplayName("Maximum degree of parallelism")]

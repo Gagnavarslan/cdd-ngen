@@ -1,12 +1,11 @@
-﻿using System;
+﻿using CoreData.Desktop.FileSystem.LocalFileSystem;
+using DokanNet;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security.AccessControl;
-using CoreData.Desktop.FileSystem.LocalFileSystem;
-using CoreData.Desktop.FileSystem.VirtualStorage.AccessControl;
-using DokanNet;
 using FileAccess = DokanNet.FileAccess;
 
 namespace CoreData.Desktop.FileSystem.VirtualStorage
@@ -47,7 +46,7 @@ namespace CoreData.Desktop.FileSystem.VirtualStorage
             fileSystemName = _settings.Format; // "NTFS";
             maximumComponentLength = _settings.MaxPathLength; // 256;
             features = _settings.Features
-                | (_accessSecurityService.IsFeatureSupported ? FileSystemFeatures.PersistentAcls : FileSystemFeatures.None);
+                | (LocalStorage.SecurityService.IsSupported ? FileSystemFeatures.PersistentAcls : FileSystemFeatures.None);
 
             return DokanResult.Success;
         }
@@ -510,13 +509,11 @@ namespace CoreData.Desktop.FileSystem.VirtualStorage
             return DokanResult.Success;
         }
 
-        public NtStatus GetFileSecurity(string fileName, out FileSystemSecurity security,
-            AccessControlSections sections, DokanFileInfo info)
-            => _accessSecurityService.Get(fileName, info, sections, out security);
+        public NtStatus GetFileSecurity(string file, out FileSystemSecurity scr, AccessControlSections acc, DokanFileInfo info) =>
+            LocalStorage.SecurityService.Get(file, info, acc, out scr);
 
-        public NtStatus SetFileSecurity(string fileName, FileSystemSecurity security,
-            AccessControlSections sections, DokanFileInfo info)
-            => _accessSecurityService.Set(fileName, info, sections, security);
+        public NtStatus SetFileSecurity(string file, FileSystemSecurity scr, AccessControlSections acc, DokanFileInfo info) =>
+            LocalStorage.SecurityService.Set(file, info, acc, scr);
 
         public NtStatus Mounted(DokanFileInfo info) => DokanResult.Success;
 

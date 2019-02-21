@@ -13,13 +13,25 @@ namespace CoreData.Desktop.Common.Models
         Remove = 0x2
     }
 
-    public static class NavConfig
+    /// <summary>Http response --[serialization]-> Nav node --[mutation+ext(cache, log, metrics, etc.)]-> FS node.</summary>
+    public static class NodeTransformations
     {
         /// <summary>Common for nav nodes json (de)serialization settings value.</summary>
-        public static readonly JsonSerializerSettings SerializerSettings =
+        public static readonly JsonSerializerSettings HttpSerializerSettings =
             new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
 
-        //public const 
+        //public const byte ReadAccess = 0x0;
+        public const byte WriteAccess = 0x1;
+        public const byte RemoveAccess = 0x2;
+
+        public static bool HasWriteAccess(NavigationNode node)
+        {
+            //var occupied = new BitVector32(NativeMethods.GetLogicalDrives());
+            //for (var i = 0; i < 32; i++)
+            //{
+            //    if (occupied[i]) yield return (char)('A' + i);
+            //}
+        }
     }
 
     /// <summary>CoreData json-object representing node.</summary>
