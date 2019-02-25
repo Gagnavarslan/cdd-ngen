@@ -1,4 +1,4 @@
-﻿# Components, Libraries, Guides, Ideas
+# Components, Libraries, Guides, Ideas
 
 ## Settings
 [CommandLineUtils](https://github.com/natemcmaster/CommandLineUtils)
@@ -133,11 +133,14 @@ Use [NLog logging best practices](https://stackify.com/nlog-guide-dotnet-logging
 - [AsyncDiagnostics](https://github.com/StephenCleary/AsyncDiagnostics)
 - [__.NET DiagnosticSource Guides__](https://github.com/dotnet/corefx/tree/master/src/System.Diagnostics.DiagnosticSource/src)
 - [__APM tips__](http://www.apmtips.com/blog/2018/09/26/filtering-bad-sampling-good/)
+- [__Scientist.net - port of Ruby's **Scientist**, library for carefully refactoring critical paths.__](https://github.com/github/Scientist.net)
+
 ## Utils|Helpers
 - [__Enums.NET is a high-performance type-safe .NET enum utility library__](https://github.com/TylerBrinkley/Enums.NET)
 - [CompareNETObjects](https://github.com/GregFinzer/Compare-Net-Objects)
 - [Chain of responsibility + Specification](https://www.codeproject.com/Articles/743783/Reusable-Chain-of-responsibility-in-Csharp)
 - [__Shielded - strict and mostly lock-free Software Transactional Memory (STM) for .NET__](https://github.com/jbakic/Shielded)
+- Semantic Types in .NET [1](https://www.codeproject.com/Articles/1036239/Lightweight-Semantic-Types-in-NET), [2](https://www.codeproject.com/Articles/860646/Introducing-Semantic-Types-in-Net)
 
 ## .NET(built-in) UnderUsed|Revealed
 - [Stream. File-, Crypto-, Memory, etc.](https://o7planning.org/en/10535/csharp-streams-tutorial-binary-streams-in-csharp)

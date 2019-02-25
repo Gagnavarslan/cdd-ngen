@@ -1,15 +1,13 @@
-﻿using System;
+﻿using CoreData.Common.Extensions;
 using System.Collections;
 using System.Diagnostics;
 using System.Linq;
-using System.Runtime.InteropServices;
-using CoreData.Common.Extensions;
 using static System.Environment;
 
 namespace CoreData.Common.HostEnvironment
 {
-    [DebuggerDisplay("{" + nameof(IDebugView.Value) + "}")]
-    public class EnvInfo : IDebugView
+    [DebuggerDisplay("{" + nameof(ITraceView.Value) + "}")]
+    public class EnvInfo : ITraceView
     {
         public string Value => $"{OS} {(Is64 ? "x64" : "x86")}";
 

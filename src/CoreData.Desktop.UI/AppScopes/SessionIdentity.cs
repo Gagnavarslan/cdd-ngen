@@ -5,8 +5,8 @@ namespace CoreData.Desktop.UI.AppScope
 {
     //todo: remove ParticipantIdentity
     /// <summary>Participant registration info</summary>
-    [DebuggerDisplay("{" + nameof(IDebugView.Value) + "}")]
-    public partial class SessionIdentity : IDebugView
+    [DebuggerDisplay("{" + nameof(ITraceView.Value) + "}")]
+    public partial class SessionIdentity : ITraceView
     {
         public string Value => Id;
 

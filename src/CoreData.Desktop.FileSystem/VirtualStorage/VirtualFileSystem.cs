@@ -1,4 +1,4 @@
-﻿using CoreData.Desktop.FileSystem.LocalFileSystem;
+using CoreData.Desktop.FileSystem.LocalFileSystem;
 using DokanNet;
 using System;
 using System.Collections.Generic;
@@ -13,7 +13,7 @@ namespace CoreData.Desktop.FileSystem.VirtualStorage
     /// <summary>Dokan file system implementor.</summary>
     /// <see cref="https://dokan-dev.github.io/dokan-dotnet-doc/html/interface_dokan_net_1_1_i_dokan_operations.html"/>
     /// <remarks impl examples https://csharp.hotexamples.com/examples/Dokan/DokanFileInfo/-/php-dokanfileinfo-class-examples.html />
-    public class VirtualFileSystem : IVirtualFileSystem, IDokanOperations
+    public partial class VirtualFileSystem : IVirtualFileSystem, IDokanOperations
     {
         //todo: see https://github.com/cryptomator/cryptofs#vault-initialization
         //private readonly VirtualDrive _virtualDrive;
@@ -45,8 +45,8 @@ namespace CoreData.Desktop.FileSystem.VirtualStorage
             volumeLabel = _settings.Label; // "CoreData";
             fileSystemName = _settings.Format; // "NTFS";
             maximumComponentLength = _settings.MaxPathLength; // 256;
-            features = _settings.Features
-                | (LocalStorage.SecurityService.IsSupported ? FileSystemFeatures.PersistentAcls : FileSystemFeatures.None);
+            features = _settings.Features;
+                //| (LocalStorage.SecurityService.IsSupported ? FileSystemFeatures.PersistentAcls : FileSystemFeatures.None);
 
             return DokanResult.Success;
         }
@@ -509,11 +509,17 @@ namespace CoreData.Desktop.FileSystem.VirtualStorage
             return DokanResult.Success;
         }
 
-        public NtStatus GetFileSecurity(string file, out FileSystemSecurity scr, AccessControlSections acc, DokanFileInfo info) =>
-            LocalStorage.SecurityService.Get(file, info, acc, out scr);
+        public NtStatus GetFileSecurity(string file, out FileSystemSecurity scr, AccessControlSections acc, DokanFileInfo info)
+        {
+            var localPath = LocalStorage.GetPath(file);
+            return LocalStorage.SecurityService.Get(file, info, acc, out scr);
+        }
 
-        public NtStatus SetFileSecurity(string file, FileSystemSecurity scr, AccessControlSections acc, DokanFileInfo info) =>
-            LocalStorage.SecurityService.Set(file, info, acc, scr);
+        public NtStatus SetFileSecurity(string file, FileSystemSecurity scr, AccessControlSections acc, DokanFileInfo info)
+        {
+            var localPath = LocalStorage.GetPath(file);
+            return LocalStorage.SecurityService.Set(file, info, acc, scr);
+        }
 
         public NtStatus Mounted(DokanFileInfo info) => DokanResult.Success;
 

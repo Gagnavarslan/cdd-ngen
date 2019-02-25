@@ -1,9 +1,10 @@
-﻿using CoreData.Desktop.Common.Http;
+using CoreData.Desktop.Common.Http;
 using CoreData.Desktop.Common.Tray;
 using CoreData.Desktop.FileSystem.LocalFileSystem;
 using CoreData.Desktop.FileSystem.LocalStorage;
 using CoreData.Desktop.FileSystem.Settings;
 using CoreData.Desktop.FileSystem.VirtualStorage;
+using CoreData.Desktop.FileSystem.VirtualStorage.Security;
 using DokanNet;
 using NLog;
 using System;
@@ -44,7 +45,10 @@ namespace CoreData.Desktop.FileSystem.Services
 
         public async Task<VirtualStorage.VirtualVolume> Connect(CoreDataStorage session)
         {
-            var localStorage = new PhysicalStorage(session.LocalStorage, session.VirtualStorage.IsSecuritySupported);
+            var acl = session.VirtualStorage.IsSecuritySupported
+                ? AccessControl.AllAllowed : AccessControl.Undefined;
+
+            var localStorage = new PhysicalStorage(session.LocalStorage, acl);
             var coreDataClient = _coreDataConnectionFactory(session.CoreData);
             var authenticated = await coreDataClient.Authenticate();
 

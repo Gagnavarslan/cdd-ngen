@@ -8,19 +8,25 @@ namespace CoreData.Common.HostEnvironment
     public static class AppWatch
     {
         private static readonly ILogger Logger;
-        public static readonly DateTime StartedOnUtc;
+        private static readonly BooleanSwitch UseEnvironmentSwitch;
+
         private static readonly Stopwatch Watch;
+
+        public static readonly DateTime Created;
 
         static AppWatch()
         {
             Logger = LogManager.GetCurrentClassLogger();
-            StartedOnUtc = DateTime.UtcNow;
-            Watch = Stopwatch.StartNew();
+            UseEnvironmentSwitch = new BooleanSwitch("UseEnvironmentWatch",
+                "AppWatch uses Environment.TickCount instead of own Stopwatch");
 
-            Logger.Info($"App watch started at(UTC): {StartedOnUtc}");
+            Watch = Stopwatch.StartNew();
+            Created = DateTime.UtcNow;
+            Logger.Info($"App watch was created and started at(UTC): {Created}");
         }
 
-        public static long ElapsedTicks => Watch.ElapsedTicks;
+        //public static long TimerTicks => Watch.ElapsedTicks;
+
         public static TimeSpan Elapsed => Watch.Elapsed;
 
         public static TimeSpan Duration(TimeSpan from) => Elapsed.Subtract(from);

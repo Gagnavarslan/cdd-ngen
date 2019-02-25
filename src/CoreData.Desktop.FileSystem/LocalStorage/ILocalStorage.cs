@@ -1,14 +1,10 @@
-﻿using CoreData.Common.HostEnvironment;
+using CoreData.Common.HostEnvironment;
 using CoreData.Desktop.FileSystem.VirtualStorage.Security;
 using System.IO;
 
 namespace CoreData.Desktop.FileSystem.LocalFileSystem
 {
-    //public interface ILocalStorageInfo : IDebugView
-    //{
-    //}
-
-    public interface ILocalStorage : IDebugView
+    public interface ILocalStorage : ITraceView
     {
         string Home { get; }
 
@@ -16,7 +12,7 @@ namespace CoreData.Desktop.FileSystem.LocalFileSystem
 
         string GetPath(string path);
 
-        IFileSystemAccessControl SecurityService { get; }
+        IAccessControl SecurityService { get; }
 
         /// <summary></summary>
         /// <param name="free">Free Bytes Available</param>

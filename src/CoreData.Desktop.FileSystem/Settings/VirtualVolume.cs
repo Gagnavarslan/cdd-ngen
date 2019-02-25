@@ -9,7 +9,7 @@ namespace CoreData.Desktop.FileSystem.Settings
 {
     [Serializable]
     [DefaultProperty(nameof(MountOptions))]
-    [DebuggerDisplay("{" + nameof(IDebugView.Value) + "}", Name = "VirtualVolumeSettings")]
+    [DebuggerDisplay("{" + nameof(ITraceView.Value) + "}", Name = "VirtualVolumeSettings")]
     // todo: PropertyGrid: here and for all settings - 'Custom Editors with Attributes'
     // https://xceed.com/wp-content/documentation/xceed-toolkit-plus-for-wpf/webframe.html#PropertyGrid%20class.html
     public class VirtualVolume : ViewModel

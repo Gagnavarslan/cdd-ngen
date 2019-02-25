@@ -7,7 +7,7 @@ using System.Diagnostics;
 namespace CoreData.Desktop.FileSystem.Settings
 {
     [Serializable]
-    [DebuggerDisplay("{" + nameof(IDebugView.Value) + "}")]
+    [DebuggerDisplay("{" + nameof(ITraceView.Value) + "}")]
     public class LocalStorage : ViewModel
     {
         [Browsable(false)]

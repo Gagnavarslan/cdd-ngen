@@ -1,18 +1,18 @@
-﻿using System;
+﻿using CoreData.Common.Extensions;
+using System;
 using System.Diagnostics;
 using System.Reflection;
 using System.Security.Principal;
 
 namespace CoreData.Common.HostEnvironment
 {
-    [DebuggerDisplay("{" + nameof(IDebugView.Value) + "}")]
-    public class AppInfo : IDebugView
+    [DebuggerDisplay("{" + nameof(TraceExtensions.GetTraceValue) + "}")]
+    public partial class AppInfo : ITraceView
     {
-        public string Value => ExtendedTraceValue.Enabled ? Title : $"{Title}({Version2})";
-
-        public static readonly BooleanSwitch ExtendedTraceValue =
-            new BooleanSwitch(nameof(ExtendedTraceValue), "Is IDebugView.Value extended");
-
+        public string Value => Title;// ? Title : $"{Title}({Version2})";
+    }
+    public sealed partial class AppInfo
+    {
         public AppInfo(Assembly main)
         {
             Path = new Uri(main.CodeBase).LocalPath;

@@ -1,24 +1,12 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace CoreData.Common.Extensions
 {
     public static class StringExtensions
     {
-        //private static readonly int CharSize = sizeof(char);
-
-        //public static byte[] ToRawBytes(this string ctx)
-        //{
-        //    var bytes = new byte[ctx.Length * CharSize];
-        //    Buffer.BlockCopy(ctx.ToCharArray(), 0, bytes, 0, bytes.Length);
-        //    return bytes;
-        //}
-
-        //public static string ToRawString(this byte[] ctx)
-        //{
-        //    var chars = new char[ctx.Length / CharSize];
-        //    Buffer.BlockCopy(ctx, 0, chars, 0, ctx.Length);
-        //    return new string(chars);
-        //}
+        /// <summary>Returns this value if its not null or empty, otherwise value2.</summary>
+        public static string Or(this string ctx, string value2) =>
+            string.IsNullOrEmpty(ctx) ? value2 : ctx;
 
         public static bool IsNullOrEmpty(this string ctx) =>
             string.IsNullOrEmpty(ctx);
@@ -26,9 +14,12 @@ namespace CoreData.Common.Extensions
         //public static string Join<T>(this IEnumerable<T> ctx, string separ, Func<T, string> convert) =>
         //    Join(ctx.Select(convert), separ);
         public static string Join(this IEnumerable<string> ctx, string separator) =>
-            string.Join(separator, ctx);
+            ctx == null ? null : string.Join(separator, ctx);
 
         public static string ToCharString(this char ctx, int times = 1) =>
             new string(ctx, times);
+
+        public static string AsString(this object obj, string nullValue = "<null>") =>
+            obj == null ? nullValue : obj.ToString();
     }
 }

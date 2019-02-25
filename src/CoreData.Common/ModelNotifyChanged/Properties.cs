@@ -21,8 +21,8 @@ namespace CoreData.Common.ModelNotifyChanged
 
     /// <summary>Property data container.
     /// <para>Reacting to Sub Property and Target Collection Changes <seealso cref="http://www.hardcodet.net/category/net/dependencies"/></para></summary>
-    [DebuggerDisplay("{" + nameof(IDebugView.Value) + "}")]
-    public class Properties : IDebugView
+    [DebuggerDisplay("{" + nameof(ITraceView.Value) + "}")]
+    public class Properties : ITraceView
     {
         public string Value => _values.Select(p => $"[{p.Key}={p.Value}]").Join("\t");
 

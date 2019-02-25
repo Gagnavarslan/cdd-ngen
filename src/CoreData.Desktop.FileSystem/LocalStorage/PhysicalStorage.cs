@@ -1,46 +1,45 @@
-﻿using CoreData.Common.Extensions;
+using System.Diagnostics;
+using System.IO;
+using CoreData.Common.Extensions;
 using CoreData.Common.HostEnvironment;
 using CoreData.Desktop.FileSystem.LocalFileSystem;
 using CoreData.Desktop.FileSystem.VirtualStorage.Security;
-using System;
-using System.Diagnostics;
-using System.IO;
+using DryIoc;
 
 namespace CoreData.Desktop.FileSystem.LocalStorage
 {
     /// <summary>Represents local physical disk that stores files and folders.
     /// <seealso cref="https://docs.microsoft.com/en-us/uwp/api/windows.storage.storageprovider"/></summary>
-    [DebuggerDisplay("{" + nameof(IDebugView.Value) + "}")]
-    public class PhysicalStorage : ILocalStorage
+    public sealed partial class PhysicalStorage
     {
-        public string Value => Home;
         //private MemoryCache
         //private readonly IClient _coreData;
-        private readonly DriveInfo _drive;
+        private readonly StorageSpace _spaceInfo;
 
-        public PhysicalStorage(Settings.LocalStorage settings, bool securitySupported)//, IClient coreData)
+        public PhysicalStorage(Settings.LocalStorage settings, IAccessControl accessControl) //, bool securitySupported)//, IClient coreData)
         {
-            Home = !settings.Home.IsNullOrEmpty() ? settings.Home : throw new ArgumentNullException(nameof(settings.Home));
-            _drive = new DriveInfo(Path.GetPathRoot(Home)); // (Home + "\\");
+            Home = settings.Home.ThrowIf(settings.Home.IsNullOrEmpty());
             //if (!Directory.Exists(Home))
             //{
             //    Directory.CreateDirectory(Home);
             //}
 
-            SecurityService = FileSystemAccessControl.WithConfig(securitySupported);
+            _spaceInfo = new StorageSpace(Home);
+
+            SecurityService = accessControl; // AccessControl.WithConfig(securitySupported);
         }
 
         public string Home { get; }
 
         public bool Exists => Directory.Exists(Home);
 
-        public IFileSystemAccessControl SecurityService { get; }
+        public IAccessControl SecurityService { get; }
 
         public void GetStorageInfo(out long free, out long total, out long totalFree)
         {
-            free = _drive.AvailableFreeSpace;
-            total = _drive.TotalSize;
-            totalFree = _drive.TotalFreeSpace;
+            free = _spaceInfo.Available;
+            total = _spaceInfo.Total;
+            totalFree = _spaceInfo.TotalFree;
         }
 
         public string GetPath(string path)
@@ -97,5 +96,11 @@ namespace CoreData.Desktop.FileSystem.LocalStorage
         {
             Directory.Move(oldpath, newpath);
         }
+    }
+
+    [DebuggerDisplay("{" + nameof(ITraceView.Value) + "}")]
+    public partial class PhysicalStorage : ILocalStorage
+    {
+        public string Value => Home;
     }
 }

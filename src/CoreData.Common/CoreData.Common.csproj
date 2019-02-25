@@ -130,15 +130,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Diagnostics\Bookmarks.cs" />
+    <Compile Include="Diagnostics\ITraceView.cs" />
+    <Compile Include="Disposables\ComeBack.cs" />
     <Compile Include="DryIoc\Container.cs" />
     <Compile Include="DryIoc\Expression.cs" />
     <Compile Include="DryIoc\FastExpressionCompiler.cs" />
     <Compile Include="DryIoc\ImTools.cs" />
     <Compile Include="Extensions\PipeExtensions.cs" />
+    <Compile Include="Extensions\SerializationExtensions.cs" />
+    <Compile Include="Extensions\TraceExtensions.cs" />
     <Compile Include="HostEnvironment\AppRegistration.cs" />
     <Compile Include="Cryptography\MD5Hash.cs" />
     <Compile Include="Extensions\ExceptionExtensions.cs" />
-    <Compile Include="Diagnostics\IDebugInfo.cs" />
     <Compile Include="Logging\Spec.cs" />
     <Compile Include="Settings\AppConfigSettingsStorage.cs" />
     <Compile Include="Settings\AppSwitchSettingsStorage.cs" />

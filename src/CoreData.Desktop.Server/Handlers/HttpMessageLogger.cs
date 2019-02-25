@@ -10,40 +10,30 @@ namespace CoreData.Desktop.Server.Http
 {
     public static class HttpMessageLogger
     {
-        private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
-
-        public static HttpRequestMessage Log(this HttpRequestMessage request)
+        public static void Log(this ILogger logger, HttpRequestMessage request)
         {
             var context = request.GetAttachedContext();
-            var message = new StringBuilder();
-            message.AppendLine($"#Initiated {context.Id}: ({request.Method}) {request.RequestUri}");
-            AddHeaders(message, request.Headers);
-            AddHeaders(message, request.Content?.Headers);
-            Logger.Info(message.ToString());
+            var message = new StringBuilder()
+                .AppendLine($"#Sending {context.Id}: ({request.Method}) {request.RequestUri}")
+                .AddHeaders(request.Headers)
+                .AddHeaders(request.Content?.Headers);
 
-            return request;
+            logger.Info(message.ToString());
         }
 
-        public static HttpResponseMessage Log(this HttpResponseMessage response)
+        public static void Log(this ILogger logger, HttpResponseMessage response)
         {
+            var level = response.IsSuccessStatusCode ? LogLevel.Info : LogLevel.Warn;
             var context = response.RequestMessage.GetAttachedContext();
-            var message = new StringBuilder();
-            message.AppendLine($"#Received {context.Id} after {AppWatch.Duration(context.Initiated)}");
-            AddHeaders(message, response.Headers);
-            AddHeaders(message, response.Content?.Headers);
-            if (response.IsSuccessStatusCode)
-            {
-                Logger.Info(message.ToString());
-            }
-            else
-            {
-                Logger.Error(message.ToString());
-            }
+            var message = new StringBuilder()
+                .AppendLine($"#Received {context.Id} after {AppWatch.Duration(context.Initiated)}")
+                .AddHeaders(response.Headers)
+                .AddHeaders(response.Content?.Headers);
 
-            return response;
+            logger.Log(level, message.ToString());
         }
 
-        static StringBuilder AddHeaders(StringBuilder builder, HttpHeaders headers)
+        static StringBuilder AddHeaders(this StringBuilder builder, HttpHeaders headers)
         {
             if (headers != null)
             {

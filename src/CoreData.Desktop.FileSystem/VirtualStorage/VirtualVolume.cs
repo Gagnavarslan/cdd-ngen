@@ -22,10 +22,10 @@ namespace CoreData.Desktop.FileSystem.VirtualStorage
 
     //}
 
-    [DebuggerDisplay("{" + nameof(IDebugView.Value) + "}")]
-    public class VirtualVolume : IDisposable, IDebugView
+    [DebuggerDisplay("{" + nameof(ITraceView.Value) + "}")]
+    public class VirtualVolume : IDisposable, ITraceView
     {
-        string IDebugView.Value => _settings.Value;
+        string ITraceView.Value => _settings.Value;
 
         private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
 

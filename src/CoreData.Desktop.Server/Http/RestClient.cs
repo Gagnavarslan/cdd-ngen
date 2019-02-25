@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Net.Security;
 using System.Threading.Tasks;
 using CoreData.Desktop.Common.Http;
+using CoreData.Desktop.Common.Http.Models;
 using CoreData.Desktop.Common.Models;
 using CoreData.Desktop.Server.Handlers;
 using CoreData.Desktop.Server.Http;

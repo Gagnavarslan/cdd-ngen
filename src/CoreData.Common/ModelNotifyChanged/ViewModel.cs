@@ -7,7 +7,7 @@ namespace CoreData.Common.ModelNotifyChanged
     // todo: IChangeTracking https://docs.microsoft.com/en-us/dotnet/api/system.componentmodel.ichangetracking?view=netframework-4.7.2
     [DebuggerTypeProxy(typeof(DebugView))]
     [DebuggerDisplay("{" + nameof(Value) + "}")]
-    public abstract class ViewModel : INotifyPropertyChanged, IDebugView
+    public abstract class ViewModel : INotifyPropertyChanged, ITraceView
     {
         public virtual string Value => new DebugView(this).Value;
 

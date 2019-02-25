@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 namespace CoreData.Common.Threading
 {
     /// <summary>Queue of tasks to be started and executed serially.</summary> 
-    [DebuggerDisplay("{" + nameof(IDebugView.Value) + "}")]
-    public class SerialTaskQueue : IDebugView
+    [DebuggerDisplay("{" + nameof(ITraceView.Value) + "}")]
+    public class SerialTaskQueue : ITraceView
     {
         public string Value => _lockData.LogView;
 

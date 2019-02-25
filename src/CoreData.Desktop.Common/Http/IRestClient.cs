@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using CoreData.Desktop.Common.Http.Models;
 using CoreData.Desktop.Common.Models;
 using Flurl;
 

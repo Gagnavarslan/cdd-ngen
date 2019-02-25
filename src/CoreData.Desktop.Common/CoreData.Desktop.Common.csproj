@@ -87,6 +87,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Http\HttpExtenstions.cs" />
+    <Compile Include="Http\Models\NodeAccess.cs" />
+    <Compile Include="Http\Models\NodeType.cs" />
+    <Compile Include="Http\NodeTransformations.cs" />
     <Compile Include="Windows\ClosableTabItem.cs" />
     <Compile Include="Windows\ImageTabItem.cs" />
     <Compile Include="Windows\TaskCommand.cs" />
@@ -97,9 +100,9 @@
     <Compile Include="Http\IRestClient.cs" />
     <Compile Include="Windows\Command.cs" />
     <Compile Include="Windows\Dialog.cs" />
-    <Compile Include="Models\ListResult.cs" />
-    <Compile Include="Models\MetaInfo.cs" />
-    <Compile Include="Models\NavigationNode.cs" />
+    <Compile Include="Http\Models\ListResult.cs" />
+    <Compile Include="Http\Models\MetaInfo.cs" />
+    <Compile Include="Http\Models\NavigationNode.cs" />
     <Compile Include="Runtime\DebugOnly.cs" />
     <Compile Include="TaskSchedulers\IOCompletionPortTaskScheduler.cs" />
     <Compile Include="TaskSchedulers\IOTaskScheduler.cs" />

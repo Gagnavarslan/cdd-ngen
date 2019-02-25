@@ -82,11 +82,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LocalStorage\StorageSpace.cs" />
     <Compile Include="Services\CoreDataDriveService.cs" />
     <Compile Include="Settings\CoreDataStorage.cs" />
     <Compile Include="Settings\LocalStorage.cs" />
     <Compile Include="Settings\VirtualVolume.cs" />
-    <Compile Include="VirtualStorage\Security\FileSystemAccessControl.cs" />
+    <Compile Include="VirtualStorage\Security\AccessControl.cs" />
     <Compile Include="VirtualStorage\Node.cs" />
     <Compile Include="VirtualStorage\NodeType.cs" />
     <Compile Include="VirtualStorage\PathHelpers.cs" />
@@ -106,6 +107,8 @@
     <Compile Include="LocalStorage\ILocalStorage.cs" />
     <Compile Include="NativeMethods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VirtualStorage\VirtualFileSystem.Logging.cs" />
+    <Compile Include="VirtualStorage\VirtualStorageOperations.cs" />
     <Compile Include="VirtualStorage\VirtualVolume.cs" />
     <Compile Include="VirtualStorage\VPath.cs" />
   </ItemGroup>

@@ -1,4 +1,5 @@
 ﻿using CoreData.Desktop.Server.Http;
+using NLog;
 using System.Net.Http;
 using System.Threading;
 
@@ -6,17 +7,19 @@ namespace CoreData.Desktop.Server.Handlers
 {
     public class LogMessageHandler : MessageProcessingHandler
     {
+        private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
+
         protected override HttpRequestMessage ProcessRequest(
-            HttpRequestMessage request, CancellationToken cancellationToken)
+            HttpRequestMessage request, CancellationToken _)
         {
-            HttpMessageLogger.Log(request);
+            Logger.Log(request);
             return request;
         }
 
         protected override HttpResponseMessage ProcessResponse(
-            HttpResponseMessage response, CancellationToken cancellationToken)
+            HttpResponseMessage response, CancellationToken _)
         {
-            HttpMessageLogger.Log(response);
+            Logger.Log(response);
             return response;
         }
     }

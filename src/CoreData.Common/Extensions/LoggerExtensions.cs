@@ -1,5 +1,4 @@
 ﻿using System;
-using NLog;
 
 namespace CoreData.Common.Extensions
 {

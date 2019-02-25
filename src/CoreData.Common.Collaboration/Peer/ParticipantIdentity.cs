@@ -5,9 +5,9 @@ using System.Diagnostics;
 namespace CoreData.Common.Messaging.Peer
 {
     /// <summary>Participant registration info</summary>
-    [DebuggerDisplay("{" + nameof(IDebugView.Value) + "}")]
+    [DebuggerDisplay("{" + nameof(ITraceView.Value) + "}")]
     [Obsolete("SessionIdentity should be used instead")]
-    public struct ParticipantIdentity : IDebugView
+    public struct ParticipantIdentity : ITraceView
     {
         public string Value { get; }
         
