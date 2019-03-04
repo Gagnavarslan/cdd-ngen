@@ -109,7 +109,7 @@ dotnet_naming_rule.interfaces_rule.symbols  = interface_symbols
 dotnet_naming_rule.interfaces_rule.style = interface_style
 
 ; Naming rule: All methods and properties must be pascal-cased
-dotnet_naming_symbols.method_and_property_symbols.applicable_kinds = method,property,class,struct,enum:property,namespace
+dotnet_naming_symbols.method_and_property_symbols.applicable_kinds = property,method,class,struct,enum,property,namespace
 dotnet_naming_symbols.method_and_property_symbols.applicable_accessibilities = *
 dotnet_naming_rule.methods_and_properties_rule.severity = warning
 dotnet_naming_rule.methods_and_properties_rule.symbols  = method_and_property_symbols

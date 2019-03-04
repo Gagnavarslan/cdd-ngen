@@ -1,5 +1,4 @@
 using System;
-using System.Threading.Tasks;
 
 namespace CoreData.Common.Disposables
 {
@@ -8,14 +7,15 @@ namespace CoreData.Common.Disposables
     /// <see cref="https://github.com/github/Scientist.net/blob/master/test/Scientist.Test/Swap.cs"/></summary>
     public class ComeBack<T> : IDisposable
     {
-        readonly T _original;
-        readonly Action<T> _set;
+        private readonly T _original;
+        private readonly Action<T> _set;
 
-        public ComeBack(T temporary, Func<T> get, Action<T> set)
+        public ComeBack(Action<T> set, T original, T temp) : this(set, () => original, temp) { }
+        public ComeBack(Action<T> set, Func<T> get, T temp)
         {
             _original = get();
             _set = set;
-            set(temporary);
+            _set(temp);
         }
 
         public void Dispose() => _set(_original);

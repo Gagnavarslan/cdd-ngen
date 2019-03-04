@@ -1,4 +1,4 @@
-﻿using CoreData.Common.HostEnvironment;
+using CoreData.Common.HostEnvironment;
 using System.Diagnostics;
 
 namespace CoreData.Common.Extensions
